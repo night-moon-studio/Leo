@@ -11,7 +11,7 @@ namespace Core22
             Stopwatch stopwatch = new Stopwatch();
             for (int j = 0; j < 20; j++)
             {
-                Console.WriteLine("===========================");
+                Console.WriteLine("=========================================");
 
 
                 stopwatch.Restart();
@@ -65,7 +65,7 @@ namespace Core22
                 }
                 stopwatch.Stop();
                 Console.WriteLine("NCaller Extension:\t" + stopwatch.Elapsed);
-                Console.WriteLine("===========================");
+                Console.WriteLine("=========================================");
             }
             Console.ReadKey();
         }
@@ -81,8 +81,6 @@ namespace Core22
 
     public class TestB
     {
-
-       
         public int Age;
         public int Age1;
         public int Age2;
