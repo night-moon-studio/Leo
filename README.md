@@ -73,18 +73,7 @@ public class B
 //如果是运行时动态生成类，也同样
 
 
-//调用方式一
-var handler = DynamicOperator.GetOperator(typeof(A));
-
-handler["Age"].IntValue = 100;                                    // Set Operator
-
-Console.WriteLine(handler["Time"].DateTime);                      // Get Operator
-
-handler["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Operator
-
-
-
-//调用方式二
+//调用方式
 
 var handler EntityOperator.Create(typeof(A));
 
@@ -122,18 +111,7 @@ public class B
 //如果是运行时动态生成类，也同样
 
 
-//调用方式一
-
-DynamicStaticOperator handler = typeof(A);
-
-handler["Age"].IntValue = 100;                                        // Set Operator
-
-Console.WriteLine(handler["Time"].DateTime);                          // Get Operator
-
-handler.Get["Outter"].OperatorValue["Name"].StringValue = "NewName"   // Link Operator
-
-
-//调用方式二
+//调用方式
 
 var handler = StaticEntityOperator.Create(type);
 
