@@ -1,5 +1,6 @@
 ﻿using Natasha;
 using NCaller;
+using NCallerUT.Model;
 using System;
 using Xunit;
 

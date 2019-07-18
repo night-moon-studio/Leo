@@ -7,6 +7,6 @@
             var caller = (CallerBase<T>)SimpleCaller<T>.Create();
             caller.SetInstance(value);
             return caller;
-        }
+        }       
     }
 }

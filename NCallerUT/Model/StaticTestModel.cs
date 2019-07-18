@@ -41,4 +41,25 @@ namespace NCallerUT.Model
 
         public static float Money;
     }
+
+
+    public class TestB
+    {
+        public TestB()
+        {
+            Name = "111";
+            InstanceC = new TestC
+            {
+                Name = "abc"
+            };
+        }
+        public string Name { get; set; }
+        public int Age;
+        public TestC InstanceC;
+    }
+
+    public class TestC
+    {
+        public string Name;
+    }
 }
