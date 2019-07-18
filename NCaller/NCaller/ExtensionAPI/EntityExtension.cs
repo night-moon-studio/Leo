@@ -1,6 +1,4 @@
-﻿
-
-namespace NCaller
+﻿namespace NCaller
 {
     public static class EntityExtension
     {
