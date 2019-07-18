@@ -9,19 +9,15 @@
 
 [![Member project of Night Moon Studio](https://img.shields.io/badge/member%20project%20of-NMS-9e20c9.svg)](https://github.com/night-moon-studio)
 [![NuGet Badge](https://buildstats.info/nuget/DotNetCore.Natasha?includePreReleases=true)](https://www.nuget.org/packages/DotNetCore.Natasha)
+ ![GitHub repo size](https://img.shields.io/github/repo-size/night-moon-studio/ncaller.svg)
+[![Codecov](https://img.shields.io/codecov/c/github/night-moon-studio/ncaller.svg)](https://codecov.io/gh/night-moon-studio/ncaller)
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
 [![GitHub license](https://img.shields.io/github/license/night-moon-studio/ncaller.svg)](https://github.com/night-moon-studio/NCaller/blob/master/LICENSE)
 
 &ensp;&ensp;&ensp;&ensp;基于Natasha构建的快速动态调用方法，如果您觉得反射太low, dynamic性能还不够，对运行时生成的类不知从何调用，那么欢迎您使用本类库。
 
 <br/>
-
-### 类库信息(Library Info)  
-
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/night-moon-studio/ncaller.svg)](https://github.com/dotnetcore/night-moon-studio/releases) ![GitHub repo size](https://img.shields.io/github/repo-size/night-moon-studio/ncaller.svg) [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/night-moon-studio/ncaller.svg)](https://github.com/night-moon-studio/Natasha/commits/master) [![Codecov](https://img.shields.io/codecov/c/github/night-moon-studio/ncaller.svg)](https://codecov.io/gh/night-moon-studio/ncaller) [![wiki](https://img.shields.io/badge/wiki-ch-blue.svg)](https://github.com/night-moon-studio/ncaller/wiki) 
   
-
-<br/>  
 
 ### 持续构建(CI Build Status)  
 
