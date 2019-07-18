@@ -2,7 +2,7 @@
 using System;
 namespace NCaller
 {
-    public class StaticEntityOperator
+    public class SimpleStaticCaller
     {
         public static CallerBase Create(Type type)
         {

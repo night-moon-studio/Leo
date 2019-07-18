@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using NCaller;
 using System;
 using Xunit;
 
@@ -31,7 +32,7 @@ namespace HelloWorld
             //根据脚本创建动态类
             Type type = RuntimeComplier.GetType(text);
             //创建动态类实例代理
-            var instance = EntityOperator.Create(type);
+            var instance = SimpleCaller.Create(type);
             instance.New();
             //Get动态调用
             Assert.Equal("111", instance["Name"].Get<string>());
@@ -48,7 +49,7 @@ namespace HelloWorld
         public void TestCall2()
         {
             //创建动态类实例代理
-            var instance = EntityOperator<TestB>.Create();
+            var instance = SimpleCaller<TestB>.Create();
             instance.New();
             Assert.Equal("111", instance["Name"].Get<string>());
 
@@ -64,7 +65,7 @@ namespace HelloWorld
         public void TestCall3()
         {
             //创建动态类实例代理
-            var instance = EntityOperator<TestB>.Create();
+            var instance = SimpleCaller<TestB>.Create();
             instance.New();
             Assert.Equal("111", instance["Name"].Get<string>());
 

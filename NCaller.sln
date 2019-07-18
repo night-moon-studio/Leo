@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCaller", "NCaller\NCaller.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCallerUT", "NCallerUT\NCallerUT.csproj", "{2CF49BA1-E74B-403E-958A-753DB6EE794D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core22", "Core22\Core22.csproj", "{6E33A8DE-C608-4BFE-9B09-3DF614721770}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2CF49BA1-E74B-403E-958A-753DB6EE794D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CF49BA1-E74B-403E-958A-753DB6EE794D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CF49BA1-E74B-403E-958A-753DB6EE794D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E33A8DE-C608-4BFE-9B09-3DF614721770}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E33A8DE-C608-4BFE-9B09-3DF614721770}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E33A8DE-C608-4BFE-9B09-3DF614721770}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E33A8DE-C608-4BFE-9B09-3DF614721770}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

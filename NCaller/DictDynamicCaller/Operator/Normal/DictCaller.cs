@@ -1,7 +1,6 @@
-﻿using NCaller;
-using NCaller.Builder;
+﻿using NCaller.Builder;
 using System;
-namespace Natasha
+namespace NCaller
 {
     public class DictCaller
     {

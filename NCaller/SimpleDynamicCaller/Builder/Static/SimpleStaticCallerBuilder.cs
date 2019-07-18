@@ -61,7 +61,8 @@ namespace NCaller.Builder
 
 
             body.AppendLine("public override T Get<T>(string name){");
-            body.Append("var targetType = typeof(T);");
+            body.Append("int typeCode = typeof(T).GetHashCode();");
+            body.Append("int nameCode = name.GetHashCode();");
             int indexType = 0;
             foreach (var item in memberCache)
             {
@@ -69,7 +70,7 @@ namespace NCaller.Builder
                 {
                     body.Append("else ");
                 }
-                body.Append($"if(targetType==typeof({item.Key.GetDevelopName()})){{");
+                body.Append($"if(typeCode=={item.Key.GetHashCode()}){{");
                 int indexName = 0;
                 foreach (var name in item.Value)
                 {
@@ -77,7 +78,7 @@ namespace NCaller.Builder
                     {
                         body.Append("else ");
                     }
-                    body.Append($"if( name == \"{name}\"){{");
+                     body.Append($"if( nameCode == {name.GetHashCode()}){{");
                     body.Append($"return (T)((object){typeName}.{name});");
                     body.Append("}");
                     indexName++;
@@ -89,7 +90,8 @@ namespace NCaller.Builder
 
 
             body.AppendLine("public override T Get<T>(){");
-            body.Append("var targetType = typeof(T);");
+            body.Append("int typeCode = typeof(T).GetHashCode();");
+            body.Append("int nameCode = _current_name.GetHashCode();");
             indexType = 0;
             foreach (var item in memberCache)
             {
@@ -97,7 +99,7 @@ namespace NCaller.Builder
                 {
                     body.Append("else ");
                 }
-                body.Append($"if(targetType==typeof({item.Key.GetDevelopName()})){{");
+                body.Append($"if(typeCode=={item.Key.GetHashCode()}){{");
                 int indexName = 0;
                 foreach (var name in item.Value)
                 {
@@ -105,7 +107,7 @@ namespace NCaller.Builder
                     {
                         body.Append("else ");
                     }
-                    body.Append($"if( _current_name == \"{name}\"){{");
+                    body.Append($"if( nameCode == {name.GetHashCode()}){{");
                     body.Append($"return (T)((object){typeName}.{name});");
                     body.Append("}");
                     indexName++;
@@ -117,7 +119,7 @@ namespace NCaller.Builder
 
 
             body.AppendLine("public override void Set(string name,object value){");
-
+            body.Append("int nameCode = name.GetHashCode();");
             foreach (var item in memberCache)
             {
                 int indexName = 0;
@@ -127,7 +129,7 @@ namespace NCaller.Builder
                     {
                         body.Append("else ");
                     }
-                    body.Append($"if( name == \"{name}\"){{");
+                    body.Append($"if( nameCode == {name.GetHashCode()}){{");
                     body.Append($"{typeName}.{name}=({item.Key.GetDevelopName()})value;");
                     body.Append("}");
                     indexName++;
@@ -136,6 +138,7 @@ namespace NCaller.Builder
             body.Append("}");
 
             body.AppendLine("public override void Set(object value){");
+            body.Append("int nameCode = _current_name.GetHashCode();");
             foreach (var item in memberCache)
             {
                 int indexName = 0;
@@ -145,7 +148,7 @@ namespace NCaller.Builder
                     {
                         body.Append("else ");
                     }
-                    body.Append($"if( _current_name == \"{name}\"){{");
+                    body.Append($"if( nameCode == {name.GetHashCode()}){{");
                     body.Append($"{typeName}.{name}=({item.Key.GetDevelopName()})value;");
                     body.Append("}");
                     indexName++;
@@ -155,7 +158,7 @@ namespace NCaller.Builder
 
 
             body.AppendLine("public override CallerBase Get(string name){");
-
+            body.Append("int nameCode = name.GetHashCode();");
             foreach (var item in memberCache)
             {
                 int indexName = 0;
@@ -167,7 +170,7 @@ namespace NCaller.Builder
                         {
                             body.Append("else ");
                         }
-                        body.Append($"if( name == \"{name}\"){{");
+                         body.Append($"if( nameCode == {name.GetHashCode()}){{");
                         body.Append($"   return {typeName}.{name}.Caller();");
                         body.Append("}");
                         indexName++;
@@ -184,8 +187,8 @@ namespace NCaller.Builder
                     .Using("System.Collections.Concurrent")
                     .ClassAccess(AccessTypes.Public)
                     .ClassName(className)
-                    .Namespace("NatashaDynamic")
-                    .Inheritance(typeof(CallerBase<>).With(type))
+                    .Namespace("NCallerDynamic")
+                    .Inheritance<CallerBase>()
                     .ClassBody(body)
                     .GetType();
 

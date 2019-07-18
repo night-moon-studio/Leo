@@ -119,7 +119,7 @@ namespace NCaller.Builder
                     .Using("System.Collections.Concurrent")
                     .ClassAccess(AccessTypes.Public)
                     .ClassName(className)
-                    .Namespace("NatashaDynamic")
+                    .Namespace("NCallerDynamic")
                     .Inheritance(GenericBuilder.GetType(typeof(CallerBase<>),type))
                     .ClassBody(body + InnerTemplate.GetNormalInnerString(innerBody, entityClassName))
                     .GetType();

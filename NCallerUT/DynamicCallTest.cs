@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using NCaller;
 using System;
 using Xunit;
 
@@ -31,13 +32,14 @@ namespace HelloWorld
             //根据脚本创建动态类
             Type type = RuntimeComplier.GetType(text);
             //创建动态类实例代理
-            DynamicOperatorBase instance = DynamicOperator.GetOperator(type);
+            var instance = DictCaller.Create(type);
+            instance.New();
             //Get动态调用
-            Assert.Equal("111", instance["Name"].StringValue);
+            Assert.Equal("111", instance["Name"].Get<string>());
             //调用动态委托赋值
-            instance["Name"].StringValue = "222";
+            instance["Name"].Set("222");
 
-            Assert.Equal("222", instance["Name"].StringValue);
+            Assert.Equal("222", instance["Name"].Get<string>());
            
         }
 
@@ -47,39 +49,14 @@ namespace HelloWorld
         public void TestCall2()
         {
             //创建动态类实例代理
-            DynamicOperator<TestB> instance = new DynamicOperator<TestB>();
-            Assert.Equal("111", instance["Name"].StringValue);
+            var instance = DictCaller.Create(typeof(TestB));
+            instance.New();
+            Assert.Equal("111", instance["Name"].Get<string>());
 
             //调用动态委托赋值
-            instance["Name"].StringValue = "222";
+            instance["Name"].Set("222");
 
-            Assert.Equal("222", instance["Name"].StringValue);
-        }
-
-
-
-        [Fact(DisplayName = "复杂类的动态操作测试")]
-        public void TestCall3()
-        {
-            //创建动态类实例代理
-            DynamicOperator<TestB> instance = new DynamicOperator<TestB>();
-
-            Assert.Equal("111", instance["Name"].StringValue);
-
-            //调用动态委托赋值
-            instance["Name"].StringValue = "222";
-
-            Assert.Equal("222", instance["Name"].StringValue);
-
-
-            var c = instance["InstanceC"].Get<TestC>();
-            Assert.Equal("abc", c.Name);
-
-
-            instance["InstanceC"].Set(new TestC() { Name="bbca"});
-            Assert.Equal("bbca", instance["InstanceC"].OperatorValue["Name"].StringValue);
-
-          
+            Assert.Equal("222", instance["Name"].Get<string>());
         }
     }
     public class TestB
