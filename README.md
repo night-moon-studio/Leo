@@ -41,6 +41,13 @@
 ---------------------  
  <br/>  
  
+### 性能展示：  
+
+> 由于benchmark 不能支持最新的roslyn编译测试，因此基准测试放在3.0版本后。  
+
+![性能对比](https://github.com/night-moon-studio/NCaller/blob/master/Image/Perfomance.png)  
+
+ <br/> 
 
 ### 使用方法(User Api)：  
  <br/>  
