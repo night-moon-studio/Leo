@@ -2,18 +2,18 @@
 using System;
 namespace NCaller
 {
-    public class SimpleCaller
+    public class DynamicCaller
     {
         public static CallerBase Create(Type type)
         {
-           return SimpleCallerBuilder.Ctor(type);
+           return CallerBuilder.Ctor(type);
         }
     }
-    public class SimpleCaller<T>
+    public class DynamicCaller<T>
     {
         public static CallerBase Create()
         {
-            return SimpleCallerBuilder<T>.Ctor();
+            return CallerBuilder<T>.Ctor();
         }
     }
 }

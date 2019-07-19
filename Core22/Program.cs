@@ -29,7 +29,7 @@ namespace Core22
 
 
 
-                var entity = SimpleCaller.Create(typeof(TestB));
+                var entity = DynamicCaller.Create(typeof(TestB));
                 stopwatch.Restart();
                 for (int i = 0; i < 50000; i++)
                 {

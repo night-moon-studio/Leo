@@ -4,7 +4,7 @@
     {
         public static CallerBase<T> Caller<T>(this T value)
         {
-            var caller = (CallerBase<T>)SimpleCaller<T>.Create();
+            var caller = (CallerBase<T>)DynamicCaller<T>.Create();
             caller.SetInstance(value);
             return caller;
         }       

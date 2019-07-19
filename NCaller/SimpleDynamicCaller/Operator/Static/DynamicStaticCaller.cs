@@ -2,11 +2,11 @@
 using System;
 namespace NCaller
 {
-    public class SimpleStaticCaller
+    public class DynamicStaticCaller
     {
         public static CallerBase Create(Type type)
         {
-           return SimpleStaticCallerBuilder.Ctor(type);
+           return StaticCallerBuilder.Ctor(type);
         }
     }
 }

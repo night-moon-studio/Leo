@@ -33,7 +33,7 @@ namespace HelloWorld
             //根据脚本创建动态类
             Type type = RuntimeComplier.GetType(text);
             //创建动态类实例代理
-            var instance = SimpleStaticCaller.Create(type);
+            var instance = DynamicStaticCaller.Create(type);
             //Get动态调用
             Assert.Equal("111", instance["Name"].Get<string>());
             //调用动态委托赋值
@@ -49,7 +49,7 @@ namespace HelloWorld
         public void TestCall2()
         {
             //创建动态类实例代理
-            var instance = SimpleStaticCaller.Create(typeof(StaticTestModel1));
+            var instance = DynamicStaticCaller.Create(typeof(StaticTestModel1));
             StaticTestModel1.Name = "111";
             Assert.Equal("111", instance["Name"].Get<string>());
             instance["Name"].Set("222");
@@ -66,7 +66,7 @@ namespace HelloWorld
         public void TestCall3()
         {
             //创建动态类实例代理
-            var instance = SimpleStaticCaller.Create(typeof(FakeStaticTestModel1));
+            var instance = DynamicStaticCaller.Create(typeof(FakeStaticTestModel1));
             FakeStaticTestModel1.Name = "111";
             Assert.Equal("111", instance["Name"].Get<string>());
             instance["Name"].Set("222");

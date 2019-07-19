@@ -6,11 +6,18 @@ using System.Text;
 
 namespace NCaller.Builder
 {
-
-    public class SimpleStaticCallerBuilder
+    public class CallerBuilder<T>
     {
+        public static readonly Func<CallerBase> Ctor;
+        static CallerBuilder() => Ctor = CallerBuilder.InitType(typeof(T));
+    }
+
+
+    public class CallerBuilder
+    {
+
         public static readonly ConcurrentDictionary<Type, Func<CallerBase>> TypeCreatorMapping;
-        static SimpleStaticCallerBuilder()
+        static CallerBuilder()
         {
             TypeCreatorMapping = new ConcurrentDictionary<Type, Func<CallerBase>>();
         }
@@ -28,8 +35,6 @@ namespace NCaller.Builder
         public static Func<CallerBase> InitType(Type type)
         {
             string className = "NatashaDynamic" + type.GetAvailableName();
-            string typeName = type.GetDevelopName();
-
 
             ClassBuilder builder = new ClassBuilder();
             StringBuilder body = new StringBuilder();
@@ -78,8 +83,8 @@ namespace NCaller.Builder
                     {
                         body.Append("else ");
                     }
-                     body.Append($"if( nameCode == {name.GetHashCode()}){{");
-                    body.Append($"return (T)((object){typeName}.{name});");
+                    body.Append($"if( nameCode == {name.GetHashCode()}){{");
+                    body.Append($"return (T)((object)Instance.{name});");
                     body.Append("}");
                     indexName++;
                 }
@@ -108,7 +113,7 @@ namespace NCaller.Builder
                         body.Append("else ");
                     }
                     body.Append($"if( nameCode == {name.GetHashCode()}){{");
-                    body.Append($"return (T)((object){typeName}.{name});");
+                    body.Append($"return (T)((object)Instance.{name});");
                     body.Append("}");
                     indexName++;
                 }
@@ -130,7 +135,7 @@ namespace NCaller.Builder
                         body.Append("else ");
                     }
                     body.Append($"if( nameCode == {name.GetHashCode()}){{");
-                    body.Append($"{typeName}.{name}=({item.Key.GetDevelopName()})value;");
+                    body.Append($"Instance.{name}=({item.Key.GetDevelopName()})value;");
                     body.Append("}");
                     indexName++;
                 }
@@ -149,12 +154,17 @@ namespace NCaller.Builder
                         body.Append("else ");
                     }
                     body.Append($"if( nameCode == {name.GetHashCode()}){{");
-                    body.Append($"{typeName}.{name}=({item.Key.GetDevelopName()})value;");
+                    body.Append($"Instance.{name}=({item.Key.GetDevelopName()})value;");
                     body.Append("}");
                     indexName++;
                 }
             }
             body.Append("}");
+
+            body.Append($@" 
+                    public override void New(){{
+                         Instance = new {type.GetDevelopName()}();
+                    }}");
 
 
             body.AppendLine("public override CallerBase Get(string name){");
@@ -170,8 +180,8 @@ namespace NCaller.Builder
                         {
                             body.Append("else ");
                         }
-                         body.Append($"if( nameCode == {name.GetHashCode()}){{");
-                        body.Append($"   return {typeName}.{name}.Caller();");
+                        body.Append($"if( nameCode == {name.GetHashCode()}){{");
+                        body.Append($"   return Instance.{name}.Caller();");
                         body.Append("}");
                         indexName++;
                     }
@@ -184,11 +194,10 @@ namespace NCaller.Builder
                     .Using(type)
                     .Using("System")
                     .Using("NCaller")
-                    .Using("System.Collections.Concurrent")
                     .ClassAccess(AccessTypes.Public)
                     .ClassName(className)
                     .Namespace("NCallerDynamic")
-                    .Inheritance<CallerBase>()
+                    .Inheritance(typeof(CallerBase<>).With(type))
                     .ClassBody(body)
                     .GetType();
 
@@ -196,3 +205,4 @@ namespace NCaller.Builder
         }
     }
 }
+
