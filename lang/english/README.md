@@ -1,8 +1,8 @@
 
 
 <p align="center">
-  <span>中文</span> |  
-  <a href="https://github.com/night-moon-studio/ncaller/tree/master/lang/english">English</a>
+  <a href="https://github.com/night-moon-studio/ncaller/tree/master/lang/english">English</a> |  <span>中文</span>
+  
 </p>
 
 # NCaller
@@ -14,7 +14,7 @@
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
 [![GitHub license](https://img.shields.io/github/license/night-moon-studio/ncaller.svg)](https://github.com/night-moon-studio/NCaller/blob/master/LICENSE)
 
-&ensp;&ensp;&ensp;&ensp;基于Natasha构建的快速动态调用方法，如果您觉得反射太low, dynamic性能还不够，对运行时生成的类不知从何调用，那么欢迎您使用本类库。
+&ensp;&ensp;&ensp;&ensp;For dynamic call operations built on Natasha, if you feel that reflection performance is low, dynamic performance is not enough, and you do not know where to call the classes generated at run time, you are welcome to use this class library.
 
 <br/>
   
@@ -32,27 +32,27 @@
 <br/>    
 
 
-### 发布计划(Publish Plan)  
+### Publish Plan  
   
- - 2019-08-01 ： 发布v1.0.0.0, 高性能动态调用库。  
+ - 2019-08-01 ： v1.0.0.0, Stable Version。  
  
  <br/>  
  
 ---------------------  
  <br/>  
  
-### 性能展示：  
+### Performance Display：  
 
-> 由于benchmark 不能支持最新的roslyn编译测试，因此基准测试放在3.0版本后。  
+> Because benchmark does not support the latest roslyn compilation tests, benchmark tests are placed after version 3.0.  
 
-![性能对比](https://github.com/night-moon-studio/NCaller/blob/master/Image/Perfomance.png)  
+![Performance Comparison](https://github.com/night-moon-studio/NCaller/blob/master/Image/Perfomance.png)  
 
  <br/> 
 
-### 使用方法(User Api)：  
+### User Api：  
  <br/>  
  
-#### 动态调用普通类:  
+#### Dynamic call to normal classes:  
 
 ```C#
 
@@ -68,14 +68,13 @@ public class B
    public string Name;
    public B()
    {
-      Name = "小明"
+      Name = "XXX"
    }
 }
 
-//如果是运行时动态生成类，也同样
 
 
-//调用方式
+//CASE
 
 var handler = DynamicCaller.Create(typeof(A));
 
@@ -90,7 +89,7 @@ handler.Get("Outter")["Name"].Set("NewName");                     // Link Operat
 <br/>
 <br/>  
 
-#### 动态调用静态类:  
+#### Dynamic call to static class:  
 
 ```C#
 
@@ -106,14 +105,13 @@ public class B
    public string Name;
    public B()
    {
-      Name = "小明";
+      Name = "XXX";
    }
 }
 
-//如果是运行时动态生成类，也同样
 
 
-//调用方式
+//CASE
 
 var handler = StaticDynamicCaller.Create(type);
 
