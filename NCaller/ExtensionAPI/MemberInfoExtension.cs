@@ -1,7 +1,7 @@
 ﻿using NCaller.Core;
 using System.Reflection;
 
-namespace NCaller
+namespace NCaller.ExtensionAPI.Reflect
 {
     public static class MemberInfoExtension
     {

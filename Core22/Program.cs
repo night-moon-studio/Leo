@@ -1,6 +1,9 @@
 ﻿using NCaller;
 using System;
 using System.Diagnostics;
+using NCaller.ExtensionAPI.Array;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Core22
 {
@@ -106,6 +109,50 @@ namespace Core22
                 Console.WriteLine("NCaller SimpleCaller:\t" + stopwatch.Elapsed);
                 Console.WriteLine("=========================================");
             }
+
+
+            var a = typeof(TestB).GetFields();
+            SortedDictionary<int, int> rbdict = new SortedDictionary<int, int>();
+            a.For(item => rbdict[item.Name.GetHashCode()]= item.Name.GetHashCode());
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            a.For(item => dict[item.Name.GetHashCode()] = item.Name.GetHashCode());
+            int[] arr = a.Select(item => item.Name.GetHashCode()).ToArray();
+
+            int tempCode = "Name".GetHashCode();
+            stopwatch.Restart();
+            for (int i = 0; i < 50000; i++)
+            {
+                int result = rbdict[tempCode];
+            }
+            stopwatch.Stop();
+            Console.WriteLine("RB:\t" + stopwatch.Elapsed);
+
+            stopwatch.Restart();
+            for (int i = 0; i < 50000; i++)
+            {
+                int result = dict[tempCode];
+            }
+            stopwatch.Stop();
+            Console.WriteLine("Hash:\t" + stopwatch.Elapsed);
+
+
+            stopwatch.Restart();
+            for (int i = 0; i < 50000; i++)
+            {
+                int result = arr.First(item=>item==tempCode);
+            }
+            stopwatch.Stop();
+            Console.WriteLine("Array:\t" + stopwatch.Elapsed);
+
+
+            Array.Sort(arr);
+            stopwatch.Restart();
+            for (int i = 0; i < 50000; i++)
+            {
+                int result = Array.BinarySearch(arr,tempCode);
+            }
+            stopwatch.Stop();
+            Console.WriteLine("Array:\t" + stopwatch.Elapsed);
             Console.ReadKey();
         }
         public static void RunDynamic(dynamic tEntity)
@@ -125,6 +172,9 @@ namespace Core22
                 tEntity.Time = TempTime;
             }
         }
+
+
+
     }
 
     public class TestB
@@ -166,6 +216,62 @@ namespace Core22
         public int Age711;
         public int Age811;
         public int Age911;
+
+        public int Age2111;
+        public int Age3111;
+        public int Age4111;
+        public int Age5111;
+        public int Age6111;
+
+        public int Age7111;
+        public int Age8111;
+        public int Age9111;
+
+
+        public int A2ge;
+        public int A2ge1;
+        public int A2ge2;
+        public int A2ge3;
+        public int A2ge4;
+        public int A2ge5;
+        public int A2ge6;
+
+        public int A2ge7;
+        public int A2ge8;
+        public int A2ge9;
+        public int A2ge10;
+        public int A2ge11;
+        public int A2ge12;
+        public int A2ge13;
+        public int Ag2e21;
+        public int Ag2e31;
+        public int A2ge41;
+        public int A2ge51;
+        public int A2ge61;
+
+        public int A2ge71;
+        public int A2ge81;
+        public int A2ge91;
+        public int A2ge211;
+        public int A2ge311;
+        public int A2ge411;
+        public int A2ge511;
+        public int A2ge611;
+
+        public int A2ge711;
+        public int A2ge811;
+        public int A2ge911;
+
+        public int A2ge2111;
+        public int A2ge3111;
+        public int A2ge4111;
+        public int A2ge5111;
+        public int A2ge6111;
+
+        public int A2ge7111;
+        public int A2ge8111;
+        public int A2ge9111;
+
 
         public string Name;
         public DateTime Time;

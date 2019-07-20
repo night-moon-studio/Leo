@@ -1,6 +1,6 @@
 ﻿using Natasha;
 using NCaller.Core;
-using NCaller.ExtensionAPI;
+using NCaller.ExtensionAPI.Array;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

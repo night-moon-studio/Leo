@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace NCaller.ExtensionAPI
+namespace NCaller.ExtensionAPI.Array
 {
-    internal static class ArrayExtension
+    public static class ArrayExtension
     {
-        internal static void For<T>(this T[] list,Action<T> action)
+        public static void For<T>(this T[] list,Action<T> action)
         {
             for (int i = 0; i < list.Length; i+=1)
             {
