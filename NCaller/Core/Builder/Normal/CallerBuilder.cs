@@ -24,6 +24,7 @@ namespace NCaller.Builder
             TypeCreatorMapping = new ConcurrentDictionary<Type, Func<CallerBase>>();
         }
 
+
         public static CallerBase Ctor(Type type)
         {
             if (!TypeCreatorMapping.ContainsKey(type))
@@ -36,11 +37,10 @@ namespace NCaller.Builder
 
         public static Func<CallerBase> InitType(Type type)
         {
-            string className = "NatashaDynamic" + type.GetAvailableName();
             StringBuilder body = new StringBuilder();
             ClassBuilder builder = new ClassBuilder();
             CallerActionBuilder callerBuilder = new CallerActionBuilder();
-
+           
 
             var fields = type.GetFields();
             var props = type.GetProperties();
@@ -64,7 +64,7 @@ namespace NCaller.Builder
                     .Using("System")
                     .Using("NCaller")
                     .ClassAccess(AccessTypes.Public)
-                    .ClassName(className)
+                    .ClassName("NatashaDynamic" + type.GetAvailableName())
                     .Namespace("NCallerDynamic")
                     .Inheritance(typeof(CallerBase<>).With(type))
                     .ClassBody(body)
