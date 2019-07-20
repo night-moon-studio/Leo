@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace NCaller.Core
 {
-    public class BuilderModel
+    public class BuilderModel:IComparable<BuilderModel>
     {
 
         public static implicit operator BuilderModel(MemberInfo info)
@@ -44,6 +44,17 @@ namespace NCaller.Core
         {
             MemberName = name;
             NameHashCode = name.GetHashCode();
+        }
+
+        public override int GetHashCode()
+        {
+            return NameHashCode;
+        }
+
+
+        public int CompareTo(BuilderModel other)
+        {
+            return NameHashCode.CompareTo(other.NameHashCode);
         }
     }
 

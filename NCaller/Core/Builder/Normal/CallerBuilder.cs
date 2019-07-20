@@ -39,23 +39,24 @@ namespace NCaller.Builder
         {
             StringBuilder body = new StringBuilder();
             ClassBuilder builder = new ClassBuilder();
-            CallerActionBuilder callerBuilder = new CallerActionBuilder();
            
 
             var fields = type.GetFields();
             var props = type.GetProperties();
             List<BuilderModel> buildCache = new List<BuilderModel>(fields.Length + props.Length);
-
+            
 
             fields.For(item => buildCache.Add(item));
             props.For(item => buildCache.Add(item));
+            buildCache.Sort();
 
 
-            body.Append(callerBuilder.GetScript_GetDynamicBase(buildCache));
-            body.Append(callerBuilder.GetScript_GetByName(buildCache));
-            body.Append(callerBuilder.GetScript_GetByIndex(buildCache));
-            body.Append(callerBuilder.GetScript_SetByName(buildCache));
-            body.Append(callerBuilder.GetScript_SetByIndex(buildCache));
+            CallerActionBuilder callerBuilder = new CallerActionBuilder(buildCache);
+            body.Append(callerBuilder.GetScript_GetDynamicBase());
+            body.Append(callerBuilder.GetScript_GetByName());
+            body.Append(callerBuilder.GetScript_GetByIndex());
+            body.Append(callerBuilder.GetScript_SetByName());
+            body.Append(callerBuilder.GetScript_SetByIndex());
             body.Append($@"public override void New(){{{callerBuilder.Caller} = new {type.GetDevelopName()}();}}");
 
 

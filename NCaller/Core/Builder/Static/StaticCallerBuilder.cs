@@ -1,6 +1,5 @@
 ﻿using Natasha;
 using NCaller.Core;
-using NCaller.ExtensionAPI;
 using NCaller.ExtensionAPI.Array;
 using System;
 using System.Collections.Concurrent;
@@ -32,23 +31,24 @@ namespace NCaller.Builder
         {
             ClassBuilder builder = new ClassBuilder();
             StringBuilder body = new StringBuilder();
-            CallerActionBuilder callerBuilder = new CallerActionBuilder(type.GetDevelopName());
-
+            
 
             var fields = type.GetFields();
             var props = type.GetProperties();
             List<BuilderModel> buildCache = new List<BuilderModel>(fields.Length + props.Length);
-
+            
 
             fields.For(item => buildCache.Add(item));
             props.For(item => buildCache.Add(item));
+            buildCache.Sort();
 
 
-            body.Append(callerBuilder.GetScript_GetDynamicBase(buildCache));
-            body.Append(callerBuilder.GetScript_GetByName(buildCache));
-            body.Append(callerBuilder.GetScript_GetByIndex(buildCache));
-            body.Append(callerBuilder.GetScript_SetByName(buildCache));
-            body.Append(callerBuilder.GetScript_SetByIndex(buildCache));
+            CallerActionBuilder callerBuilder = new CallerActionBuilder(buildCache, type.GetDevelopName());
+            body.Append(callerBuilder.GetScript_GetDynamicBase());
+            body.Append(callerBuilder.GetScript_GetByName());
+            body.Append(callerBuilder.GetScript_GetByIndex());
+            body.Append(callerBuilder.GetScript_SetByName());
+            body.Append(callerBuilder.GetScript_SetByIndex());
 
 
             Type tempClass = builder

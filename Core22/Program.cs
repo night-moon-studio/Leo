@@ -4,6 +4,7 @@ using System.Diagnostics;
 using NCaller.ExtensionAPI.Array;
 using System.Collections.Generic;
 using System.Linq;
+using NCaller.Core.Model;
 
 namespace Core22
 {
@@ -20,13 +21,13 @@ namespace Core22
 
 
                 stopwatch.Restart();
-                for (int i = 0; i < 50000; i++)
+                for (int i = 0; i < 40000; i++)
                 {
                     var tEntity = new TestB();
-                    if (tEntity.Name == "111")
+                    if (tEntity.A2ge712 == "111")
                     {
                         //调用动态委托赋值
-                        tEntity.Name = "222";
+                        tEntity.A2ge712 = "222";
                     }
                 }
                 stopwatch.Stop();
@@ -36,13 +37,13 @@ namespace Core22
 
                 var entity = DynamicCaller.Create(typeof(TestB));
                 stopwatch.Restart();
-                for (int i = 0; i < 50000; i++)
+                for (int i = 0; i < 40000; i++)
                 {
                     entity.New();
-                    if (entity.Get<string>("Name") == "111")
+                    if (entity.Get<string>("A2ge712") == "111")
                     {
                         //调用动态委托赋值
-                        entity.Set("Name", "222");
+                        entity.Set("A2ge712", "222");
                     }
                 }
                 stopwatch.Stop();
@@ -50,7 +51,7 @@ namespace Core22
 
 
                 stopwatch.Restart();
-                for (int i = 0; i < 50000; i++)
+                for (int i = 0; i < 40000; i++)
                 {
                     RunDynamic(new TestB());
                 }
@@ -59,108 +60,68 @@ namespace Core22
 
 
                 stopwatch.Restart();
-                for (int i = 0; i < 50000; i++)
+                for (int i = 0; i < 40000; i++)
                 {
                     var tEntity = (new TestB()).Caller();
-                    if (tEntity.Get<string>("Name") == "111")
+                    if (tEntity.Get<string>("A2ge712") == "111")
                     {
                         //调用动态委托赋值
-                        tEntity.Set("Name", "222");
+                        tEntity.Set("A2ge712", "222");
                     }
                 }
                 stopwatch.Stop();
                 Console.WriteLine("NCaller Extension:\t" + stopwatch.Elapsed);
 
 
-                entity = DynamicCaller.Create(typeof(TestB));
-                stopwatch.Restart();
-                for (int i = 0; i < 50000; i++)
-                {
-                    entity.New();
-                    if (entity.Get<DateTime>("Time") != TempTime)
-                    {
-                        //调用动态委托赋值
-                        entity.Set("Time", TempTime);
-                    }
-                }
-                stopwatch.Stop();
-                Console.WriteLine("NCaller SimpleCaller:\t" + stopwatch.Elapsed);
+                //entity = DynamicCaller.Create(typeof(TestB));
+                //stopwatch.Restart();
+                //for (int i = 0; i < 40000; i++)
+                //{
+                //    entity.New();
+                //    if (entity.Get<DateTime>("Time") != TempTime)
+                //    {
+                //        //调用动态委托赋值
+                //        entity.Set("Time", TempTime);
+                //    }
+                //}
+                //stopwatch.Stop();
+                //Console.WriteLine("NCaller SimpleCaller:\t" + stopwatch.Elapsed);
 
-                stopwatch.Restart();
-                for (int i = 0; i < 50000; i++)
-                {
-                    RunDynamicTime(new TestB());
-                }
-                stopwatch.Stop();
-                Console.WriteLine("Dynamic :\t\t" + stopwatch.Elapsed);
+                //stopwatch.Restart();
+                //for (int i = 0; i < 40000; i++)
+                //{
+                //    RunDynamicTime(new TestB());
+                //}
+                //stopwatch.Stop();
+                //Console.WriteLine("Dynamic :\t\t" + stopwatch.Elapsed);
 
-                entity = DynamicCaller.Create(typeof(TestB));
-                stopwatch.Restart();
-                for (int i = 0; i < 50000; i++)
-                {
-                    entity.New();
-                    if (entity.Get<DateTime>("Time") != TempTime)
-                    {
-                        //调用动态委托赋值
-                        entity.Set("Time", TempTime);
-                    }
-                }
-                stopwatch.Stop();
-                Console.WriteLine("NCaller SimpleCaller:\t" + stopwatch.Elapsed);
+                //entity = DynamicCaller.Create(typeof(TestB));
+                //stopwatch.Restart();
+                //for (int i = 0; i < 40000; i++)
+                //{
+                //    entity.New();
+                //    if (entity.Get<DateTime>("Time") != TempTime)
+                //    {
+                //        //调用动态委托赋值
+                //        entity.Set("Time", TempTime);
+                //    }
+                //}
+                //stopwatch.Stop();
+                //Console.WriteLine("NCaller SimpleCaller:\t" + stopwatch.Elapsed);
                 Console.WriteLine("=========================================");
             }
 
-
-            var a = typeof(TestB).GetFields();
-            SortedDictionary<int, int> rbdict = new SortedDictionary<int, int>();
-            a.For(item => rbdict[item.Name.GetHashCode()]= item.Name.GetHashCode());
-            Dictionary<int, int> dict = new Dictionary<int, int>();
-            a.For(item => dict[item.Name.GetHashCode()] = item.Name.GetHashCode());
-            int[] arr = a.Select(item => item.Name.GetHashCode()).ToArray();
-
-            int tempCode = "Name".GetHashCode();
-            stopwatch.Restart();
-            for (int i = 0; i < 50000; i++)
-            {
-                int result = rbdict[tempCode];
-            }
-            stopwatch.Stop();
-            Console.WriteLine("RB:\t" + stopwatch.Elapsed);
-
-            stopwatch.Restart();
-            for (int i = 0; i < 50000; i++)
-            {
-                int result = dict[tempCode];
-            }
-            stopwatch.Stop();
-            Console.WriteLine("Hash:\t" + stopwatch.Elapsed);
-
-
-            stopwatch.Restart();
-            for (int i = 0; i < 50000; i++)
-            {
-                int result = arr.First(item=>item==tempCode);
-            }
-            stopwatch.Stop();
-            Console.WriteLine("Array:\t" + stopwatch.Elapsed);
-
-
-            Array.Sort(arr);
-            stopwatch.Restart();
-            for (int i = 0; i < 50000; i++)
-            {
-                int result = Array.BinarySearch(arr,tempCode);
-            }
-            stopwatch.Stop();
-            Console.WriteLine("Array:\t" + stopwatch.Elapsed);
+            
             Console.ReadKey();
         }
+
+      
         public static void RunDynamic(dynamic tEntity)
         {
-            if (tEntity.Name == "111")
+            if (tEntity.A2ge712 == "111")
             {
                 //调用动态委托赋值
-                tEntity.Name = "222";
+                tEntity.A2ge712 = "222";
             }
         }
 
@@ -172,9 +133,6 @@ namespace Core22
                 tEntity.Time = TempTime;
             }
         }
-
-
-
     }
 
     public class TestB
@@ -273,7 +231,7 @@ namespace Core22
         public int A2ge9111;
 
 
-        public string Name;
+        public string A2ge712;
         public DateTime Time;
     }
 }
