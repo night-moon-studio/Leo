@@ -14,7 +14,8 @@
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
 [![GitHub license](https://img.shields.io/github/license/night-moon-studio/ncaller.svg)](https://github.com/night-moon-studio/NCaller/blob/master/LICENSE)
 
-&ensp;&ensp;&ensp;&ensp;基于Natasha构建的快速动态调用方法，如果您觉得反射太low, dynamic性能还不够，对运行时生成的类不知从何调用，那么欢迎您使用本类库。
+- ### 项目简介： <br/>
+此项目为[Natasha](https://github.com/dotnetcore/Natasha)的衍生项目，通过运行时自动构建高性能操作代理类，为普通类，静态类，动态类，动态类中的动态类，动态生成的静态类等提供了良好的、完备的、高性能的操作，如果反射、dynamic都不能满足高端的需求，可使用本类库，它将是一个不错的选择。
 
 <br/>
   
