@@ -2,7 +2,7 @@
 
 namespace NCaller.ExtensionAPI
 {
-    internal static class ListExtension
+    internal static class ArrayExtension
     {
         internal static void For<T>(this T[] list,Action<T> action)
         {
