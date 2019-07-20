@@ -6,7 +6,7 @@ using Xunit;
 
 namespace NCallerUT
 {
-    [Trait("动态调用1", "普通类")]
+    [Trait("动态调用", "普通类")]
     public class DynamicEntityCallTest
     {
         [Fact(DisplayName = "动态类的动态操作测试")]

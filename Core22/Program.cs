@@ -6,8 +6,10 @@ namespace Core22
 {
     class Program
     {
+        public static DateTime TempTime;
         static void Main(string[] args)
         {
+            TempTime = DateTime.Now;
             Stopwatch stopwatch = new Stopwatch();
             for (int j = 0; j < 20; j++)
             {
@@ -65,6 +67,43 @@ namespace Core22
                 }
                 stopwatch.Stop();
                 Console.WriteLine("NCaller Extension:\t" + stopwatch.Elapsed);
+
+
+                entity = DynamicCaller.Create(typeof(TestB));
+                stopwatch.Restart();
+                for (int i = 0; i < 50000; i++)
+                {
+                    entity.New();
+                    if (entity.Get<DateTime>("Time") != TempTime)
+                    {
+                        //调用动态委托赋值
+                        entity.Set("Time", TempTime);
+                    }
+                }
+                stopwatch.Stop();
+                Console.WriteLine("NCaller SimpleCaller:\t" + stopwatch.Elapsed);
+
+                stopwatch.Restart();
+                for (int i = 0; i < 50000; i++)
+                {
+                    RunDynamicTime(new TestB());
+                }
+                stopwatch.Stop();
+                Console.WriteLine("Dynamic :\t\t" + stopwatch.Elapsed);
+
+                entity = DynamicCaller.Create(typeof(TestB));
+                stopwatch.Restart();
+                for (int i = 0; i < 50000; i++)
+                {
+                    entity.New();
+                    if (entity.Get<DateTime>("Time") != TempTime)
+                    {
+                        //调用动态委托赋值
+                        entity.Set("Time", TempTime);
+                    }
+                }
+                stopwatch.Stop();
+                Console.WriteLine("NCaller SimpleCaller:\t" + stopwatch.Elapsed);
                 Console.WriteLine("=========================================");
             }
             Console.ReadKey();
@@ -77,10 +116,23 @@ namespace Core22
                 tEntity.Name = "222";
             }
         }
+
+        public static void RunDynamicTime(dynamic tEntity)
+        {
+            if (tEntity.Time != TempTime)
+            {
+                //调用动态委托赋值
+                tEntity.Time = TempTime;
+            }
+        }
     }
 
     public class TestB
     {
+        public TestB()
+        {
+            Time = DateTime.Now;
+        }
         public int Age;
         public int Age1;
         public int Age2;
@@ -116,5 +168,6 @@ namespace Core22
         public int Age911;
 
         public string Name;
+        public DateTime Time;
     }
 }
