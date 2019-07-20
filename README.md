@@ -1,5 +1,3 @@
-
-
 <p align="center">
   <span>中文</span> |  
   <a href="https://github.com/night-moon-studio/ncaller/tree/master/lang/english">English</a>
@@ -9,6 +7,7 @@
 
 [![Member project of Night Moon Studio](https://img.shields.io/badge/member%20project%20of-NMS-9e20c9.svg)](https://github.com/night-moon-studio)
 [![NuGet Badge](https://buildstats.info/nuget/DotNetCore.Natasha?includePreReleases=true)](https://www.nuget.org/packages/DotNetCore.Natasha)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller?ref=badge_shield)
  ![GitHub repo size](https://img.shields.io/github/repo-size/night-moon-studio/ncaller.svg)
 [![Codecov](https://img.shields.io/codecov/c/github/night-moon-studio/ncaller.svg)](https://codecov.io/gh/night-moon-studio/ncaller)
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
@@ -131,3 +130,7 @@ handler.Get("Outter").Set(Name,"NewName");                        // Link Operat
 ```
 <br/>
 <br/>  
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller?ref=badge_large)
