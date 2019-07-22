@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCaller", "NCaller\NCaller.csproj", "{B268BCB5-250F-47E7-BE58-EEC10C972FF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCaller", "src\NCaller\NCaller.csproj", "{B268BCB5-250F-47E7-BE58-EEC10C972FF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCallerUT", "NCallerUT\NCallerUT.csproj", "{2CF49BA1-E74B-403E-958A-753DB6EE794D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCallerUT", "test\NCallerUT\NCallerUT.csproj", "{2CF49BA1-E74B-403E-958A-753DB6EE794D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core22", "Core22\Core22.csproj", "{6E33A8DE-C608-4BFE-9B09-3DF614721770}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core22", "sample\Core22\Core22.csproj", "{6E33A8DE-C608-4BFE-9B09-3DF614721770}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

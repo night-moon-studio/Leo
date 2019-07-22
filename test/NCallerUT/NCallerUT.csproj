@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NCaller\NCaller.csproj" />
+    <ProjectReference Include="..\..\src\NCaller\NCaller.csproj" />
   </ItemGroup>
 
 </Project>
