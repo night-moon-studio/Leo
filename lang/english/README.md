@@ -8,7 +8,7 @@
 # NCaller
 
 [![Member project of Night Moon Studio](https://img.shields.io/badge/member%20project%20of-NMS-9e20c9.svg)](https://github.com/night-moon-studio)
-[![NuGet Badge](https://buildstats.info/nuget/DotNetCore.Natasha?includePreReleases=true)](https://www.nuget.org/packages/DotNetCore.Natasha)
+[![NuGet Badge](https://buildstats.info/nuget/DotNetCore.Natasha.NCaller?includePreReleases=true)](https://www.nuget.org/packages/DotNetCore.Natasha.NCaller)
  ![GitHub repo size](https://img.shields.io/github/repo-size/night-moon-studio/ncaller.svg)
 [![Codecov](https://img.shields.io/codecov/c/github/night-moon-studio/ncaller.svg)](https://codecov.io/gh/night-moon-studio/ncaller)
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
@@ -72,28 +72,29 @@ public class B
    public string Name;
    public B()
    {
-      Name = "XXX"
+      Name = "小明"
    }
 }
 
 
-
-//CASE
+//case(support Dynamic-Type)
 
 var handler = DynamicCaller.Create(typeof(A));
-
 handler.New();
 
-handler.Set("Age",100);                                           // Set Operator
+handler["Age"].Set(100);                                          // Set Operator
+handler.Set("Age", 100);                                          // Set Operator
 
+Console.WriteLine(handler["Time"].Get<DateTime>());               // Get Operator
 Console.WriteLine(handler.Get<DateTime>("Time"));                 // Get Operator
 
 handler.Get("Outter")["Name"].Set("NewName");                     // Link Operator
+handler.Get<B>("Outter").Name = "NewName";                        // Link Operator
 ```
 <br/>
 <br/>  
 
-#### Dynamic call to static class:  
+#### Dynamic call to static classes: 
 
 ```C#
 
@@ -109,22 +110,23 @@ public class B
    public string Name;
    public B()
    {
-      Name = "XXX";
+      Name = "小明";
    }
 }
 
 
+//case(support Dynamic-Type)
 
-//CASE
-
-var handler = StaticDynamicCaller.Create(type);
+var handler = StaticDynamicCaller.Create(type(A));
 
 handler["Age"].Set(100);                                          // Set Operator
+handler.Set("Age", 100);                                          // Set Operator
 
 Console.WriteLine(handler["Time"].Get<DateTime>());               // Get Operator
+Console.WriteLine(handler.Get<DateTime>("Time"));                 // Get Operator
 
 handler.Get("Outter").Set(Name,"NewName");                        // Link Operator
-
+handler.Get<B>("Outter").Name = "NewName";                        // Link Operator
 ```
 <br/>
 <br/>   
