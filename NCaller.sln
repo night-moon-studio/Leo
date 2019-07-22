@@ -3,11 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCaller", "src\NCaller\NCaller.csproj", "{B268BCB5-250F-47E7-BE58-EEC10C972FF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NCaller", "src\NCaller\NCaller.csproj", "{B268BCB5-250F-47E7-BE58-EEC10C972FF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCallerUT", "test\NCallerUT\NCallerUT.csproj", "{2CF49BA1-E74B-403E-958A-753DB6EE794D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NCallerUT", "test\NCallerUT\NCallerUT.csproj", "{2CF49BA1-E74B-403E-958A-753DB6EE794D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core22", "sample\Core22\Core22.csproj", "{6E33A8DE-C608-4BFE-9B09-3DF614721770}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core22", "samples\Core22\Core22.csproj", "{6E33A8DE-C608-4BFE-9B09-3DF614721770}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{08108D7B-A78A-4591-BEF3-BE980A54F17E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{7B6C4D0B-2E5A-453D-ACD7-CE754CBB2730}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F4C88845-8308-4E92-9D21-ED09AE0C014D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +36,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B268BCB5-250F-47E7-BE58-EEC10C972FF4} = {08108D7B-A78A-4591-BEF3-BE980A54F17E}
+		{2CF49BA1-E74B-403E-958A-753DB6EE794D} = {F4C88845-8308-4E92-9D21-ED09AE0C014D}
+		{6E33A8DE-C608-4BFE-9B09-3DF614721770} = {7B6C4D0B-2E5A-453D-ACD7-CE754CBB2730}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02128F12-79BF-44E2-9D70-806ED8670AAD}
