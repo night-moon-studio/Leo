@@ -33,14 +33,14 @@ jobs:
     displayName: restore
     inputs:
       command: restore
-      projects: './NCaller/NCaller.csproj'
+      projects: './src/NCaller/NCaller.csproj'
 
 
   - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
-      projects: './NCaller/NCaller.csproj'
+      projects: './src/NCaller/NCaller.csproj'
       arguments: '-c Release'
 
 
@@ -68,14 +68,14 @@ jobs:
     displayName: restore
     inputs:
       command: restore
-      projects: './NCaller/NCaller.csproj'
+      projects: './src/NCaller/NCaller.csproj'
 
 
   - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
-      projects: './NCaller/NCaller.csproj'
+      projects: './src/NCaller/NCaller.csproj'
       arguments: '-c Release'
 
 
@@ -103,14 +103,14 @@ jobs:
     displayName: restore
     inputs:
       command: restore
-      projects: './NCaller/NCaller.csproj'
+      projects: './src/NCaller/NCaller.csproj'
 
 
   - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
-      projects: './NCaller/NCaller.csproj'
+      projects: './src/NCaller/NCaller.csproj'
       arguments: '-c Release'
 
 
