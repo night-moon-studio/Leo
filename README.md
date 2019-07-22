@@ -77,20 +77,21 @@ public class B
    }
 }
 
-//如果是运行时动态生成类，也同样
 
-
-//调用方式
+//调用方式(支持动态类型)
 
 var handler = DynamicCaller.Create(typeof(A));
 
 handler.New();
 
-handler.Set("Age",100);                                           // Set Operator
+handler["Age"].Set(100);                                          // Set Operator
+handler.Set("Age", 100);                                          // Set Operator
 
+Console.WriteLine(handler["Time"].Get<DateTime>());               // Get Operator
 Console.WriteLine(handler.Get<DateTime>("Time"));                 // Get Operator
 
 handler.Get("Outter")["Name"].Set("NewName");                     // Link Operator
+handler.Get<B>("Outter").Name = "NewName";                        // Link Operator
 ```
 <br/>
 <br/>  
@@ -115,19 +116,19 @@ public class B
    }
 }
 
-//如果是运行时动态生成类，也同样
 
+//调用方式(支持动态类型)
 
-//调用方式
-
-var handler = StaticDynamicCaller.Create(type);
+var handler = StaticDynamicCaller.Create(type(A));
 
 handler["Age"].Set(100);                                          // Set Operator
+handler.Set("Age", 100);                                          // Set Operator
 
 Console.WriteLine(handler["Time"].Get<DateTime>());               // Get Operator
+Console.WriteLine(handler.Get<DateTime>("Time"));                 // Get Operator
 
 handler.Get("Outter").Set(Name,"NewName");                        // Link Operator
-
+handler.Get<B>("Outter").Name = "NewName";                        // Link Operator
 ```
 <br/>
 <br/>  
