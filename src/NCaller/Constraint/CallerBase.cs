@@ -3,10 +3,10 @@
 
     public abstract class CallerBase<T> : CallerBase
     {
+
         public T Instance;
-        public void SetInstance(T value) {
-            Instance = value;
-        }
+        public void SetInstance(T value) => Instance = value;
+
     }
 
 
@@ -27,6 +27,7 @@
 
             }
         }
+
 
 
 
@@ -86,4 +87,5 @@
         public abstract void Set(object value);
 
     }
+
 }
