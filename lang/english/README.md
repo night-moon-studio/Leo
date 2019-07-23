@@ -56,7 +56,7 @@ This project is a derivative of [Natasha](https://github.com/dotnetcore/Natasha)
 ### User Api：  
  <br/>  
 
-#### 首先编辑您的工程文件：
+#### Config your project file：
 
 ```C#
   <PropertyGroup>
