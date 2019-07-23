@@ -18,7 +18,7 @@
 <br/>
   
 
-### 持续构建(CI Build Status)  
+### CI Build Status  
 
 | CI Platform | Build Server | Master Build  | Master Test |
 |--------- |------------- |---------| --------|
@@ -55,7 +55,18 @@ This project is a derivative of [Natasha] (https://github.com/dotnetcore/Natasha
 
 ### User Api：  
  <br/>  
- 
+
+#### 首先编辑您的工程文件：
+
+```C#
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <PreserveCompilationContext>true</PreserveCompilationContext>   <--- must
+  </PropertyGroup>
+```  
+<br/>  
+
 #### Dynamic call to normal classes:  
 
 ```C#
