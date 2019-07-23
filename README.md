@@ -57,6 +57,17 @@
 ### 使用方法(User Api)：  
  <br/>  
  
+ #### 首先编辑您的工程文件：
+
+```C#
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <PreserveCompilationContext>true</PreserveCompilationContext>   <--- 一定要加上这句话
+  </PropertyGroup>
+```  
+<br/>  
+
 #### 动态调用普通类:  
 
 ```C#
