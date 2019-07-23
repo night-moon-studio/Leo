@@ -31,7 +31,7 @@
 <br/>    
 
 ### Project profile：
-This project is a derivative of [Natasha] (https://github.com/dotnetcore/Natasha). Through the automatic construction of high-performance operation proxy classes at run time, it provides good, complete and high-performance operations for ordinary classes, static classes, dynamic classes in dynamic classes, dynamically generated static classes, etc. If reflection, dynamic can not meet your needs, you can use this class library, it will be a good choice.  
+This project is a derivative of [Natasha](https://github.com/dotnetcore/Natasha). Through the automatic construction of high-performance operation proxy classes at run time, it provides good, complete and high-performance operations for ordinary classes, static classes, dynamic classes in dynamic classes, dynamically generated static classes, etc. If reflection, dynamic can not meet your needs, you can use this class library, it will be a good choice.  
 
 
 <br/>    
