@@ -6,29 +6,41 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace NCaller.Builder
 {
 
     public class StaticCallerBuilder
     {
+
+
         public static readonly ConcurrentDictionary<Type, Func<CallerBase>> TypeCreatorMapping;
-        static StaticCallerBuilder()
-        {
-            TypeCreatorMapping = new ConcurrentDictionary<Type, Func<CallerBase>>();
-        }
+        static StaticCallerBuilder() => TypeCreatorMapping = new ConcurrentDictionary<Type, Func<CallerBase>>();
+
+
+
 
         public static CallerBase Ctor(Type type)
         {
+
             if (!TypeCreatorMapping.ContainsKey(type))
             {
+
                 InitType(type);
+
             }
+
+
             return TypeCreatorMapping[type]();
+
         }
+
+
 
 
         public static Func<CallerBase> InitType(Type type)
         {
+
             ClassBuilder builder = new ClassBuilder();
             StringBuilder body = new StringBuilder();
             
@@ -65,6 +77,9 @@ namespace NCaller.Builder
 
 
             return TypeCreatorMapping[type] = (Func<CallerBase>)CtorBuilder.NewDelegate(tempClass);
+
         }
+
     }
+
 }

@@ -1,5 +1,6 @@
 ﻿namespace NCaller
 {
+
     public abstract class CallerBase<T> : CallerBase
     {
         public T Instance;
@@ -15,12 +16,15 @@
     {
 
 
-        public string _current_name;
+        public int _nameCode;
         public CallerBase this[string name]
         {
-            get {
-                _current_name = name;
+            get
+            {
+
+                _nameCode = name.GetHashCode();
                 return this;
+
             }
         }
 
