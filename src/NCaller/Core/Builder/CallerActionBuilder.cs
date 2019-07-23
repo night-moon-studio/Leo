@@ -75,10 +75,10 @@ namespace NCaller.Core
             {
 
                 bool IsFirst = true;
-                for (int i = 0; i < leaves.Nodes.Length; i++)
+                for (int i = 0; i < leaves.Buckets.Length; i++)
                 {
 
-                    if (!leaves.Nodes[i].MemberType.IsOnceType())
+                    if (!leaves.Buckets[i].MemberType.IsOnceType())
                     {
 
                         if (!IsFirst)
@@ -87,8 +87,8 @@ namespace NCaller.Core
                             script.Append("else ");
 
                         }
-                        script.AppendLine($"if(nameCode == {leaves.Nodes[i].NameHashCode}){{");
-                        script.AppendLine($"   return {Caller}.{leaves.Nodes[i].MemberName}.Caller();");
+                        script.AppendLine($"if(nameCode == {leaves.Buckets[i].NameHashCode}){{");
+                        script.AppendLine($"   return {Caller}.{leaves.Buckets[i].MemberName}.Caller();");
                         script.AppendLine("}");
                         IsFirst = false;
 
@@ -128,7 +128,7 @@ namespace NCaller.Core
             {
 
                 bool IsFirst = true;
-                for (int i = 0; i < leaves.Nodes.Length; i++)
+                for (int i = 0; i < leaves.Buckets.Length; i++)
                 {
 
                     if (!IsFirst)
@@ -137,8 +137,8 @@ namespace NCaller.Core
                         script.Append("else ");
 
                     }
-                    script.AppendLine($"if(nameCode == {leaves.Nodes[i].NameHashCode}){{");
-                    script.AppendLine($"return (T)((object){Caller}.{leaves.Nodes[i].MemberName});");
+                    script.AppendLine($"if(nameCode == {leaves.Buckets[i].NameHashCode}){{");
+                    script.AppendLine($"return (T)((object){Caller}.{leaves.Buckets[i].MemberName});");
                     script.AppendLine("}");
                     IsFirst = false;
 
@@ -175,15 +175,15 @@ namespace NCaller.Core
             {
 
                 bool IsFirst = true;
-                for (int i = 0; i < leaves.Nodes.Length; i++)
+                for (int i = 0; i < leaves.Buckets.Length; i++)
                 {
 
                     if (!IsFirst)
                     {
                         script.Append("else ");
                     }
-                    script.AppendLine($"if(_nameCode == {leaves.Nodes[i].NameHashCode}){{");
-                    script.AppendLine($"return (T)((object){Caller}.{leaves.Nodes[i].MemberName});");
+                    script.AppendLine($"if(_nameCode == {leaves.Buckets[i].NameHashCode}){{");
+                    script.AppendLine($"return (T)((object){Caller}.{leaves.Buckets[i].MemberName});");
                     script.AppendLine("}");
                     IsFirst = false;
                 }
@@ -220,7 +220,7 @@ namespace NCaller.Core
             {
 
                 bool IsFirst = true;
-                for (int i = 0; i < leaves.Nodes.Length; i++)
+                for (int i = 0; i < leaves.Buckets.Length; i++)
                 {
 
                     if (!IsFirst)
@@ -229,8 +229,8 @@ namespace NCaller.Core
                         script.Append("else ");
 
                     }
-                    script.AppendLine($"if(nameCode == {leaves.Nodes[i].NameHashCode}){{");
-                    script.AppendLine($"{Caller}.{leaves.Nodes[i].MemberName}=({leaves.Nodes[i].TypeName})value;");
+                    script.AppendLine($"if(nameCode == {leaves.Buckets[i].NameHashCode}){{");
+                    script.AppendLine($"{Caller}.{leaves.Buckets[i].MemberName}=({leaves.Buckets[i].TypeName})value;");
                     script.AppendLine("}");
                     IsFirst = false;
 
@@ -267,7 +267,7 @@ namespace NCaller.Core
             {
 
                 bool IsFirst = true;
-                for (int i = 0; i < leaves.Nodes.Length; i++)
+                for (int i = 0; i < leaves.Buckets.Length; i++)
                 {
 
                     if (!IsFirst)
@@ -276,8 +276,8 @@ namespace NCaller.Core
                         script.Append("else ");
 
                     }
-                    script.AppendLine($"if(_nameCode == {leaves.Nodes[i].NameHashCode}){{");
-                    script.AppendLine($"{Caller}.{leaves.Nodes[i].MemberName}=({leaves.Nodes[i].TypeName})value;");
+                    script.AppendLine($"if(_nameCode == {leaves.Buckets[i].NameHashCode}){{");
+                    script.AppendLine($"{Caller}.{leaves.Buckets[i].MemberName}=({leaves.Buckets[i].TypeName})value;");
                     script.AppendLine("}");
                     IsFirst = false;
 

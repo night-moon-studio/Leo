@@ -8,10 +8,10 @@ namespace NCaller.Core.Model
     {
 
 
-        public BTFindTree<T> LssTree;
-        public BTFindTree<T> GtrTree;
-        public T[] Nodes;
-        public int CompareCode;
+        public readonly BTFindTree<T> LssTree;
+        public readonly BTFindTree<T> GtrTree;
+        public readonly T[] Buckets;
+        public readonly int CompareCode;
 
 
         public BTFindTree(Memory<T> values,int slice)
@@ -20,7 +20,7 @@ namespace NCaller.Core.Model
             if (values.Length<=slice)
             {
 
-                Nodes = values.Slice(0, values.Length).ToArray();
+                Buckets = values.Slice(0, values.Length).ToArray();
 
             }
             else
