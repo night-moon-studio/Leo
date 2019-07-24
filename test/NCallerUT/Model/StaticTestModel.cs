@@ -58,7 +58,7 @@ namespace NCallerUT.Model
         public TestC InstanceC;
     }
 
-    public class TestC
+    public struct TestC
     {
         public string Name;
     }
