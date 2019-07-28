@@ -7,8 +7,9 @@
     <Copyright>.NET Core Community and Contributors</Copyright>
     <PackageId>DotNetCore.Natasha.NCaller</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>- 采用查找树进行快速定位</PackageReleaseNotes>
-    <Version>0.9.0</Version>
+    <PackageReleaseNotes>- 采用查找树进行快速定位
+- 更新引用</PackageReleaseNotes>
+    <Version>0.9.0.1</Version>
     <PackageLicenseUrl>https://github.com/night-moon-studio/NCaller/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/night-moon-studio/NCaller</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; Reflect ; Caller ;</PackageTags>
