@@ -31,7 +31,7 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            Type type = RuntimeComplier.GetType(text);
+            Type type = RuntimeComplier.GetClassType(text);
             //创建动态类实例代理
             var instance = DynamicStaticCaller.Create(type);
             //Get动态调用

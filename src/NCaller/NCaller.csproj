@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha" Version="1.0.0-preview" />
+    <PackageReference Include="DotNetCore.Natasha" Version="0.8.0" />
   </ItemGroup>
 
 </Project>
