@@ -10,23 +10,23 @@ using System.Text;
 namespace NCaller.Builder
 {
 
-    public class CallerBuilder<T>
+    public class DictBuilder<T>
     {
-        public static readonly Func<CallerBase> Ctor;
-        static CallerBuilder() => Ctor = CallerBuilder.InitType(typeof(T));
+        public static readonly Func<DictBase> Ctor;
+        static DictBuilder() => Ctor = DictBuilder.InitType(typeof(T));
     }
 
 
 
 
-    public class CallerBuilder
+    public class DictBuilder
     {
 
-        public static readonly ConcurrentDictionary<Type, Func<CallerBase>> TypeCreatorMapping;
-        static CallerBuilder() => TypeCreatorMapping = new ConcurrentDictionary<Type, Func<CallerBase>>();
+        public static readonly ConcurrentDictionary<Type, Func<DictBase>> TypeCreatorMapping;
+        static DictBuilder() => TypeCreatorMapping = new ConcurrentDictionary<Type, Func<DictBase>>();
 
 
-        public static CallerBase Ctor(Type type)
+        public static DictBase Ctor(Type type)
         {
 
             if (!TypeCreatorMapping.ContainsKey(type))
@@ -44,8 +44,12 @@ namespace NCaller.Builder
 
 
 
-        public static Func<CallerBase> InitType(Type type)
+        public static Func<DictBase> InitType(Type type)
         {
+
+            bool isStatic = (type.IsSealed && type.IsAbstract);
+            Type callType = typeof(DictBase);
+
 
             StringBuilder body = new StringBuilder();
             ClassBuilder builder = new ClassBuilder();
@@ -62,12 +66,16 @@ namespace NCaller.Builder
 
 
             CallerActionBuilder callerBuilder = new CallerActionBuilder(buildCache);
-            body.Append(callerBuilder.GetScript_GetDynamicBase());
-            body.Append(callerBuilder.GetScript_GetByName());
-            body.Append(callerBuilder.GetScript_GetByIndex());
             body.Append(callerBuilder.GetScript_SetByName());
-            body.Append(callerBuilder.GetScript_SetByIndex());
-            body.Append($@"public override void New(){{{callerBuilder.Caller} = new {type.GetDevelopName()}();}}");
+            body.Append(callerBuilder.GetScript_GetByName());
+            body.Append(callerBuilder.GetScript_GetObjectByName());
+
+
+            if (!isStatic)
+            {
+                callType = typeof(DictBase<>).With(type);
+                body.Append($@"public override void New(){{{callerBuilder.Caller} = new {type.GetDevelopName()}();}}");
+            }
 
 
             Type tempClass = builder
@@ -75,14 +83,14 @@ namespace NCaller.Builder
                     .Using("System")
                     .Using("NCaller")
                     .ClassAccess(AccessTypes.Public)
-                    .ClassName("NatashaDynamic" + type.GetAvailableName())
+                    .ClassName("NatashaDynamicDict" + type.GetAvailableName())
                     .Namespace("NCallerDynamic")
-                    .Inheritance(typeof(CallerBase<>).With(type))
+                    .Inheritance(callType)
                     .ClassBody(body)
                     .GetType();
 
 
-            return TypeCreatorMapping[type] = (Func<CallerBase>)CtorBuilder.NewDelegate(tempClass);
+            return TypeCreatorMapping[type] = (Func<DictBase>)CtorBuilder.NewDelegate(tempClass);
 
         }
 

@@ -35,7 +35,7 @@ namespace Core22
 
 
 
-                var entity = DynamicCaller.Create(typeof(TestB));
+                var entity = LinkOperator.Create(typeof(TestB));
                 stopwatch.Restart();
                 for (int i = 0; i < 40000; i++)
                 {
@@ -62,7 +62,7 @@ namespace Core22
                 stopwatch.Restart();
                 for (int i = 0; i < 40000; i++)
                 {
-                    var tEntity = (new TestB()).Caller();
+                    var tEntity = (new TestB()).LinkCaller();
                     if (tEntity.Get<string>("A2ge712") == "111")
                     {
                         //调用动态委托赋值
@@ -111,7 +111,11 @@ namespace Core22
                 Console.WriteLine("=========================================");
             }
 
-            
+            var dict = DictOperator<TestB>.Create();
+            dict["Name"] = "Hello";
+            dict["Age"] = 100;
+            dict["Time"] = DateTime.Now;
+
             Console.ReadKey();
         }
 

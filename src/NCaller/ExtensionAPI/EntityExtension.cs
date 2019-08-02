@@ -7,10 +7,23 @@ namespace NCaller
     public static class EntityExtension
     {
 
-        public static CallerBase<T> Caller<T>(this T value)
+        public static LinkBase<T> LinkCaller<T>(this T value)
         {
 
-            var caller = (CallerBase<T>)CallerBuilder<T>.Ctor();
+            var caller = (LinkBase<T>)LinkBuilder<T>.Ctor();
+            caller.SetInstance(value);
+
+
+            return caller;
+
+        }
+
+
+
+        public static DictBase<T> DictCaller<T>(this T value)
+        {
+
+            var caller = (DictBase<T>)DictBuilder<T>.Ctor();
             caller.SetInstance(value);
 
 

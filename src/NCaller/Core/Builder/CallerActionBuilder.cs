@@ -58,7 +58,7 @@ namespace NCaller.Core
         {
 
             StringBuilder script = new StringBuilder();
-            script.AppendLine("public override CallerBase Get(string name){");
+            script.AppendLine("public override LinkBase Get(string name){");
             script.AppendLine("int nameCode = name.GetHashCode();");
 
 
@@ -88,11 +88,58 @@ namespace NCaller.Core
 
                         }
                         script.AppendLine($"if(nameCode == {leaves.Buckets[i].NameHashCode}){{");
-                        script.AppendLine($"   return {Caller}.{leaves.Buckets[i].MemberName}.Caller();");
+                        script.AppendLine($"   return {GetCallerExpression(leaves.Buckets[i])}.Caller();");
                         script.AppendLine("}");
                         IsFirst = false;
 
                     }
+
+                }
+
+            });
+            script.Append("return default;}");
+
+
+            return script;
+
+        }
+
+
+
+        public StringBuilder GetScript_GetObjectByName()
+        {
+
+            StringBuilder script = new StringBuilder();
+            script.AppendLine("public override object GetObject(string name){");
+            script.AppendLine("int nameCode = name.GetHashCode();");
+
+
+            Foreach(BuildTree, (node, actionLss, actionGtr) =>
+            {
+
+                script.AppendLine($"if(nameCode < {node.CompareCode}){{");
+                actionLss();
+                script.Append("}else{");
+                actionGtr();
+                script.Append("}");
+
+            }, (leaves, type) =>
+            {
+
+                bool IsFirst = true;
+                for (int i = 0; i < leaves.Buckets.Length; i++)
+                {
+
+                    if (!IsFirst)
+                    {
+
+                        script.Append("else ");
+
+                    }
+                    script.AppendLine($"if(nameCode == {leaves.Buckets[i].NameHashCode}){{");
+                    script.AppendLine($"return {GetCallerExpression(leaves.Buckets[i])};");
+                    script.AppendLine("}");
+                    IsFirst = false;
 
                 }
 
@@ -138,7 +185,7 @@ namespace NCaller.Core
 
                     }
                     script.AppendLine($"if(nameCode == {leaves.Buckets[i].NameHashCode}){{");
-                    script.AppendLine($"return (T)((object){Caller}.{leaves.Buckets[i].MemberName});");
+                    script.AppendLine($"return (T)((object){GetCallerExpression(leaves.Buckets[i])});");
                     script.AppendLine("}");
                     IsFirst = false;
 
@@ -183,7 +230,7 @@ namespace NCaller.Core
                         script.Append("else ");
                     }
                     script.AppendLine($"if(_nameCode == {leaves.Buckets[i].NameHashCode}){{");
-                    script.AppendLine($"return (T)((object){Caller}.{leaves.Buckets[i].MemberName});");
+                    script.AppendLine($"return (T)((object){GetCallerExpression(leaves.Buckets[i])});");
                     script.AppendLine("}");
                     IsFirst = false;
                 }
@@ -230,7 +277,7 @@ namespace NCaller.Core
 
                     }
                     script.AppendLine($"if(nameCode == {leaves.Buckets[i].NameHashCode}){{");
-                    script.AppendLine($"{Caller}.{leaves.Buckets[i].MemberName}=({leaves.Buckets[i].TypeName})value;");
+                    script.AppendLine($"{GetCallerExpression(leaves.Buckets[i])}=({leaves.Buckets[i].TypeName})value;");
                     script.AppendLine("}");
                     IsFirst = false;
 
@@ -277,7 +324,7 @@ namespace NCaller.Core
 
                     }
                     script.AppendLine($"if(_nameCode == {leaves.Buckets[i].NameHashCode}){{");
-                    script.AppendLine($"{Caller}.{leaves.Buckets[i].MemberName}=({leaves.Buckets[i].TypeName})value;");
+                    script.AppendLine($"{GetCallerExpression(leaves.Buckets[i])}=({leaves.Buckets[i].TypeName})value;");
                     script.AppendLine("}");
                     IsFirst = false;
 
@@ -290,6 +337,22 @@ namespace NCaller.Core
             return script;
 
         }
+
+
+
+
+        public string GetCallerExpression(BuilderModel model)
+        {
+            if (model.IsStatic)
+            {
+                return $"{model.DeclareTypeName}.{model.MemberName}";
+            }
+            else
+            {
+                return $"{Caller}.{model.MemberName}";
+            }
+        }
+
 
 
 

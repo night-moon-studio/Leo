@@ -9,23 +9,32 @@ namespace NCaller.Core
     public class BuilderModel:IComparable<BuilderModel>
     {
 
+        public bool IsStatic;
+        public string DeclareTypeName;
         public static implicit operator BuilderModel(MemberInfo info)
         {
 
             BuilderModel model = new BuilderModel();
             model.SetName(info.Name);
+            
             switch (info.MemberType)
             {
 
                 case MemberTypes.Field:
 
-                    model.SetType(((FieldInfo)info).FieldType);
+                    var fldInfo = (FieldInfo)info;
+                    model.DeclareTypeName = fldInfo.DeclaringType.GetDevelopName();
+                    model.SetType(fldInfo.FieldType);
+                    model.IsStatic = fldInfo.Attributes.HasFlag(FieldAttributes.Static);
                     break;
 
 
                 case MemberTypes.Property:
 
-                    model.SetType(((PropertyInfo)info).PropertyType);
+                    var propInfo = (PropertyInfo)info;
+                    model.DeclareTypeName = propInfo.DeclaringType.GetDevelopName();
+                    model.SetType(propInfo.PropertyType);
+                    model.IsStatic = propInfo.GetGetMethod(true).IsStatic;
                     break;
 
 
@@ -41,7 +50,7 @@ namespace NCaller.Core
 
 
 
-
+       
         public Type MemberType;
         public int TypeHashCode;
         public string TypeName;

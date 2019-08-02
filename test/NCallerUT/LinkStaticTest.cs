@@ -6,10 +6,10 @@ using Xunit;
 
 namespace NCallerUT
 {
-    [Trait("动态调用", "静态类")]
-    public class DynamicStaticEntityCallTest
+    [Trait("LinkOperator", "静态类")]
+    public class LinkStaticTest
     {
-        [Fact(DisplayName = "动态类的动态操作测试")]
+        [Fact(DisplayName = "动态生成类")]
         public void TestCall1()
         {
             //ScriptComplier.Init();
@@ -33,7 +33,7 @@ namespace HelloWorld
             //根据脚本创建动态类
             Type type = RuntimeComplier.GetClassType(text);
             //创建动态类实例代理
-            var instance = DynamicStaticCaller.Create(type);
+            var instance = LinkOperator.Create(type);
             //Get动态调用
             Assert.Equal("111", instance["Name"].Get<string>());
             //调用动态委托赋值
@@ -45,11 +45,11 @@ namespace HelloWorld
 
 
 
-        [Fact(DisplayName = "运行时静态类的动态操作测试")]
+        [Fact(DisplayName = "运行时静态类")]
         public void TestCall2()
         {
             //创建动态类实例代理
-            var instance = DynamicStaticCaller.Create(typeof(StaticTestModel1));
+            var instance = LinkOperator.Create(typeof(StaticTestModel1));
             StaticTestModel1.Name = "111";
             Assert.Equal("111", instance["Name"].Get<string>());
             instance["Name"].Set("222");
@@ -62,11 +62,11 @@ namespace HelloWorld
 
         }
 
-        [Fact(DisplayName = "运行时伪静态类的动态操作测试")]
+        [Fact(DisplayName = "运行时伪静态类")]
         public void TestCall3()
         {
             //创建动态类实例代理
-            var instance = DynamicStaticCaller.Create(typeof(FakeStaticTestModel1));
+            var instance = LinkOperator.Create(typeof(FakeStaticTestModel1));
             FakeStaticTestModel1.Name = "111";
             Assert.Equal("111", instance["Name"].Get<string>());
             instance["Name"].Set("222");
