@@ -13,9 +13,13 @@ namespace NCaller
 
 
 
-    public class DictOperator<T>
+    public static class DictOperator<T>
     {
-        public static DictBase Create() => DictBuilder<T>.Ctor();
+
+        public readonly static Func<DictBase> Create;
+
+        static DictOperator() => Create = DictBuilder.InitType(typeof(T)); 
+
     }
 
 }

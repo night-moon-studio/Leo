@@ -11,15 +11,6 @@ using System.Text;
 namespace NCaller.Builder
 {
 
-    public class LinkBuilder<T>
-    {
-        public static readonly Func<LinkBase> Ctor;
-        static LinkBuilder() => Ctor = LinkBuilder.InitType(typeof(T));
-    }
-
-
-
-
     public class LinkBuilder
     {
 

@@ -15,7 +15,8 @@ namespace NCaller
 
     public class LinkOperator<T>
     {
-        public static LinkBase Create() => LinkBuilder<T>.Ctor();
+        public readonly static Func<LinkBase> Create;
+        static LinkOperator() => Create = LinkBuilder.InitType(typeof(T));
     }
 
 }

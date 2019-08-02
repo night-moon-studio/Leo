@@ -10,7 +10,7 @@ namespace NCaller
         public static LinkBase<T> LinkCaller<T>(this T value)
         {
 
-            var caller = (LinkBase<T>)LinkBuilder<T>.Ctor();
+            var caller = (LinkBase<T>)LinkOperator<T>.Create();
             caller.SetInstance(value);
 
 
@@ -23,7 +23,7 @@ namespace NCaller
         public static DictBase<T> DictCaller<T>(this T value)
         {
 
-            var caller = (DictBase<T>)DictBuilder<T>.Ctor();
+            var caller = (DictBase<T>)DictOperator<T>.Create();
             caller.SetInstance(value);
 
 

@@ -10,15 +10,6 @@ using System.Text;
 namespace NCaller.Builder
 {
 
-    public class DictBuilder<T>
-    {
-        public static readonly Func<DictBase> Ctor;
-        static DictBuilder() => Ctor = DictBuilder.InitType(typeof(T));
-    }
-
-
-
-
     public class DictBuilder
     {
 
