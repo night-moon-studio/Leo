@@ -67,8 +67,7 @@ This project is a derivative of [Natasha](https://github.com/dotnetcore/Natasha)
 ```  
 <br/>  
 
-#### Dynamic call to normal classes:  
-
+#### Dynamic call to normal/static classes:  
 ```C#
 
 public class A
@@ -88,9 +87,10 @@ public class B
 }
 
 
-//case(support Dynamic-Type)
+//Link调用
 
-var handler = DynamicCaller.Create(typeof(A));
+var handler = LinkOperator.Create(typeof(A));
+
 handler.New();
 
 handler["Age"].Set(100);                                          // Set Operator
@@ -101,46 +101,23 @@ Console.WriteLine(handler.Get<DateTime>("Time"));                 // Get Operato
 
 handler.Get("Outter")["Name"].Set("NewName");                     // Link Operator
 handler.Get<B>("Outter").Name = "NewName";                        // Link Operator
+
+
+//字典调用
+var handler = DictOperator.Create(typeof(A));
+
+handler.New();
+
+handler["Age"]= 100;                                          // Set Operator
+handler.Set("Age", 100);                                      // Set Operator
+
+Console.WriteLine(handler["Time"]);                           // Get Operator
+Console.WriteLine(handler.Get<DateTime>("Time"));             // Get Operator
+
+((B)handler["Outter"]).Name = "NewName";                      // Link Operator
 ```
 <br/>
 <br/>  
-
-#### Dynamic call to static classes: 
-
-```C#
-
-public static class A
-{
-   public static int Age;
-   public static DateTime Time;
-   public static B Outter = new B();
-}
-
-public class B
-{
-   public string Name;
-   public B()
-   {
-      Name = "小明";
-   }
-}
-
-
-//case(support Dynamic-Type)
-
-var handler = StaticDynamicCaller.Create(type(A));
-
-handler["Age"].Set(100);                                          // Set Operator
-handler.Set("Age", 100);                                          // Set Operator
-
-Console.WriteLine(handler["Time"].Get<DateTime>());               // Get Operator
-Console.WriteLine(handler.Get<DateTime>("Time"));                 // Get Operator
-
-handler.Get("Outter").Set(Name,"NewName");                        // Link Operator
-handler.Get<B>("Outter").Name = "NewName";                        // Link Operator
-```
-<br/>
-<br/>   
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller?ref=badge_large)
