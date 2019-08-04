@@ -20,9 +20,9 @@ using System.Text;
  
 namespace HelloWorld
 {
-    public static class StaticTest1
+    public static class StaticTest2
     {
-        static StaticTest1(){
+        static StaticTest2(){
             Name=""111"";
         }
 
@@ -49,16 +49,16 @@ namespace HelloWorld
         public void TestCall2()
         {
             //创建动态类实例代理
-            var instance = DictOperator.Create(typeof(StaticTestModel1));
-            StaticTestModel1.Name = "111";
+            var instance = DictOperator.Create(typeof(StaticTestModel2));
+            StaticTestModel2.Name = "111";
             Assert.Equal("111", (string)instance["Name"]);
             instance["Name"] = "222";
             Assert.Equal("222", (string)instance["Name"]);
-            StaticTestModel1.Age = 1001;
+            StaticTestModel2.Age = 1001;
             Assert.Equal(1001, (int)instance["Age"]);
-            StaticTestModel1.Temp = DateTime.Now;
-            instance["Temp"] = StaticTestModel1.Temp;
-            Assert.Equal(StaticTestModel1.Temp, (DateTime)instance["Temp"]);
+            StaticTestModel2.Temp = DateTime.Now;
+            instance["Temp"] = StaticTestModel2.Temp;
+            Assert.Equal(StaticTestModel2.Temp, (DateTime)instance["Temp"]);
 
         }
 
@@ -66,16 +66,16 @@ namespace HelloWorld
         public void TestCall3()
         {
             //创建动态类实例代理
-            var instance = DictOperator.Create(typeof(FakeStaticTestModel1));
-            FakeStaticTestModel1.Name = "111";
+            var instance = DictOperator.Create(typeof(FakeStaticTestModel2));
+            FakeStaticTestModel2.Name = "111";
             Assert.Equal("111", (string)instance["Name"]);
             instance["Name"] = "222";
             Assert.Equal("222", (string)instance["Name"]);
-            FakeStaticTestModel1.Age = 1001;
+            FakeStaticTestModel2.Age = 1001;
             Assert.Equal(1001, (int)instance["Age"]);
-            FakeStaticTestModel1.Temp = DateTime.Now;
-            instance["Temp"] = FakeStaticTestModel1.Temp;
-            Assert.Equal(FakeStaticTestModel1.Temp, (DateTime)instance["Temp"]);
+            FakeStaticTestModel2.Temp = DateTime.Now;
+            instance["Temp"] = FakeStaticTestModel2.Temp;
+            Assert.Equal(FakeStaticTestModel2.Temp, (DateTime)instance["Temp"]);
 
         }
     }
