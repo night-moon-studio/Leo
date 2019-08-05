@@ -44,7 +44,7 @@ namespace NCaller.Builder
 
 
             StringBuilder body = new StringBuilder();
-            ClassBuilder builder = new ClassBuilder();
+            OopBuilder builder = new OopBuilder();
 
 
             var fields = type.GetFields();
@@ -76,15 +76,15 @@ namespace NCaller.Builder
                     .Using(type)
                     .Using("System")
                     .Using("NCaller")
-                    .ClassAccess(AccessTypes.Public)
+                    .OopAccess(AccessTypes.Public)
                     .Inheritance(callType)
-                    .ClassName("NatashaDynamicLink" + type.GetAvailableName())
+                    .OopName("NatashaDynamicLink" + type.GetAvailableName())
                     .Namespace("NCallerDynamic")
-                    .ClassBody(body)
+                    .OopBody(body)
                     .GetType();
 
 
-            return (Func<LinkBase>)CtorBuilder.NewDelegate(tempClass);
+            return (Func<LinkBase>)CtorOperator.NewDelegate(tempClass);
 
         }
 

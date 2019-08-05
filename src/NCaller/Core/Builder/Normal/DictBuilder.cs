@@ -43,7 +43,7 @@ namespace NCaller.Builder
 
 
             StringBuilder body = new StringBuilder();
-            ClassBuilder builder = new ClassBuilder();
+            OopBuilder builder = new OopBuilder();
            
 
             var fields = type.GetFields();
@@ -73,15 +73,15 @@ namespace NCaller.Builder
                     .Using(type)
                     .Using("System")
                     .Using("NCaller")
-                    .ClassAccess(AccessTypes.Public)
-                    .ClassName("NatashaDynamicDict" + type.GetAvailableName())
+                    .OopAccess(AccessTypes.Public)
+                    .OopName("NatashaDynamicDict" + type.GetAvailableName())
                     .Namespace("NCallerDynamic")
                     .Inheritance(callType)
-                    .ClassBody(body)
+                    .OopBody(body)
                     .GetType();
 
 
-            return TypeCreatorMapping[type] = (Func<DictBase>)CtorBuilder.NewDelegate(tempClass);
+            return TypeCreatorMapping[type] = (Func<DictBase>)CtorOperator.NewDelegate(tempClass);
 
         }
 
