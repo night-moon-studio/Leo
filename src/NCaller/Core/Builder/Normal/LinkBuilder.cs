@@ -1,10 +1,10 @@
 ﻿using Natasha;
+using Natasha.Operator;
 using NCaller.Core;
 using NCaller.ExtensionAPI.Array;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 
 
@@ -44,7 +44,7 @@ namespace NCaller.Builder
 
 
             StringBuilder body = new StringBuilder();
-            OopBuilder builder = new OopBuilder();
+            OopOperator builder = new OopOperator();
 
 
             var fields = type.GetFields();

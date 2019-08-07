@@ -32,7 +32,7 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            Type type = RuntimeComplier.GetClassType(text);
+            Type type = (new OopComplier()).GetClassType(text);
             //创建动态类实例代理
             var instance = DictOperator.Create(type);
             instance.New();
