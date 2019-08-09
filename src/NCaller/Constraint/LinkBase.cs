@@ -11,13 +11,12 @@
     public abstract class LinkBase:CallerBase
     {
 
-        public int _nameCode;
+        public string _name;
         public LinkBase this[string name]
         {
             get
             {
-
-                _nameCode = name.GetHashCode();
+                _name = name;
                 return this;
 
             }
@@ -31,7 +30,7 @@
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public abstract LinkBase Get(string name);
+        public unsafe abstract LinkBase Get(string name);
 
 
 
@@ -40,7 +39,7 @@
         /// 通过索引设置字段或者属性值
         /// </summary>
         /// <param name="value">字段/属性新值</param>
-        public abstract void Set(object value);
+        public unsafe abstract void Set(object value);
 
 
 
@@ -50,7 +49,7 @@
         /// </summary>
         /// <typeparam name="T">字段/属性的类型</typeparam>
         /// <returns></returns>
-        public abstract T Get<T>();
+        public unsafe abstract T Get<T>();
 
     }
 

@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using NCaller.Constraint;
 using System;
 using System.Reflection;
 
@@ -6,7 +7,7 @@ using System.Reflection;
 namespace NCaller.Core
 {
 
-    public class BuilderModel:IComparable<BuilderModel>
+    public class BuilderModel : PointNameStandard
     {
 
         public bool IsStatic;
@@ -74,26 +75,10 @@ namespace NCaller.Core
 
         public void SetName(string name)
         {
-
+            PointName = name;
             MemberName = name;
             NameHashCode = name.GetHashCode();
 
-        }
-
-
-
-
-        public override int GetHashCode()
-        {
-            return NameHashCode;
-        }
-
-
-
-
-        public int CompareTo(BuilderModel other)
-        {
-            return NameHashCode.CompareTo(other.NameHashCode);
         }
 
     }

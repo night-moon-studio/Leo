@@ -28,7 +28,7 @@
         }
 
 
-        public abstract object GetObject(string name);
+        public unsafe abstract object GetObject(string name);
 
     }
 

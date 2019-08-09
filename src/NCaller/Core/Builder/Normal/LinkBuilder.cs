@@ -54,10 +54,10 @@ namespace NCaller.Builder
 
             fields.For(item => buildCache.Add(item));
             props.For(item => buildCache.Add(item));
-            buildCache.Sort();
 
 
-            CallerActionBuilder callerBuilder = new CallerActionBuilder(buildCache);
+
+            CallerPointBTTreeBuilder callerBuilder = new CallerPointBTTreeBuilder(buildCache);
             body.Append(callerBuilder.GetScript_GetDynamicBase());
             body.Append(callerBuilder.GetScript_GetByName());
             body.Append(callerBuilder.GetScript_GetByIndex());

@@ -8,7 +8,7 @@ using NCaller.Core.Model;
 namespace NCaller.Core
 {
 
-    public class CallerActionBuilder
+    public class CallerBTTreeBuilder
     {
 
         public readonly int Slice;
@@ -17,7 +17,7 @@ namespace NCaller.Core
         public readonly StringBuilder Script;
 
 
-        public CallerActionBuilder(List<BuilderModel> builds, string caller = "Instance", int slice = 3)
+        public CallerBTTreeBuilder(List<BuilderModel> builds, string caller = "Instance", int slice = 3)
         {
 
             Caller = caller;
