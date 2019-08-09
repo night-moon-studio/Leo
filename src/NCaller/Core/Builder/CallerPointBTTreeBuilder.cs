@@ -16,6 +16,8 @@ namespace NCaller.Core
         public readonly StringBuilder Script;
 
 
+
+
         public CallerPointBTTreeBuilder(List<BuilderModel> builds, string caller = "Instance", int layer = 0)
         {
 
@@ -62,11 +64,11 @@ namespace NCaller.Core
 
             StringBuilder script = new StringBuilder();
             script.AppendLine("public unsafe override LinkBase Get(string name){");
-            script.AppendLine(@"fixed (char* c = name)
-            {
-                switch(*(long*)(c)){");
+            script.AppendLine($@"fixed (char* c = name)
+            {{
+                switch(*({PointBTFindTree<BuilderModel>.OfferType}*)(c)){{");
 
-                Foreach(BuildTree, (node, layer) =>
+            Foreach(BuildTree, (node, layer) =>
                 {
 
                     script.AppendLine($"case {node.PointCode}:");
@@ -81,7 +83,7 @@ namespace NCaller.Core
                     {
 
                         //父节点
-                        script.AppendLine($"switch(*(long*)(c+{4 * layer})){{");
+                        script.AppendLine($"switch(*({PointBTFindTree<BuilderModel>.OfferType}*)(c+{PointBTFindTree<BuilderModel>.OfferSet * layer})){{");
 
                     }
 
@@ -106,9 +108,9 @@ namespace NCaller.Core
 
             StringBuilder script = new StringBuilder();
             script.AppendLine("public unsafe override object GetObject(string name){");
-            script.AppendLine(@"fixed (char* c = name)
-            {
-                switch(*(long*)(c)){");
+            script.AppendLine($@"fixed (char* c = name)
+            {{
+                switch(*({PointBTFindTree<BuilderModel>.OfferType}*)(c)){{");
 
             Foreach(BuildTree, (node, layer) =>
             {
@@ -127,7 +129,7 @@ namespace NCaller.Core
 
                     //父节点
                     script.AppendLine($"case {node.PointCode}:");
-                    script.AppendLine($"switch(*(long*)(c+{4 * layer})){{");
+                    script.AppendLine($"switch(*({PointBTFindTree<BuilderModel>.OfferType}*)(c+{PointBTFindTree<BuilderModel>.OfferSet * layer})){{");
 
                 }
 
@@ -153,9 +155,9 @@ namespace NCaller.Core
 
             StringBuilder script = new StringBuilder();
             script.AppendLine("public unsafe override T Get<T>(string name){");
-            script.AppendLine(@"fixed (char* c = name)
-            {
-                switch(*(long*)(c)){");
+            script.AppendLine($@"fixed (char* c = name)
+            {{
+                switch(*({PointBTFindTree<BuilderModel>.OfferType}*)(c)){{");
 
             Foreach(BuildTree, (node, layer) =>
             {
@@ -174,7 +176,7 @@ namespace NCaller.Core
 
                     //父节点
                     script.AppendLine($"case {node.PointCode}:");
-                    script.AppendLine($"switch(*(long*)(c+{4 * layer})){{");
+                    script.AppendLine($"switch(*({PointBTFindTree<BuilderModel>.OfferType}*)(c+{PointBTFindTree<BuilderModel>.OfferSet * layer})){{");
 
                 }
 
@@ -199,9 +201,9 @@ namespace NCaller.Core
 
             StringBuilder script = new StringBuilder();
             script.AppendLine("public unsafe override T Get<T>(){");
-            script.AppendLine(@"fixed (char* c = _name)
-            {
-                switch(*(long*)(c)){");
+            script.AppendLine($@"fixed (char* c = _name)
+            {{
+                switch(*({PointBTFindTree<BuilderModel>.OfferType}*)(c)){{");
 
             Foreach(BuildTree, (node, layer) =>
             {
@@ -220,7 +222,7 @@ namespace NCaller.Core
 
                     //父节点
                     script.AppendLine($"case {node.PointCode}:");
-                    script.AppendLine($"switch(*(long*)(c+{4 * layer})){{");
+                    script.AppendLine($"switch(*({PointBTFindTree<BuilderModel>.OfferType}*)(c+{PointBTFindTree<BuilderModel>.OfferSet * layer})){{");
 
                 }
 
@@ -245,9 +247,9 @@ namespace NCaller.Core
 
             StringBuilder script = new StringBuilder();
             script.AppendLine("public unsafe override void Set(string name,object value){");
-            script.AppendLine(@"fixed (char* c = name)
-            {
-                switch(*(long*)(c)){");
+            script.AppendLine($@"fixed (char* c = name)
+            {{
+                switch(*({PointBTFindTree<BuilderModel>.OfferType}*)(c)){{");
 
             Foreach(BuildTree, (node, layer) =>
             {
@@ -267,7 +269,7 @@ namespace NCaller.Core
 
                     //父节点
                     script.AppendLine($"case {node.PointCode}:");
-                    script.AppendLine($"switch(*(long*)(c+{4 * layer})){{");
+                    script.AppendLine($"switch(*({PointBTFindTree<BuilderModel>.OfferType}*)(c+{PointBTFindTree<BuilderModel>.OfferSet * layer})){{");
 
                 }
 
@@ -292,9 +294,9 @@ namespace NCaller.Core
 
             StringBuilder script = new StringBuilder();
             script.AppendLine("public unsafe override void Set(object value){");
-            script.AppendLine(@"fixed (char* c = _name)
-            {
-                switch(*(long*)(c)){");
+            script.AppendLine($@"fixed (char* c = _name)
+            {{
+                switch(*({PointBTFindTree<BuilderModel>.OfferType}*)(c)){{"); ;
 
             Foreach(BuildTree, (node, layer) =>
             {
@@ -314,7 +316,7 @@ namespace NCaller.Core
 
                     //父节点
                     script.AppendLine($"case {node.PointCode}:");
-                    script.AppendLine($"switch(*(long*)(c+{4 * layer})){{");
+                    script.AppendLine($"switch(*({PointBTFindTree<BuilderModel>.OfferType}*)(c+{PointBTFindTree<BuilderModel>.OfferSet * layer})){{");
 
                 }
 
