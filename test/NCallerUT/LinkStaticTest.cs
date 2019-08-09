@@ -76,6 +76,10 @@ namespace HelloWorld
             FakeStaticTestModel1.Temp = DateTime.Now;
             instance["Temp"].Set(FakeStaticTestModel1.Temp);
             Assert.Equal(FakeStaticTestModel1.Temp, instance["Temp"].Get<DateTime>());
+            FakeStaticTestModel1.Money123 = 123321;
+            Assert.Equal(123321, instance.Get<float>("Money123"));
+            FakeStaticTestModel1.AgeAge13 = 123321;
+            Assert.Equal(123321, instance.Get<int>("AgeAge13"));
 
         }
     }

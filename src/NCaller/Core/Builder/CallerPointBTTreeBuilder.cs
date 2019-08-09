@@ -31,22 +31,24 @@ namespace NCaller.Core
 
         public void Foreach(PointBTFindTree<BuilderModel> node, Action<PointBTFindTree<BuilderModel>, int> nodeAction, Action endAction, int layer = 0)
         {
-            if (node.PointCode != 0)
+            if (layer > 0)
             {
                 nodeAction(node, layer);
             }
+
 
             if (node.Nodes != default)
             {
                 foreach (var item in node.Nodes)
                 {
-
+                   
                     Foreach(item, nodeAction, endAction, layer + 1);
 
                 }
             }
             
-            if (node.PointCode != 0 && !node.IsEnd)
+
+            if (node.PointCode > 0 && !node.IsEnd)
             {
                 endAction();
             }
@@ -64,32 +66,31 @@ namespace NCaller.Core
             {
                 switch(*(long*)(c)){");
 
-            Foreach(BuildTree, (node, layer) =>
-            {
-
-
-                if (node.IsEnd)
+                Foreach(BuildTree, (node, layer) =>
                 {
 
-                    //根节点
                     script.AppendLine($"case {node.PointCode}:");
-                    script.AppendLine($"   return {GetCallerExpression(node.Value)}.LinkCaller();");
+                    if (node.IsEnd)
+                    {
 
-                }
-                else if (node.Nodes != default)
+                        //根节点
+                        script.AppendLine($"   return {GetCallerExpression(node.Value)}.LinkCaller();");
+
+                    }
+                    else if (node.Nodes != default)
+                    {
+
+                        //父节点
+                        script.AppendLine($"switch(*(long*)(c+{4 * layer})){{");
+
+                    }
+
+                }, () =>
                 {
+                    script.AppendLine("}break;");
 
-                    //父节点
-                    script.AppendLine($"switch(*(long*)(c+{4 * layer})){{");
 
-                }
-
-            }, () =>
-            {
-
-                script.AppendLine("}");
-
-            });
+                });
 
             script.Append("}}return default;}");
 
@@ -125,6 +126,7 @@ namespace NCaller.Core
                 {
 
                     //父节点
+                    script.AppendLine($"case {node.PointCode}:");
                     script.AppendLine($"switch(*(long*)(c+{4 * layer})){{");
 
                 }
@@ -132,7 +134,7 @@ namespace NCaller.Core
             }, () =>
             {
 
-                script.AppendLine("}");
+                script.AppendLine("}break;");
 
             });
 
@@ -171,6 +173,7 @@ namespace NCaller.Core
                 {
 
                     //父节点
+                    script.AppendLine($"case {node.PointCode}:");
                     script.AppendLine($"switch(*(long*)(c+{4 * layer})){{");
 
                 }
@@ -178,7 +181,7 @@ namespace NCaller.Core
             }, () =>
             {
 
-                script.AppendLine("}");
+                script.AppendLine("}break;");
 
             });
 
@@ -196,7 +199,7 @@ namespace NCaller.Core
 
             StringBuilder script = new StringBuilder();
             script.AppendLine("public unsafe override T Get<T>(){");
-            script.AppendLine(@"fixed (char* c = _name))
+            script.AppendLine(@"fixed (char* c = _name)
             {
                 switch(*(long*)(c)){");
 
@@ -216,6 +219,7 @@ namespace NCaller.Core
                 {
 
                     //父节点
+                    script.AppendLine($"case {node.PointCode}:");
                     script.AppendLine($"switch(*(long*)(c+{4 * layer})){{");
 
                 }
@@ -223,7 +227,7 @@ namespace NCaller.Core
             }, () =>
             {
 
-                script.AppendLine("}");
+                script.AppendLine("}break;");
 
             });
 
@@ -262,6 +266,7 @@ namespace NCaller.Core
                 {
 
                     //父节点
+                    script.AppendLine($"case {node.PointCode}:");
                     script.AppendLine($"switch(*(long*)(c+{4 * layer})){{");
 
                 }
@@ -269,7 +274,7 @@ namespace NCaller.Core
             }, () =>
             {
 
-                script.AppendLine("}");
+                script.AppendLine("}break;");
 
             });
 
@@ -308,6 +313,7 @@ namespace NCaller.Core
                 {
 
                     //父节点
+                    script.AppendLine($"case {node.PointCode}:");
                     script.AppendLine($"switch(*(long*)(c+{4 * layer})){{");
 
                 }
@@ -315,7 +321,7 @@ namespace NCaller.Core
             }, () =>
             {
 
-                script.AppendLine("}");
+                script.AppendLine("}break;");
 
             });
 
