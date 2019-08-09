@@ -21,7 +21,7 @@ namespace Core22
 
 
                 stopwatch.Restart();
-                for (int i = 0; i < 400000; i++)
+                for (int i = 0; i < 40000; i++)
                 {
                     var tEntity = new TestB();
                     if (tEntity.A2ge712 == "111")
@@ -37,7 +37,7 @@ namespace Core22
 
                 var entity = LinkOperator.Create(typeof(TestB));
                 stopwatch.Restart();
-                for (int i = 0; i < 400000; i++)
+                for (int i = 0; i < 40000; i++)
                 {
                     entity.New();
                     if (entity.Get<string>("A2ge712") == "111")
@@ -49,9 +49,19 @@ namespace Core22
                 stopwatch.Stop();
                 Console.WriteLine("NCaller SimpleCaller:\t" + stopwatch.Elapsed);
 
+
+                stopwatch.Restart();
+                for (int i = 0; i < 40000; i++)
+                {
+                    RunDynamic(new TestB());
+                }
+                stopwatch.Stop();
+                Console.WriteLine("Dynamic :\t\t" + stopwatch.Elapsed);
+
+
                 var dict = DictOperator.Create(typeof(TestB));
                 stopwatch.Restart();
-                for (int i = 0; i < 400000; i++)
+                for (int i = 0; i < 40000; i++)
                 {
                     dict.New();
                     if ((string)(dict["A2ge712"]) == "111")
@@ -64,7 +74,7 @@ namespace Core22
                 Console.WriteLine("NCaller DictCaller:\t" + stopwatch.Elapsed);
 
                 stopwatch.Restart();
-                for (int i = 0; i < 400000; i++)
+                for (int i = 0; i < 40000; i++)
                 {
                     RunDynamic(new TestB());
                 }
@@ -73,7 +83,7 @@ namespace Core22
 
 
                 stopwatch.Restart();
-                for (int i = 0; i < 400000; i++)
+                for (int i = 0; i < 40000; i++)
                 {
                     var tEntity = (new TestB()).LinkCaller();
                     if (tEntity.Get<string>("A2ge712") == "111")
@@ -88,7 +98,7 @@ namespace Core22
 
                 //entity = DynamicCaller.Create(typeof(TestB));
                 //stopwatch.Restart();
-                //for (int i = 0; i < 400000; i++)
+                //for (int i = 0; i < 40000; i++)
                 //{
                 //    entity.New();
                 //    if (entity.Get<DateTime>("Time") != TempTime)
@@ -101,7 +111,7 @@ namespace Core22
                 //Console.WriteLine("NCaller SimpleCaller:\t" + stopwatch.Elapsed);
 
                 //stopwatch.Restart();
-                //for (int i = 0; i < 400000; i++)
+                //for (int i = 0; i < 40000; i++)
                 //{
                 //    RunDynamicTime(new TestB());
                 //}
@@ -110,7 +120,7 @@ namespace Core22
 
                 //entity = DynamicCaller.Create(typeof(TestB));
                 //stopwatch.Restart();
-                //for (int i = 0; i < 400000; i++)
+                //for (int i = 0; i < 40000; i++)
                 //{
                 //    entity.New();
                 //    if (entity.Get<DateTime>("Time") != TempTime)
