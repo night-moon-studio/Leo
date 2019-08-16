@@ -39,7 +39,7 @@
 ### 分支介绍： 
 
  - BTFindTree分支： 此分支为 HASH2-3查找树的实现分支。
- - PointBTFindTree分支：此分支为 FUTURE* 优化思路的 指针2-3查找树分支。
+ - PointBTFindTree分支：此分支为 小僧 优化思路的 指针2-3查找树分支。
 
 <br/>    
 
