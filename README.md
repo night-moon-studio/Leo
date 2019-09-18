@@ -128,6 +128,9 @@ Console.WriteLine(handler.Get<DateTime>("Time"));             // Get Operator
 <br/>
 <br/>  
 
+### 开发计划
+
+后续将统一采用指针查找树方案，并添加模糊构建支持。
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller?ref=badge_large) 
