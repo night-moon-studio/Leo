@@ -26,6 +26,6 @@ install:
 
 
 script:
- - dotnet restore
- - dotnet build -c Release
- - dotnet test
+ - export PATH="$PATH:$HOME/.dotnet/tools"
+ - dotnet tool install --global FlubuCore.GlobalTool --version 4.2.3
+ - flubu Rebuild.Server -apiKey=$Nuget_Api_Key
