@@ -40,12 +40,12 @@ for:
   #- ps: cd c:\projects\xxx
                 
   before_build:
-  - ps: dotnet restore
+  - ps: dotnet restore NCaller.sln
   - ps: choco install opencover.portable
   - ps: choco install codecov
 
   build_script:
-  - ps: dotnet build -c Release
+  - ps: dotnet build NCaller.sln -c Release
   
 
   test_script:
