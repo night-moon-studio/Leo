@@ -64,10 +64,10 @@ for:
 
     
   before_build:
-  - sh: dotnet restore
+  - sh: dotnet restore NCaller.sln
   
   build_script:
-  - sh: dotnet build -c Release
+  - sh: dotnet build NCaller.sln -c Release
   
   test_script:
   - ps: dotnet test
