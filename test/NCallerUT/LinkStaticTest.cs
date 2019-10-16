@@ -31,7 +31,9 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            Type type = (new OopComplier()).GetClassType(text);
+            var oop = new AssemblyComplier();
+            oop.Add(text);
+            var type = oop.GetType("StaticTest1");
             //创建动态类实例代理
             var instance = LinkOperator.Create(type);
             //Get动态调用

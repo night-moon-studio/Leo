@@ -20,9 +20,9 @@ using System.Text;
  
 namespace HelloWorld
 {
-    public class Test
+    public class Test2
     {
-        public Test(){
+        public Test2(){
             Name=""111"";
         }
 
@@ -30,8 +30,11 @@ namespace HelloWorld
         public int Age{get;set;}
     }
 }";
+
             //根据脚本创建动态类
-            Type type = (new OopComplier()).GetClassType(text);
+            var oop = new AssemblyComplier();
+            oop.Add(text);
+            var type = oop.GetType("Test2");
             //创建动态类实例代理
             var instance = LinkOperator.Create(type);
             instance.New();

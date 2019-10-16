@@ -7,7 +7,7 @@ namespace NCaller
 
     public class LinkOperator
     {
-        public static LinkBase Create(Type type) => LinkBuilder.Ctor(type);
+        public static LinkBase Create(Type type) => PrecisionLinkBuilder.Ctor(type);
     }
 
 
@@ -16,7 +16,7 @@ namespace NCaller
     public class LinkOperator<T>
     {
         public readonly static Func<LinkBase> Create;
-        static LinkOperator() => Create = LinkBuilder.InitType(typeof(T));
+        static LinkOperator() => Create = LinkBuilder.InitType(typeof(T), Core.Model.FindTreeType.Precision);
     }
 
 }
