@@ -93,31 +93,28 @@ namespace NCaller.Builder
                     break;
             }
 
-            getLinkBaseBody = getLinkBaseBody.Replace("return default;", "");
+
             body.AppendLine("public unsafe override LinkBase Get(string name){");
             body.AppendLine(getLinkBaseBody);
             body.Append("return default;}");
 
 
-            setObjectBody = setObjectBody.Replace("return default;", "");
+
             body.AppendLine("public unsafe override void Set(string name,object value){");
             body.AppendLine(setObjectBody);
             body.Append('}');
 
 
-            getStrongTypeBody = getStrongTypeBody.Replace("return default;", "");
             body.AppendLine("public unsafe override T Get<T>(string name){");
             body.AppendLine(getStrongTypeBody);
             body.Append("return default;}");
 
 
-            getIndexBody = getIndexBody.Replace("return default;", "");
             body.AppendLine("public unsafe override T Get<T>(){");
             body.AppendLine(getIndexBody);
             body.Append("return default;}");
 
 
-            setIndexBody = setIndexBody.Replace("return default;", "");
             body.AppendLine("public unsafe override void Set(object value){");
             body.AppendLine(setIndexBody);
             body.Append("}");

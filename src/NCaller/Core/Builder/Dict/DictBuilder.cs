@@ -81,19 +81,17 @@ namespace NCaller.Builder
                     break;
             }
 
-            setObjectBody = setObjectBody.Replace("return default;","");
+
             body.AppendLine("public unsafe override void Set(string name,object value){");
             body.AppendLine(setObjectBody);
             body.Append('}');
 
 
-            getStrongTypeBody = getStrongTypeBody.Replace("return default;", "");
             body.AppendLine("public unsafe override T Get<T>(string name){");
             body.AppendLine(getStrongTypeBody);
             body.Append("return default;}");
 
 
-            getObjectBody = getObjectBody.Replace("return default;", "");
             body.AppendLine("public unsafe override object GetObject(string name){");
             body.AppendLine(getObjectBody);
             body.Append("return default;}");
