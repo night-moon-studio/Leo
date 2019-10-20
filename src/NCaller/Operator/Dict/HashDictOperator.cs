@@ -1,4 +1,7 @@
-﻿using NCaller.Builder;
+﻿using Natasha;
+using Natasha.Operator;
+using NCaller.Builder;
+using NCaller.Constraint;
 using System;
 
 namespace NCaller.Operator
@@ -6,7 +9,20 @@ namespace NCaller.Operator
 
     public class HashDictOperator
     {
-        public static DictBase Create(Type type) => HashDictBuilder.Ctor(type);
+
+        public static Func<string, DictBase> CreateFromString;
+        static HashDictOperator()
+        {
+
+            CreateFromString = HashDictBuilder.Ctor(typeof(NullClass));
+
+        }
+
+        public static DictBase CreateFromType(Type type)
+        {
+            return CreateFromString(type.GetDevelopName());
+        }
+
     }
 
 
@@ -17,7 +33,11 @@ namespace NCaller.Operator
 
         public readonly static Func<DictBase> Create;
 
-        static HashDictOperator() => Create = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Hash);
+        static HashDictOperator()
+        {
+            Type dynamicType = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Hash);
+            Create = (Func<DictBase>)CtorOperator.NewDelegate(dynamicType);
+        }
 
     }
 

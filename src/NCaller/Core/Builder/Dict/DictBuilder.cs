@@ -14,7 +14,7 @@ namespace NCaller.Builder
     public class DictBuilder
     {
 
-        public static Func<DictBase> InitType(Type type, FindTreeType kind = FindTreeType.Hash)
+        public static Type InitType(Type type, FindTreeType kind = FindTreeType.Hash)
         {
 
             bool isStatic = (type.IsSealed && type.IsAbstract);
@@ -108,14 +108,14 @@ namespace NCaller.Builder
                     .Using(type)
                     .Using("System")
                     .Using("NCaller")
-                    .OopName("NatashaDynamicDict" + type.GetAvailableName())
+                    .OopName("NDD" + type.GetAvailableName() + kind.ToString())
                     .Namespace("NCallerDynamic")
                     .Inheritance(callType)
                     .OopBody(body)
                     .GetType();
 
 
-            return (Func<DictBase>)CtorOperator.NewDelegate(tempClass);
+            return tempClass;
 
         }
 

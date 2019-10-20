@@ -13,7 +13,7 @@ namespace NCaller.Builder
     public class LinkBuilder
     {
 
-        public static Func<LinkBase> InitType(Type type, FindTreeType kind = FindTreeType.Hash)
+        public static Type InitType(Type type, FindTreeType kind = FindTreeType.Hash)
         {
 
             bool isStatic = (type.IsSealed && type.IsAbstract);
@@ -60,11 +60,13 @@ namespace NCaller.Builder
                 }
             }
 
+
             string setObjectBody = default;
             string getStrongTypeBody = default;
             string setIndexBody = default;
             string getIndexBody = default;
             string getLinkBaseBody = default;
+
 
             switch (kind)
             {
@@ -133,13 +135,13 @@ namespace NCaller.Builder
                     .Using("System")
                     .Using("NCaller")
                     .Inheritance(callType)
-                    .OopName("NatashaDynamicLink" + type.GetAvailableName())
+                    .OopName("NDL" + type.GetAvailableName()+ kind.ToString())
                     .Namespace("NCallerDynamic")
                     .OopBody(body)
                     .GetType();
 
 
-            return (Func<LinkBase>)CtorOperator.NewDelegate(tempClass);
+            return tempClass;
 
         }
 

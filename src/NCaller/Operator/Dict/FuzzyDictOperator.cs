@@ -1,4 +1,7 @@
-﻿using NCaller.Builder;
+﻿using Natasha;
+using Natasha.Operator;
+using NCaller.Builder;
+using NCaller.Constraint;
 using System;
 
 namespace NCaller.Operator
@@ -7,7 +10,20 @@ namespace NCaller.Operator
 
     public class FuzzyDictOperator
     {
-        public static DictBase Create(Type type) => FuzzyDictBuilder.Ctor(type);
+
+        public static Func<string, DictBase> CreateFromString;
+        static FuzzyDictOperator()
+        {
+
+            CreateFromString = FuzzyDictBuilder.Ctor(typeof(NullClass));
+
+        }
+
+        public static DictBase CreateFromType(Type type)
+        {
+            return CreateFromString(type.GetDevelopName());
+        }
+
     }
 
 
@@ -17,8 +33,11 @@ namespace NCaller.Operator
     {
 
         public readonly static Func<DictBase> Create;
-
-        static FuzzyDictOperator() => Create = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Fuzzy);
+        static FuzzyDictOperator()
+        {
+            Type dynamicType = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Fuzzy);
+            Create = (Func<DictBase>)CtorOperator.NewDelegate(dynamicType);
+        }
 
     }
 

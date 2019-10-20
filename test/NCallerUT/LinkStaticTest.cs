@@ -34,8 +34,9 @@ namespace HelloWorld
             var oop = new AssemblyComplier();
             oop.Add(text);
             var type = oop.GetType("StaticTest1");
+            CallerManagement.AddType(type);
             //创建动态类实例代理
-            var instance = LinkOperator.Create(type);
+            var instance = LinkOperator.CreateFromType(type);
             //Get动态调用
             Assert.Equal("111", instance["Name"].Get<string>());
             //调用动态委托赋值
@@ -51,7 +52,8 @@ namespace HelloWorld
         public void TestCall2()
         {
             //创建动态类实例代理
-            var instance = LinkOperator.Create(typeof(StaticTestModel1));
+            CallerManagement.AddType(typeof(StaticTestModel1));
+            var instance = LinkOperator.CreateFromType(typeof(StaticTestModel1));
             StaticTestModel1.Name = "111";
             Assert.Equal("111", instance["Name"].Get<string>());
             instance["Name"].Set("222");
@@ -68,7 +70,8 @@ namespace HelloWorld
         public void TestCall3()
         {
             //创建动态类实例代理
-            var instance = LinkOperator.Create(typeof(FakeStaticTestModel1));
+            CallerManagement.AddType(typeof(FakeStaticTestModel1));
+            var instance = LinkOperator.CreateFromType(typeof(FakeStaticTestModel1));
             FakeStaticTestModel1.Name = "111";
             Assert.Equal("111", instance["Name"].Get<string>());
             instance["Name"].Set("222");

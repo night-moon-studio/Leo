@@ -33,11 +33,13 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
+            
             var oop = new AssemblyComplier();
             oop.Add(text);
             Type type = oop.GetType("Test");
+            CallerManagement.AddType(type);
             //创建动态类实例代理
-            var instance = DictOperator.Create(type);
+            var instance = DictOperator.CreateFromType(type);
             instance.New();
             //Get动态调用
             Assert.Equal("111", (string)instance["Name"]);
