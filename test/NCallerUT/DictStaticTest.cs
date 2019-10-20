@@ -31,9 +31,12 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-            Type type =(new OopComplier()).GetClassType(text);
+            var oop = new AssemblyComplier();
+            oop.Add(text);
+            var type = oop.GetType("StaticTest2");
+            CallerManagement.AddType(type);
             //创建动态类实例代理
-            var instance = DictOperator.Create(type);
+            var instance = DictOperator.CreateFromType(type);
             //Get动态调用
             Assert.Equal("111", (string)instance["Name"]);
             //调用动态委托赋值
@@ -49,7 +52,8 @@ namespace HelloWorld
         public void TestCall2()
         {
             //创建动态类实例代理
-            var instance = DictOperator.Create(typeof(StaticTestModel2));
+            CallerManagement.AddType(typeof(StaticTestModel2));
+            var instance = DictOperator.CreateFromType(typeof(StaticTestModel2));
             StaticTestModel2.Name = "111";
             Assert.Equal("111", (string)instance["Name"]);
             instance["Name"] = "222";
@@ -66,7 +70,8 @@ namespace HelloWorld
         public void TestCall3()
         {
             //创建动态类实例代理
-            var instance = DictOperator.Create(typeof(FakeStaticTestModel2));
+            CallerManagement.AddType(typeof(FakeStaticTestModel2));
+            var instance = DictOperator.CreateFromType(typeof(FakeStaticTestModel2));
             FakeStaticTestModel2.Name = "111";
             Assert.Equal("111", (string)instance["Name"]);
             instance["Name"] = "222";

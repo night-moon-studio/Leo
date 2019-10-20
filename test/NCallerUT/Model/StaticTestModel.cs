@@ -48,11 +48,20 @@ namespace NCallerUT.Model
     public class FakeStaticTestModel1
     {
         public static int Age;
+        public static int Age1;
+        public static int Age2;
+        public static int AgeAge1;
+        public static int AgeAge12;
+        public static int AgeAge13;
         public static string Name { get; set; }
 
         public static DateTime Temp;
 
         public static float Money;
+        public static float Money11;
+        public static float Money12;
+        public static float Money123;
+        public static float Money124;
     }
 
 

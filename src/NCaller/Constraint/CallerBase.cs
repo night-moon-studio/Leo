@@ -18,7 +18,7 @@
         /// <typeparam name="T">字段/属性的类型</typeparam>
         /// <param name="name">字段/属性名</param>
         /// <returns></returns>
-        public abstract T Get<T>(string name);
+        public unsafe abstract T Get<T>(string name);
 
 
 
@@ -28,7 +28,7 @@
         /// </summary>
         /// <param name="name">字段/属性名</param>
         /// <param name="value">字段/属性新值</param>
-        public abstract void Set(string name, object value);
+        public unsafe abstract void Set(string name, object value);
 
     }
 

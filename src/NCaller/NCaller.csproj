@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
     <Product>NCaller</Product>
     <Description>此项目为Natasha的衍生项目，通过运行时自动构建高性能操作代理类，为普通类，静态类，动态类，动态类中的动态类，动态生成的静态类等提供了良好的、完备的、高性能的操作，如果反射、dynamic都不能满足高端的需求，可使用本类库，它将是一个不错的选择。</Description>
     <Copyright>.NET Core Community and Contributors</Copyright>
@@ -18,8 +18,18 @@
     <Authors>NMSAzulX</Authors>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha" Version="1.3.0" />
+    <PackageReference Include="DotNetCore.BTFindTree" Version="0.4.1" />
+    <PackageReference Include="DotNetCore.Natasha" Version="2.0.5" />
+    <PackageReference Include="System.Memory" Version="4.5.3" />
   </ItemGroup>
 
 </Project>

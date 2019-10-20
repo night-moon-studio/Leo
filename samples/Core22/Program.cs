@@ -1,10 +1,6 @@
 ﻿using NCaller;
 using System;
 using System.Diagnostics;
-using NCaller.ExtensionAPI.Array;
-using System.Collections.Generic;
-using System.Linq;
-using NCaller.Core.Model;
 
 namespace Core22
 {
@@ -35,7 +31,7 @@ namespace Core22
 
 
 
-                var entity = LinkOperator.Create(typeof(TestB));
+                var entity = LinkOperator.CreateFromType(typeof(TestB));
                 stopwatch.Restart();
                 for (int i = 0; i < 40000; i++)
                 {
@@ -49,17 +45,7 @@ namespace Core22
                 stopwatch.Stop();
                 Console.WriteLine("NCaller SimpleCaller:\t" + stopwatch.Elapsed);
 
-
-                stopwatch.Restart();
-                for (int i = 0; i < 40000; i++)
-                {
-                    RunDynamic(new TestB());
-                }
-                stopwatch.Stop();
-                Console.WriteLine("Dynamic :\t\t" + stopwatch.Elapsed);
-
-
-                var dict = DictOperator.Create(typeof(TestB));
+                var dict = DictOperator.CreateFromType(typeof(TestB));
                 stopwatch.Restart();
                 for (int i = 0; i < 40000; i++)
                 {
