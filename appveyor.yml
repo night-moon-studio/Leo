@@ -40,16 +40,16 @@ for:
   #- ps: cd c:\projects\xxx
                 
   before_build:
-  - ps: dotnet restore
+  - ps: dotnet restore NCaller.sln
   - ps: choco install opencover.portable
   - ps: choco install codecov
 
   build_script:
-  - ps: dotnet build -c Release
+  - ps: dotnet build NCaller.sln -c Release
   
 
   test_script:
-  - ps: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:test -output:".\coverage.xml" -oldstyle
+  - ps: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:test NCaller.sln -output:".\coverage.xml" -oldstyle
   - ps: codecov -f "coverage.xml" -t %COVERAGE_NCALLER_KEY%
 
 -
@@ -64,10 +64,10 @@ for:
 
     
   before_build:
-  - sh: dotnet restore
+  - sh: dotnet restore NCaller.sln
   
   build_script:
-  - sh: dotnet build -c Release
+  - sh: dotnet build NCaller.sln -c Release
   
   test_script:
   - ps: dotnet test
