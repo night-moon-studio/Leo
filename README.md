@@ -75,6 +75,64 @@
 ```  
 <br/>  
 
+#### 算法引用
+
+https://github.com/dotnet-lab/BTFindTree
+
+
+#### 选用操作类：
+
+```C#
+
+//DictOperator : 字典风格的操作，默认使用的是精确最小权方法构建属性/字段索引。
+CallerManagement.AddType(typeof(A));
+var handler = DictOperator.CreateFromType(typeof(A));
+var handler = DictOperator.CreateFromString("A");
+var handler = DictOperator<A>.Create();
+
+
+ 
+//HashDictOperator : 字典风格的操作，默认使用的哈希二分查找方法构建属性/字段索引。
+CallerManagement.AddType(typeof(A));
+var handler = HashDictOperator.CreateFromType(typeof(A));
+var handler = HashDictOperator.CreateFromString("A");
+var handler = HashDictOperator<A>.Create();
+
+
+
+//FuzzyDictOperator : 字典风格的操作，默认使用的模糊指针查找方法构建属性/字段索引。
+CallerManagement.AddType(typeof(A));
+var handler = FuzzyDictOperator.CreateFromType(typeof(A));
+var handler = FuzzyDictOperator.CreateFromString("A");
+var handler = FuzzyDictOperator<A>.Create();
+
+
+
+//LinkOperator : 链式风格的操作，默认使用的是精确最小权方法构建属性/字段索引。
+CallerManagement.AddType(typeof(A));
+var handler = LinkOperator.CreateFromType(typeof(A));
+var handler = LinkOperator.CreateFromString("A");
+var handler = LinkOperator<A>.Create();
+
+
+
+ 
+//HashLinkOperator : 链式风格的操作，默认使用的哈希二分查找方法构建属性/字段索引。
+CallerManagement.AddType(typeof(A));
+var handler = HashLinkOperator.CreateFromType(typeof(A));
+var handler = HashLinkOperator.CreateFromString("A");
+var handler = HashLinkOperator<A>.Create();
+
+
+
+//FuzzyLinkOperator : 链式风格的操作，默认使用的模糊指针查找方法构建属性/字段索引。
+CallerManagement.AddType(typeof(A));
+var handler = FuzzyLinkOperator.CreateFromType(typeof(A));
+var handler = FuzzyLinkOperator.CreateFromString("A");
+var handler = FuzzyLinkOperator<A>.Create();
+
+```
+
 #### 动态调用普通/静态类:  
 
 ```C#
@@ -97,8 +155,8 @@ public class B
 
 
 //Link调用
-
-var handler = LinkOperator.Create(typeof(A));
+CallerManagement.AddType(typeof(A));
+var handler = LinkOperator.CreateFromType(typeof(A));
 
 handler.New();
 
@@ -113,8 +171,8 @@ handler.Get<B>("Outter").Name = "NewName";                        // Link Operat
 
 
 //字典调用
-var handler = DictOperator.Create(typeof(A));
-
+CallerManagement.AddType(typeof(A));
+var handler = DictOperator.CreateFromType(typeof(A));
 handler.New();
 
 handler["Age"]= 100;                                          // Set Operator
@@ -128,9 +186,7 @@ Console.WriteLine(handler.Get<DateTime>("Time"));             // Get Operator
 <br/>
 <br/>  
 
-### 开发计划
 
-后续将统一采用指针查找树方案，并添加模糊构建支持。
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller?ref=badge_large) 
