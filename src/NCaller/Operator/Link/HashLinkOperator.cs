@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NCaller.Operator
+namespace NCaller
 {
 
     public class HashLinkOperator

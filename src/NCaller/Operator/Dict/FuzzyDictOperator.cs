@@ -4,7 +4,7 @@ using NCaller.Builder;
 using NCaller.Constraint;
 using System;
 
-namespace NCaller.Operator
+namespace NCaller
 {
 
 

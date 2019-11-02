@@ -135,7 +135,6 @@ namespace NCaller.Builder
                     .Using("System")
                     .Using("NCaller")
                     .Inheritance(callType)
-                    .OopName("NDL" + type.GetAvailableName()+ kind.ToString())
                     .Namespace("NCallerDynamic")
                     .OopBody(body)
                     .GetType();
