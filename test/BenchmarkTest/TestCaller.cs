@@ -3,6 +3,7 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Mathematics;
 using BenchmarkDotNet.Order;
 using BenchmarkTest.Model;
+using Natasha;
 using NCaller;
 using System;
 using System.Collections.Generic;
@@ -28,10 +29,12 @@ namespace BenchmarkTest
 
         public dynamic Dynamic;
         public CallModel Model;
-
+        public CallModel DictModel;
+        public Dictionary<string, Action<CallModel, object>> Dict;
         public TestCaller()
         {
             string temp = "Hello";
+            Dict = new Dictionary<string, Action<CallModel, object>>();
             Type type = typeof(CallModel);
             CallerManagement.AddType(type);
             DictHandler = DictOperator.CreateFromType(type);
@@ -42,12 +45,14 @@ namespace BenchmarkTest
             HashLinkHandler = HashLinkOperator.CreateFromType(type);
             Model = new CallModel();
             Dynamic = new CallModel();
+            DictModel = new CallModel();
             DictHandler.New();
             FuzzyDictHandler.New();
             HashDictHandler.New();
             LinkHandler.New();
             FuzzyLinkHandler.New();
             HashLinkHandler.New();
+            Dict["Name"] = NAction<CallModel, object>.Delegate("arg1.Name=(string)arg2;");
         }
 
 
@@ -61,21 +66,26 @@ namespace BenchmarkTest
         {
             Dynamic.Name = "Hello";
         }
-        [BenchmarkCategory("Write", "String"), Benchmark(Description = "Dict With SetMethod")]
-        public void DictSetMethodStringTest()
+        [BenchmarkCategory("Write", "String"), Benchmark(Description = "Dictionary")]
+        public void DictionarySetStringTest()
         {
-            DictHandler.Set("Name", "Hello");
+            Dict["Name"](DictModel, "Hello");
         }
-        [BenchmarkCategory("Write", "String"), Benchmark(Description = "HashDict With SetMethod")]
-        public void HashDictSetMethodStringTest()
-        {
-            HashDictHandler.Set("Name", "Hello");
-        }
-        [BenchmarkCategory("Write", "String"), Benchmark(Description = "FuzzyDict With SetMethod")]
-        public void FuzzyDictSetMethodStringTest()
-        {
-            FuzzyDictHandler.Set("Name", "Hello");
-        }
+        //[BenchmarkCategory("Write", "String"), Benchmark(Description = "Dict With SetMethod")]
+        //public void DictSetMethodStringTest()
+        //{
+        //    DictHandler.Set("Name", "Hello");
+        //}
+        //[BenchmarkCategory("Write", "String"), Benchmark(Description = "HashDict With SetMethod")]
+        //public void HashDictSetMethodStringTest()
+        //{
+        //    HashDictHandler.Set("Name", "Hello");
+        //}
+        //[BenchmarkCategory("Write", "String"), Benchmark(Description = "FuzzyDict With SetMethod")]
+        //public void FuzzyDictSetMethodStringTest()
+        //{
+        //    FuzzyDictHandler.Set("Name", "Hello");
+        //}
         [BenchmarkCategory("Write", "String"), Benchmark(Description = "Dict")]
         public void DictSetStringTest()
         {
