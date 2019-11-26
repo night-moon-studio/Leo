@@ -15,6 +15,7 @@ namespace NCaller
         static LinkOperator()
         {
 
+            CreateFromString = item => default;
             CreateFromString = PrecisionLinkBuilder.Ctor(typeof(NullClass));
 
         }

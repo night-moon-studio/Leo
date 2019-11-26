@@ -14,6 +14,7 @@ namespace NCaller
         static HashDictOperator()
         {
 
+            CreateFromString = item => default;
             CreateFromString = HashDictBuilder.Ctor(typeof(NullClass));
 
         }

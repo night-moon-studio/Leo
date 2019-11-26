@@ -16,6 +16,7 @@ namespace NCaller
         static HashLinkOperator()
         {
 
+            CreateFromString = item => default;
             CreateFromString = HashLinkBuilder.Ctor(typeof(NullClass));
 
         }

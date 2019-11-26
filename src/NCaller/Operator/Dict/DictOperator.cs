@@ -15,6 +15,7 @@ namespace NCaller
         static DictOperator()
         {
 
+            CreateFromString = item => default;
             CreateFromString = PrecisionDictBuilder.Ctor(typeof(NullClass));
 
         }

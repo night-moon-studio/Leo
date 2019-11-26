@@ -14,6 +14,7 @@ namespace NCaller
         static FuzzyLinkOperator() 
         {
 
+            CreateFromString = item => default;
             CreateFromString = FuzzyLinkBuilder.Ctor(typeof(NullClass));
 
         }

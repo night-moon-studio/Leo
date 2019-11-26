@@ -17,12 +17,14 @@ namespace NCaller.Builder
             _type_cache = new ConcurrentDictionary<Type, string>();
             _str_cache = new ConcurrentDictionary<string, string>();
             StrTypeCache = new ConcurrentDictionary<string, Type>();
+            _hdc = new HDC<Type, string, DictBase>();
+
         }
 
         private static readonly ConcurrentDictionary<Type, string> _type_cache;
         private static readonly ConcurrentDictionary<string, string> _str_cache;
         public static readonly ConcurrentDictionary<string, Type> StrTypeCache;
-
+        private static readonly HDC<Type,string, DictBase> _hdc;
 
 
 
@@ -39,11 +41,17 @@ namespace NCaller.Builder
 
 
             //生成脚本
-            StringBuilder builder = new StringBuilder();
-            builder.Append(BTFTemplate.GetPrecisionPointBTFScript(_str_cache));
-            builder.Append($"HashDictOperator.CreateFromString = HashDictBuilder.Ctor(CallerManagement.Cache[arg]);");
-            builder.Append("return HashDictOperator.CreateFromString(arg);");
-            return NFunc<string, DictBase>.UnsafeDelegate(builder.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
+            //生成脚本
+            HDC<Type, string, DictBase> handler = default;
+            if (_hdc.BuilderInfo != null)
+            {
+                handler = _hdc | _str_cache;
+            }
+            else
+            {
+                handler = (_hdc | _str_cache | HashDictOperator.CreateFromString | HashDictBuilder.Ctor) % CallerManagement.GetTypeFunc;
+            }
+            return RFunc<string, DictBase>.UnsafeDelegate(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
 
         }
 

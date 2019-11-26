@@ -15,6 +15,7 @@ namespace NCaller
         static FuzzyDictOperator()
         {
 
+            CreateFromString = item => default;
             CreateFromString = FuzzyDictBuilder.Ctor(typeof(NullClass));
 
         }
