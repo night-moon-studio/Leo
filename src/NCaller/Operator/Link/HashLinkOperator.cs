@@ -39,7 +39,7 @@ namespace NCaller
         static HashLinkOperator()
         {
             Type dynamicType = LinkBuilder.InitType(typeof(T), Core.Model.FindTreeType.Hash);
-            Create = (Func<LinkBase>)CtorOperator.NewDelegate(dynamicType);
+            Create = (Func<LinkBase>)(CtorOperator.Default.NewDelegate(dynamicType));
         }
 
     }
