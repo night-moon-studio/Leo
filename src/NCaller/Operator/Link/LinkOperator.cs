@@ -36,7 +36,7 @@ namespace NCaller
         static LinkOperator()
         {
             Type dynamicType = LinkBuilder.InitType(typeof(T), Core.Model.FindTreeType.Precision);
-            Create = (Func<LinkBase>)CtorOperator.NewDelegate(dynamicType);
+            Create = (Func<LinkBase>)(CtorOperator.Default.NewDelegate(dynamicType));
         }
 
     }

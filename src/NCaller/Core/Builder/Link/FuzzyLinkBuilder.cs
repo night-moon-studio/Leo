@@ -43,7 +43,7 @@ namespace NCaller.Builder
             builder.Append(BTFTemplate.GetPrecisionPointBTFScript(_str_cache));
             builder.Append($"FuzzyLinkOperator.CreateFromString = FuzzyLinkBuilder.Ctor(CallerManagement.Cache[arg]);");
             builder.Append("return FuzzyLinkOperator.CreateFromString(arg);");
-            return NFunc<string, LinkBase>.UnsafeDelegate(builder.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
+            return NDomain.Random().UnsafeFunc<string, LinkBase>(builder.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
 
         }
 

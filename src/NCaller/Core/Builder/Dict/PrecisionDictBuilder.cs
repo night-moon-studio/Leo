@@ -42,7 +42,7 @@ namespace NCaller.Builder
             builder.Append(BTFTemplate.GetPrecisionPointBTFScript(_str_cache));
             builder.Append($"DictOperator.CreateFromString = PrecisionDictBuilder.Ctor(CallerManagement.Cache[arg]);");
             builder.Append("return DictOperator.CreateFromString(arg);");
-            return NFunc<string, DictBase>.UnsafeDelegate(builder.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
+            return NDomain.Random().UnsafeFunc<string, DictBase>(builder.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
 
         }
 
