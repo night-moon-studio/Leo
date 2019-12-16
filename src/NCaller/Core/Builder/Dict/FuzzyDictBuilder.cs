@@ -48,7 +48,7 @@ namespace NCaller.Builder
             {
                 handler = (_fdc | _str_cache | FuzzyDictOperator.CreateFromString | FuzzyDictBuilder.Ctor) % CallerManagement.GetTypeFunc;
             }
-            return RFunc<string, DictBase>.UnsafeDelegate(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
+            return NDomain.Default.UnsafeFunc<string, DictBase>(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
 
         }
 

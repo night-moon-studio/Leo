@@ -134,6 +134,7 @@ namespace NCaller.Builder
                     .Using(type)
                     .Using("System")
                     .Using("NCaller")
+                    .UseRandomOopName()
                     .Inheritance(callType)
                     .Namespace("NCallerDynamic")
                     .OopBody(body)

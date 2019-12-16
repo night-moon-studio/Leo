@@ -49,7 +49,7 @@ namespace NCaller.Builder
             {
                 handler = (_pdc | _str_cache | DictOperator.CreateFromString | PrecisionDictBuilder.Ctor) % CallerManagement.GetTypeFunc;
             }
-            return RFunc<string, DictBase>.UnsafeDelegate(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
+            return NDomain.Default.UnsafeFunc<string, DictBase>(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
 
         }
 

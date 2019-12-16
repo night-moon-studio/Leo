@@ -48,9 +48,9 @@ namespace NCaller.Builder
             }
             else
             {
-                handler = (_pdc | _str_cache | LinkOperator.CreateFromString | PrecisionLinkBuilder.Ctor) % CallerManagement.GetTypeFunc;
+                handler = (_pdc | _str_cache | LinkOperator.CreateFromString | Ctor) % CallerManagement.GetTypeFunc;
             }
-            return RFunc<string, LinkBase>.UnsafeDelegate(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
+            return NDomain.Default.UnsafeFunc<string, LinkBase>(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
 
         }
 

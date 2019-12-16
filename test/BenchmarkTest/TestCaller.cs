@@ -52,7 +52,7 @@ namespace BenchmarkTest
             LinkHandler.New();
             FuzzyLinkHandler.New();
             HashLinkHandler.New();
-            Dict["Name"] = NAction<CallModel, object>.Delegate("arg1.Name=(string)arg2;");
+            Dict["Name"] = NDomain.Default.Action<CallModel, object>("arg1.Name=(string)arg2;");
         }
 
 

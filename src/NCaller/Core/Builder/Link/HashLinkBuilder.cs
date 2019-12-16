@@ -50,9 +50,9 @@ namespace NCaller.Builder
             }
             else
             {
-                handler = (_hdc | _str_cache | HashLinkOperator.CreateFromString | HashLinkBuilder.Ctor) % CallerManagement.GetTypeFunc;
+                handler = (_hdc | _str_cache | HashLinkOperator.CreateFromString | Ctor) % CallerManagement.GetTypeFunc;
             }
-            return RFunc<string, LinkBase>.UnsafeDelegate(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
+            return NDomain.Default.UnsafeFunc<string, LinkBase>(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
 
         }
 
