@@ -1,0 +1,22 @@
+name: .NET Core
+
+on:
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  linux_job:      
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v1
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 2.2.108
+      - name: BuildNCaller
+        run: dotnet build --configuration Release
+      - name: TestNCaller
+        run: dotnet test
+        
+        
