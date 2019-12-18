@@ -21,7 +21,7 @@
 
 | CI Platform | Build Server |  Master Test |
 |--------- |------------- | --------|
-| Github | linux/mac/windows | [![Build status](https://img.shields.io/github/workflow/status/nmsazulx/ncaller/.NET%20Core/master)](https://github.com/night-moon-studio/NCaller/actions) |
+| Github | linux/mac/windows | [![Build status](https://img.shields.io/github/workflow/status/night-moon-studio/ncaller/.NET%20Core/master)](https://github.com/night-moon-studio/NCaller/actions) |
 
 
 <br/>    
