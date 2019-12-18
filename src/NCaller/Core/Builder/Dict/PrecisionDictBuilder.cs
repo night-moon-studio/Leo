@@ -47,7 +47,7 @@ namespace NCaller.Builder
             }
             else
             {
-                handler = (_pdc | _str_cache | DictOperator.CreateFromString | PrecisionDictBuilder.Ctor) % CallerManagement.GetTypeFunc;
+                handler = (_pdc | _str_cache | DictOperator.CreateFromString | Ctor) % CallerManagement.GetTypeFunc;
             }
             return NDomain.Default.UnsafeFunc<string, DictBase>(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
 

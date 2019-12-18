@@ -1,5 +1,4 @@
-﻿using Natasha;
-using Natasha.Operator;
+﻿using Natasha.Operator;
 using NCaller.Builder;
 using NCaller.Constraint;
 using System;

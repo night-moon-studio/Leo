@@ -1,10 +1,7 @@
-﻿using Natasha;
-using Natasha.Operator;
+﻿using Natasha.Operator;
 using NCaller.Builder;
 using NCaller.Constraint;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NCaller
 {

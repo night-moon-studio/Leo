@@ -7,8 +7,9 @@
     <Copyright>.NET Core Community and Contributors</Copyright>
     <PackageId>DotNetCore.Natasha.NCaller</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageReleaseNotes>- 兼容新版Natasha</PackageReleaseNotes>
-    <Version>1.6.1</Version>
+    <PackageReleaseNotes>- 兼容新版Natasha
+- 增加动态代理操作类</PackageReleaseNotes>
+    <Version>1.7.0</Version>
     <PackageLicenseUrl>https://github.com/night-moon-studio/NCaller/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/night-moon-studio/NCaller</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; Reflect ; Caller ;</PackageTags>
@@ -27,7 +28,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha.DynamicCache" Version="1.2.0" />
+    <PackageReference Include="DotNetCore.Natasha.DynamicCache" Version="1.2.0.1" />
     <PackageReference Include="System.Memory" Version="4.5.3" />
   </ItemGroup>
 
