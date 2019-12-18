@@ -6,30 +6,42 @@ on:
     - master
 
 jobs:
-  linux_job:      
+  linux:      
       runs-on: ubuntu-latest
       steps:
       - uses: actions/checkout@v1
-      - name: Setup .NET Core
+      - name: Setup
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.100
-      - name: Build NCaller
+      - name: Build
         run: dotnet build --configuration Release
-      - name: Test NCaller
+      - name: Test
         run: dotnet test
         
-  win_job:
+  windows:
       runs-on: windows-latest
       steps:
       - uses: actions/checkout@v1
-      - name: Setup .NET Core
+      - name: Setup
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.100
-      - name: Build NCaller
+      - name: Build
         run: dotnet build --configuration Release
-      - name: Test NCaller
+      - name: Test
         run: dotnet test
-        
+   
+  mac:
+      runs-on: macos
+      steps:
+      - uses: actions/checkout@v1
+      - name: Setup
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.100
+      - name: Build
+        run: dotnet build --configuration Release
+      - name: Test
+        run: dotnet test
         
