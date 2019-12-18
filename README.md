@@ -177,10 +177,25 @@ Console.WriteLine(handler.Get<DateTime>("Time"));             // Get Operator
 
 ((B)handler["Outter"]).Name = "NewName";                      // Link Operator
 ```
+
 <br/>
 <br/>  
 
+#### 动态代理类:
 
+```C# 
+//可以对 接口/虚方法/抽象方法 进行覆盖及实现。
+//缓存采用精确查找树实现，以自实现的类名做Key, 提高查询性能。
+ProxyOperator<ITest> builder = new ProxyOperator<ITest>();
+builder.OopName("ITestClass");
+//builder["MethodName"] = "MethodBody";
+builder["SayHello"] = "Console.WriteLine(\"Hello World!\");";
+var test = builder.CreateProxy("ITestClass");
+test.SayHello();
+```
+
+<br/>
+<br/>  
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller?ref=badge_large) 
