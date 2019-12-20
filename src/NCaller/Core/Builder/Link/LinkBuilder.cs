@@ -21,7 +21,6 @@ namespace NCaller.Builder
 
 
             StringBuilder body = new StringBuilder();
-            OopOperator builder = new OopOperator();
 
 
             var cache = NBuildInfo.GetInfos(type);
@@ -130,7 +129,7 @@ namespace NCaller.Builder
 
 
 
-            Type tempClass = builder.Public
+            Type tempClass = NClass.Create(type.GetDomain())
                     .Using(type)
                     .Using("System")
                     .Using("NCaller")

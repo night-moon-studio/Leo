@@ -108,7 +108,7 @@ namespace NCaller.Core.Builder
 
 
             //返回委托
-            return CtorOperator.Create().NewDelegate(TargetType);
+            return CtorOperator.Create(TargetType.GetDomain()).NewDelegate(TargetType);
         }
 
     }

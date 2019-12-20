@@ -53,7 +53,7 @@ namespace NCaller.Builder
             {
                 handler = (_fdc | _str_cache | FuzzyLinkOperator.CreateFromString | FuzzyLinkBuilder.Ctor) % CallerManagement.GetTypeFunc;
             }
-            return NDomain.Default.UnsafeFunc<string, LinkBase>(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
+            return NDomain.Create(type.GetDomain()).UnsafeFunc<string, LinkBase>(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
 
         }
 

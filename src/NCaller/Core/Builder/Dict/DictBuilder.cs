@@ -102,8 +102,7 @@ namespace NCaller.Builder
                 body.Append($@"public override void New(){{ Instance = new {type.GetDevelopName()}();}}");
             }
 
-
-            Type tempClass = builder.Public
+            Type tempClass = NClass.Create(type.GetDomain())
                     .Using(type)
                     .Using("System")
                     .Using("NCaller")
