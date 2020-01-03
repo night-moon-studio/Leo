@@ -124,7 +124,7 @@ namespace NCaller
 
 
                 //使用伪造函数模板
-                var template = FakeMethodOperator.Create();
+                var template = FakeMethodOperator.Default();
 
                 if (!_oop_type.IsInterface)
                 {
@@ -168,7 +168,7 @@ namespace NCaller
 
 
             //返回委托
-            return CtorOperator.Create().NewDelegate(TargetType);
+            return CtorOperator.Default().NewDelegate(TargetType);
         }
 
     }

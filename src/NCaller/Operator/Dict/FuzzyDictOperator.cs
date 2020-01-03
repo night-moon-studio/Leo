@@ -36,7 +36,7 @@ namespace NCaller
         static FuzzyDictOperator()
         {
             Type dynamicType = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Fuzzy);
-            Create = (Func<DictBase>)(CtorOperator.Default.NewDelegate(dynamicType));
+            Create = (Func<DictBase>)(CtorOperator.Default().NewDelegate(dynamicType));
         }
 
     }

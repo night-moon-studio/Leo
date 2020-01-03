@@ -36,7 +36,7 @@ namespace NCaller
         static HashDictOperator()
         {
             Type dynamicType = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Hash);
-            Create = (Func<DictBase>)(CtorOperator.Default.NewDelegate(dynamicType));
+            Create = (Func<DictBase>)(CtorOperator.Default().NewDelegate(dynamicType));
         }
 
     }

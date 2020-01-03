@@ -64,7 +64,7 @@ namespace NCaller.Core.Builder
 
 
                 //使用伪造函数模板
-                var template = FakeMethodOperator.Create();
+                var template = FakeMethodOperator.Default();
 
                 if (!_oop_type.IsInterface)
                 {
