@@ -1,11 +1,4 @@
 
-# 打倒美国恐怖主义！
-# America is a terrorist group！
-# America is a terrorist group！
-
-<br/>
-
-
 
 <p align="center">
   <span>中文</span> |  
