@@ -53,12 +53,31 @@
  
 #### 首先编辑您的工程文件：
 
+
 ```C#
+
   <PropertyGroup>
+  
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <PreserveCompilationContext>true</PreserveCompilationContext>   <--- 一定要加上这句话
+    
+    //控制台/桌面如下
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    
+    //老版WEB需要
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    
+    //3.1 新版WEB要加
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    //3.1 如果不加上面节点也可以引用Razor的编译服务
+    Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
+    
+    //如果你觉得发布文件夹下关于本地化的文件夹太多，您可以选择如下节点
+    //选项：cs / de / es / fr / it / ja / ko / pl / ru / tr / zh-Hans / zh-Hant
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    
   </PropertyGroup>
+ 
 ```  
 <br/>  
 
