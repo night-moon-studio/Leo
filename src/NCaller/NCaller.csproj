@@ -9,7 +9,7 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>- 兼容新版Natasha
 - 增加动态代理操作类</PackageReleaseNotes>
-    <Version>1.7.0.4</Version>
+    <Version>1.7.0.5</Version>
     <PackageLicenseUrl>https://github.com/night-moon-studio/NCaller/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/night-moon-studio/NCaller</PackageProjectUrl>
     <PackageTags>Roslyn ; IL ; Scripte ; Dynamic ; Reflect ; Caller ;</PackageTags>
