@@ -1,4 +1,5 @@
 ﻿using Natasha;
+using Natasha.Log;
 using NCaller;
 using NCallerUT.Model;
 using System;
@@ -35,6 +36,7 @@ namespace HelloWorld
             var oop = new AssemblyComplier();
             oop.Add(text);
             var type = oop.GetType("Test2");
+            NErrorLog.Enabled = true;
             //创建动态类实例代理
             CallerManagement.AddType(type);
             var instance = LinkOperator.CreateFromType(type);

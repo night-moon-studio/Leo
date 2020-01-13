@@ -72,9 +72,9 @@ namespace NCaller.Builder
                     getStrongTypeBody = BTFTemplate.GetHashBTFScript(getByStrongTypeCache, "name");
                     break;
                 case FindTreeType.Precision:
-                    setObjectBody = BTFTemplate.GetPrecisionPointBTFScript(setByObjectCache, "name");
-                    getObjectBody = BTFTemplate.GetPrecisionPointBTFScript(getByObjectCache, "name");
-                    getStrongTypeBody = BTFTemplate.GetPrecisionPointBTFScript(getByStrongTypeCache, "name");
+                    setObjectBody = BTFTemplate.GetGroupPrecisionPointBTFScript(setByObjectCache, "name");
+                    getObjectBody = BTFTemplate.GetGroupPrecisionPointBTFScript(getByObjectCache, "name");
+                    getStrongTypeBody = BTFTemplate.GetGroupPrecisionPointBTFScript(getByStrongTypeCache, "name");
                     break;
                 default:
                     break;
