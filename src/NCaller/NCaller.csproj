@@ -28,7 +28,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha.DynamicCache" Version="1.2.1.13" />
+    <PackageReference Include="DotNetCore.Natasha.DynamicCache" Version="1.2.1.14" />
   </ItemGroup>
 
 </Project>
