@@ -24,7 +24,7 @@ namespace NCallerUT
             int testi = 1;
             int param3;
             test.MethodWidthParamsRefInt(ref testi);
-            Assert.Equal("ITestClass", builder.TargetType.GetDevelopName());
+            Assert.Equal("NatashaProxy.ITestClass", builder.TargetType.GetDevelopName());
             Assert.Equal(123456, test.MethodWidthReturnInt());
             Assert.Equal("test", test.MethodWidthReturnString());
             Assert.Equal(11, testi);
@@ -52,7 +52,7 @@ namespace NCallerUT
             int testi = 1;
             int param3;
             test.MethodWidthParamsRefInt(ref testi);
-            Assert.Equal("ATestClass", builder.TargetType.GetDevelopName());
+            Assert.Equal("NatashaProxy.ATestClass", builder.TargetType.GetDevelopName());
             Assert.Equal(123456, test.MethodWidthReturnInt());
             Assert.Equal("test", test.MethodWidthReturnString());
             Assert.Equal(11, testi);
@@ -80,7 +80,7 @@ namespace NCallerUT
             int testi = 1;
             int param3;
             test.MethodWidthParamsRefInt(ref testi);
-            Assert.Equal("VTestClass", builder.TargetType.GetDevelopName());
+            Assert.Equal("NatashaProxy.VTestClass", builder.TargetType.GetDevelopName());
             Assert.Equal(123456, test.MethodWidthReturnInt());
             Assert.Equal("test", test.MethodWidthReturnString());
             Assert.Equal(11, testi);
@@ -110,7 +110,7 @@ namespace NCallerUT
             int testi = 1;
             int param3;
             test.MethodWidthParamsRefInt(ref testi);
-            Assert.Equal("NTestClass", builder.TargetType.GetDevelopName());
+            Assert.Equal("NatashaProxy.NTestClass", builder.TargetType.GetDevelopName());
             Assert.Equal(123456, test.MethodWidthReturnInt());
             Assert.Equal("test", test.MethodWidthReturnString());
             Assert.Equal(11, testi);
