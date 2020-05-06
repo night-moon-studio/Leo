@@ -1,6 +1,7 @@
 ﻿using BTFindTree;
 using Natasha;
-using Natasha.Operator;
+using Natasha.CSharp;
+using Natasha.CSharp.Operator;
 using NCaller.Core.Model;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,6 @@ namespace NCaller.Builder
 
 
             StringBuilder body = new StringBuilder();
-            OopOperator builder = new OopOperator();
             var cache  = NBuildInfo.GetInfos(type);
 
             var setByObjectCache = new Dictionary<string, string>();
@@ -102,14 +102,15 @@ namespace NCaller.Builder
                 body.Append($@"public override void New(){{ Instance = new {type.GetDevelopName()}();}}");
             }
 
-            Type tempClass = NClass.Create(type.GetDomain())
+            Type tempClass = NClass.UseDomain(type.GetDomain())
+                    .Public()
                     .Using(type)
                     .Using("System")
                     .Using("NCaller")
-                    .UseRandomOopName()
+                    .UseRandomName()
                     .Namespace("NCallerDynamic")
                     .Inheritance(callType)
-                    .OopBody(body)
+                    .Body(body.ToString())
                     .GetType();
 
 

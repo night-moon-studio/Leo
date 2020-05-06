@@ -1,4 +1,4 @@
-﻿using Natasha.Operator;
+﻿using Natasha.CSharp;
 using NCaller.Builder;
 using NCaller.Constraint;
 using System;
@@ -36,7 +36,7 @@ namespace NCaller
         static HashLinkOperator()
         {
             Type dynamicType = LinkBuilder.InitType(typeof(T), Core.Model.FindTreeType.Hash);
-            Create = (Func<LinkBase>)(CtorOperator.Default().NewDelegate(dynamicType));
+            Create = (Func<LinkBase>)(NInstance.Creator(dynamicType));
         }
 
     }

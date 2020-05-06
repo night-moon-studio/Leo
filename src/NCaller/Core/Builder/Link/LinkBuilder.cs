@@ -1,6 +1,6 @@
 ﻿using BTFindTree;
 using Natasha;
-using Natasha.Operator;
+using Natasha.CSharp;
 using NCaller.Core.Model;
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,6 @@ namespace NCaller.Builder
 
 
             var cache = NBuildInfo.GetInfos(type);
-
             var setByObjectCache = new Dictionary<string, string>();
             var getIndexBodyCache = new Dictionary<string, string>();
             var getByStrongTypeCache = new Dictionary<string, string>();
@@ -55,7 +54,7 @@ namespace NCaller.Builder
                     {
                         setByObjectCache[info.MemberName] = $"{caller}.{info.MemberName} = ({info.MemberTypeName})value;";
                     }
-                    
+
                 }
             }
 
@@ -129,14 +128,15 @@ namespace NCaller.Builder
 
 
 
-            Type tempClass = NClass.Create(type.GetDomain())
+            Type tempClass = NClass.UseDomain(type.GetDomain())
+                    .Public()
                     .Using(type)
                     .Using("System")
                     .Using("NCaller")
-                    .UseRandomOopName()
+                    .UseRandomName()
                     .Inheritance(callType)
                     .Namespace("NCallerDynamic")
-                    .OopBody(body)
+                    .Body(body.ToString())
                     .GetType();
 
 

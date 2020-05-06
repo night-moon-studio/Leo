@@ -1,5 +1,6 @@
 ﻿using BTFindTree;
 using Natasha;
+using Natasha.CSharp;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -52,7 +53,7 @@ namespace NCaller.Builder
             {
                 handler = (_hdc | _str_cache | HashLinkOperator.CreateFromString | Ctor) % CallerManagement.GetTypeFunc;
             }
-            return NDomain.Create(type.GetDomain()).UnsafeFunc<string, LinkBase>(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
+            return NDelegate.UseDomain(type.GetDomain()).UnsafeFunc<string, LinkBase>(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
 
         }
 

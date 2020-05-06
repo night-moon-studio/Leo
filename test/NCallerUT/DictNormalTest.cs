@@ -1,5 +1,4 @@
-﻿using Natasha;
-using Natasha.Operator;
+﻿using Natasha.CSharp;
 using NCaller;
 using NCallerUT.Model;
 using System;
@@ -34,9 +33,9 @@ namespace HelloWorld
 }";
             //根据脚本创建动态类
             
-            var oop = new AssemblyComplier();
-            oop.Add(text);
-            Type type = oop.GetType("Test");
+            var oop = new AssemblyCSharpBuilder();
+            oop.Syntax.Add(text);
+            Type type = oop.GetTypeFromShortName("Test");
             CallerManagement.AddType(type);
             //创建动态类实例代理
             var instance = DictOperator.CreateFromType(type);

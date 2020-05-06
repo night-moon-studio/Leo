@@ -1,4 +1,4 @@
-﻿using Natasha.Operator;
+﻿using Natasha.CSharp;
 using NCaller.Builder;
 using NCaller.Constraint;
 using System;
@@ -36,7 +36,7 @@ namespace NCaller
         static HashDictOperator()
         {
             Type dynamicType = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Hash);
-            Create = (Func<DictBase>)(CtorOperator.Default().NewDelegate(dynamicType));
+            Create = (Func<DictBase>)(NInstance.Creator(dynamicType));
         }
 
     }

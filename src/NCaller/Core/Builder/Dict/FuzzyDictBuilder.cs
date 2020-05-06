@@ -1,5 +1,6 @@
 ﻿using BTFindTree;
 using Natasha;
+using Natasha.CSharp;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace NCaller.Builder
             {
                 handler = (_fdc | _str_cache | FuzzyDictOperator.CreateFromString | FuzzyDictBuilder.Ctor) % CallerManagement.GetTypeFunc;
             }
-            return NDomain.Create(type.GetDomain()).UnsafeFunc<string, DictBase>(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
+            return NDelegate.UseDomain(type.GetDomain()).UnsafeFunc<string, DictBase>(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
 
         }
 

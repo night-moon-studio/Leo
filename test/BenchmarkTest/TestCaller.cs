@@ -4,6 +4,7 @@ using BenchmarkDotNet.Mathematics;
 using BenchmarkDotNet.Order;
 using BenchmarkTest.Model;
 using Natasha;
+using Natasha.CSharp;
 using NCaller;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace BenchmarkTest
             LinkHandler.New();
             FuzzyLinkHandler.New();
             HashLinkHandler.New();
-            Dict["Name"] = NDomain.Default().Action<CallModel, object>("arg1.Name=(string)arg2;");
+            Dict["Name"] = NDelegate.DefaultDomain().Action<CallModel, object>("arg1.Name=(string)arg2;");
         }
 
 
