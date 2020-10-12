@@ -45,7 +45,7 @@ namespace NCaller.Builder
                 .UseDomain(type.GetDomain(),builder=>builder.LogCompilerError())
                 .UnsafeFunc<Type, DictBase>(newFindTree, _type_cache.Keys.ToArray(), "NCallerDynamic");
 
-            DictOperator.CreateFromString = (delegate* managed<Type, DictBase>)(newAction.Method.MethodHandle.GetFunctionPointer());
+            PrecisionDictOperator.CreateFromString = (delegate* managed<Type, DictBase>)(newAction.Method.MethodHandle.GetFunctionPointer());
             return (DictBase)Activator.CreateInstance(proxyType);
         }
 

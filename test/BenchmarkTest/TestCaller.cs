@@ -34,11 +34,11 @@ namespace BenchmarkTest
         public Dictionary<string, Action<CallModel, object>> Dict;
         public TestCaller()
         {
+            NatashaInitializer.InitializeAndPreheating();
             string temp = "Hello";
             Dict = new Dictionary<string, Action<CallModel, object>>();
             Type type = typeof(CallModel);
-            CallerManagement.AddType(type);
-            DictHandler = DictOperator.CreateFromType(type);
+            DictHandler = PrecisionDictOperator.CreateFromType(type);
             FuzzyDictHandler = FuzzyDictOperator.CreateFromType(type);
             HashDictHandler = HashDictOperator.CreateFromType(type);
             //LinkHandler = LinkOperator.CreateFromType(type);

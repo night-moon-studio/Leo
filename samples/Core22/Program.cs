@@ -45,7 +45,7 @@ namespace Core22
                 //stopwatch.Stop();
                 //Console.WriteLine("NCaller SimpleCaller:\t" + stopwatch.Elapsed);
 
-                var dict = DictOperator.CreateFromType(typeof(TestB));
+                var dict = PrecisionDictOperator.CreateFromType(typeof(TestB));
                 stopwatch.Restart();
                 for (int i = 0; i < 40000; i++)
                 {

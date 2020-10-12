@@ -23,7 +23,7 @@ namespace NCaller
         public unsafe static DictBase<T> DictCaller<T>(this T value)
         {
 
-            var caller = (DictBase<T>)DictOperator<T>.Create();
+            var caller = (DictBase<T>)PrecisionDictOperator<T>.Create();
             caller.SetInstance(value);
 
 

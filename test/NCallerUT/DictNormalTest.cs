@@ -38,7 +38,7 @@ namespace HelloWorld
             Type type = oop.GetTypeFromShortName("Test");
             CallerManagement.AddType(type);
             //创建动态类实例代理
-            var instance = DictOperator.CreateFromType(type);
+            var instance = PrecisionDictOperator.CreateFromType(type);
             instance.New();
             //Get动态调用
             Assert.Equal("111", (string)instance["Name"]);
@@ -56,7 +56,7 @@ namespace HelloWorld
         public unsafe void TestCall5()
         {
             //创建动态类实例代理
-            var instance = DictOperator<TestB>.Create();
+            var instance = PrecisionDictOperator<TestB>.Create();
             instance.New();
             Assert.Equal("111", (string)instance["Name"]);
 
@@ -73,7 +73,7 @@ namespace HelloWorld
         public unsafe void TestCall6()
         {
             //创建动态类实例代理
-            var instance = DictOperator<TestB>.Create();
+            var instance = PrecisionDictOperator<TestB>.Create();
             instance.New();
             Assert.Equal("111", (string)instance["Name"]);
 
