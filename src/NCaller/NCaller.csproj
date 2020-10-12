@@ -16,6 +16,7 @@
     <Company>.NET Core Community</Company>
     <PackageIconUrl>https://avatars2.githubusercontent.com/u/51699821</PackageIconUrl>
     <Authors>NMSAzulX</Authors>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -27,7 +28,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NMS.DynamicCache" Version="1.0.0" />
+    <PackageReference Include="NMS.DynamicCache" Version="1.2.0" />
   </ItemGroup>
 
 </Project>

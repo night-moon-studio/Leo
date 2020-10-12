@@ -7,21 +7,20 @@ namespace NCaller
 {
 
 
-    public class FuzzyDictOperator
+    public static unsafe class FuzzyDictOperator
     {
 
-        public static Func<string, DictBase> CreateFromString;
+        public static delegate* managed<Type, DictBase> CreateFromString;
         static FuzzyDictOperator()
         {
 
-            CreateFromString = item => default;
-            CreateFromString = FuzzyDictBuilder.Ctor(typeof(NullClass));
+            FuzzyDictBuilder.Ctor(typeof(NullClass));
 
         }
 
         public static DictBase CreateFromType(Type type)
         {
-            return CreateFromString(type.GetDevelopName());
+            return CreateFromString(type);
         }
 
     }
@@ -29,14 +28,14 @@ namespace NCaller
 
 
 
-    public static class FuzzyDictOperator<T>
+    public unsafe static class FuzzyDictOperator<T>
     {
 
-        public readonly static Func<DictBase> Create;
+        public readonly static delegate* managed<DictBase> Create;
         static FuzzyDictOperator()
         {
             Type dynamicType = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Fuzzy);
-            Create = (Func<DictBase>)(NInstance.Creator(dynamicType));
+            Create = (delegate* managed<DictBase>)(NInstance.Creator(dynamicType).Method.MethodHandle.GetFunctionPointer());
         }
 
     }

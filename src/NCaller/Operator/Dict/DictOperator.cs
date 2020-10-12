@@ -1,4 +1,5 @@
 ﻿using Natasha.CSharp;
+using Natasha.CSharp.Builder;
 using NCaller.Builder;
 using NCaller.Constraint;
 using System;
@@ -7,21 +8,20 @@ using System;
 namespace NCaller
 {
 
-    public class DictOperator
+    public static unsafe class DictOperator
     {
 
-        public static Func<string, DictBase> CreateFromString;
+        public static delegate* managed<Type, DictBase> CreateFromString;
         static DictOperator()
         {
 
-            CreateFromString = item => default;
-            CreateFromString = PrecisionDictBuilder.Ctor(typeof(NullClass));
+            PrecisionDictBuilder.Ctor(typeof(NullClass));
 
         }
 
         public static DictBase CreateFromType(Type type)
         {
-            return CreateFromString(type.GetDevelopName());
+            return CreateFromString(type);
         }
 
     }
@@ -29,14 +29,14 @@ namespace NCaller
 
 
 
-    public static class DictOperator<T>
+    public unsafe static class DictOperator<T>
     {
 
-        public readonly static Func<DictBase> Create;
+        public readonly static delegate* managed<DictBase> Create;
         static DictOperator()
         {
             Type dynamicType = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Precision);
-            Create = (Func<DictBase>)(NInstance.Creator(dynamicType));
+            Create = (delegate* managed<DictBase>)(NInstance.Creator(dynamicType).Method.MethodHandle.GetFunctionPointer());
         }
 
     }

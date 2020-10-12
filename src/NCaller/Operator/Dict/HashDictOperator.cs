@@ -6,21 +6,20 @@ using System;
 namespace NCaller
 {
 
-    public class HashDictOperator
+    public unsafe static class HashDictOperator
     {
 
-        public static Func<string, DictBase> CreateFromString;
+        public static delegate* managed<Type, DictBase> CreateFromString;
         static HashDictOperator()
         {
 
-            CreateFromString = item => default;
-            CreateFromString = HashDictBuilder.Ctor(typeof(NullClass));
+           HashDictBuilder.Ctor(typeof(NullClass));
 
         }
 
         public static DictBase CreateFromType(Type type)
         {
-            return CreateFromString(type.GetDevelopName());
+            return CreateFromString(type);
         }
 
     }
@@ -28,15 +27,14 @@ namespace NCaller
 
 
 
-    public static class HashDictOperator<T>
+    public unsafe static class HashDictOperator<T>
     {
 
-        public readonly static Func<DictBase> Create;
-
+        public readonly static delegate* managed<DictBase> Create;
         static HashDictOperator()
         {
             Type dynamicType = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Hash);
-            Create = (Func<DictBase>)(NInstance.Creator(dynamicType));
+            Create = (delegate* managed<DictBase>)(NInstance.Creator(dynamicType).Method.MethodHandle.GetFunctionPointer());
         }
 
     }

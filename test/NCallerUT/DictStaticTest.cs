@@ -8,7 +8,7 @@ using Xunit;
 namespace NCallerUT
 {
     [Trait("DictOperator", "静态类")]
-    public class DictStaticTest
+    public class DictStaticTest: Prepare
     {
         [Fact(DisplayName = "动态生成类")]
         public void TestCall1()
@@ -33,7 +33,7 @@ namespace HelloWorld
 }";
             //根据脚本创建动态类
             var oop = new AssemblyCSharpBuilder();
-            oop.Syntax.Add(text);
+            oop.Add(text);
             var type = oop.GetTypeFromShortName("StaticTest2");
             CallerManagement.AddType(type);
             //创建动态类实例代理
@@ -53,7 +53,8 @@ namespace HelloWorld
         public void TestCall2()
         {
             //创建动态类实例代理
-            CallerManagement.AddType(typeof(StaticTestModel2));
+            var instance1 = DictOperator.CreateFromType(typeof(StaticTestModel1));
+            Assert.NotNull(instance1);
             var instance = DictOperator.CreateFromType(typeof(StaticTestModel2));
             StaticTestModel2.Name = "111";
             Assert.Equal("111", (string)instance["Name"]);
@@ -71,7 +72,6 @@ namespace HelloWorld
         public void TestCall3()
         {
             //创建动态类实例代理
-            CallerManagement.AddType(typeof(FakeStaticTestModel2));
             var instance = DictOperator.CreateFromType(typeof(FakeStaticTestModel2));
             FakeStaticTestModel2.Name = "111";
             Assert.Equal("111", (string)instance["Name"]);

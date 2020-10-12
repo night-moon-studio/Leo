@@ -7,7 +7,7 @@ using Xunit;
 namespace NCallerUT
 {
     [Trait("DictOperator", "普通类")]
-    public class DictNormalTest
+    public class DictNormalTest: Prepare
     {
 
         [Fact(DisplayName = "动态类")]
@@ -34,7 +34,7 @@ namespace HelloWorld
             //根据脚本创建动态类
             
             var oop = new AssemblyCSharpBuilder();
-            oop.Syntax.Add(text);
+            oop.Add(text);
             Type type = oop.GetTypeFromShortName("Test");
             CallerManagement.AddType(type);
             //创建动态类实例代理
@@ -53,7 +53,7 @@ namespace HelloWorld
 
 
         [Fact(DisplayName = "普通类")]
-        public void TestCall5()
+        public unsafe void TestCall5()
         {
             //创建动态类实例代理
             var instance = DictOperator<TestB>.Create();
@@ -70,7 +70,7 @@ namespace HelloWorld
 
 
         [Fact(DisplayName = "复杂类")]
-        public void TestCall6()
+        public unsafe void TestCall6()
         {
             //创建动态类实例代理
             var instance = DictOperator<TestB>.Create();
