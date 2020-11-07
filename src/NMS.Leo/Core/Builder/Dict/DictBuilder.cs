@@ -1,5 +1,4 @@
 ﻿using BTFindTree;
-using Natasha;
 using Natasha.CSharp;
 using NMS.Leo.Core.Model;
 using System;
@@ -10,16 +9,12 @@ using System.Text;
 
 namespace NMS.Leo.Builder
 {
-
-      public class DictBuilder
+    public class DictBuilder
     {
-
         public static Type InitType(Type type, FindTreeType kind = FindTreeType.Hash)
         {
-
             bool isStatic = (type.IsSealed && type.IsAbstract);
             Type callType = typeof(DictBase);
-
 
             StringBuilder body = new StringBuilder();
             var setByObjectCache = new Dictionary<string, string>();
@@ -27,6 +22,7 @@ namespace NMS.Leo.Builder
             var getByStrongTypeCache = new Dictionary<string, string>();
 
             #region Field
+
             var fields = type.GetFields(BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             foreach (var field in fields)
             {
@@ -34,6 +30,7 @@ namespace NMS.Leo.Builder
                 {
                     continue;
                 }
+
                 string caller = "Instance";
                 if (field.IsStatic)
                 {
@@ -51,6 +48,7 @@ namespace NMS.Leo.Builder
                     {
                         fieldScript = fieldScript.ReadonlyScript();
                     }
+
                     setByObjectCache[fieldName] = $"{fieldScript} = ({fieldType})value;";
                 }
 
@@ -58,12 +56,12 @@ namespace NMS.Leo.Builder
                 //get
                 getByObjectCache[fieldName] = $"return {caller}.{fieldName};";
                 getByStrongTypeCache[fieldName] = $"return (T)(object)({caller}.{fieldName});";
-
             }
+
             #endregion
 
-
             #region Property
+
             var props = type.GetProperties(BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             foreach (var property in props)
             {
@@ -92,10 +90,9 @@ namespace NMS.Leo.Builder
                     getByObjectCache[propertyName] = $"return {caller}.{propertyName};";
                     getByStrongTypeCache[propertyName] = $"return (T)(object)({caller}.{propertyName});";
                 }
-                
             }
-            #endregion
 
+            #endregion
 
             string setObjectBody = default;
             string getObjectBody = default;
@@ -104,7 +101,7 @@ namespace NMS.Leo.Builder
             switch (kind)
             {
                 case FindTreeType.Fuzzy:
-                    setObjectBody = BTFTemplate.GetFuzzyPointBTFScript(setByObjectCache,"name");
+                    setObjectBody = BTFTemplate.GetFuzzyPointBTFScript(setByObjectCache, "name");
                     getObjectBody = BTFTemplate.GetFuzzyPointBTFScript(getByObjectCache, "name");
                     getStrongTypeBody = BTFTemplate.GetFuzzyPointBTFScript(getByStrongTypeCache, "name");
                     break;
@@ -121,8 +118,8 @@ namespace NMS.Leo.Builder
                 default:
                     break;
             }
-
-
+            
+            
             body.AppendLine("public unsafe override void Set(string name,object value){");
             body.AppendLine(setObjectBody);
             body.Append('}');
@@ -140,35 +137,28 @@ namespace NMS.Leo.Builder
 
             if (!isStatic)
             {
-
                 callType = typeof(DictBase<>).With(type);
                 body.Append($@"public override void New(){{ Instance = new {type.GetDevelopName()}();}}");
-
             }
             else
             {
-
                 body.Append($@"public override void SetObjInstance(object obj){{ }}");
-
             }
 
             Type tempClass = NClass.UseDomain(type.GetDomain())
-                    .Public()
-                    .Using(type)
-                    .AllowPrivate(type.Assembly)
-                    .Using("System")
-                    .Using("NMS.Leo")
-                    .UseRandomName()
-                    .Namespace("NMS.Leo.NCallerDynamic")
-                    .Inheritance(callType)
-                    .Body(body.ToString())
-                    .GetType();
+                                   .Public()
+                                   .Using(type)
+                                   .AllowPrivate(type.Assembly)
+                                   .Using("System")
+                                   .Using("NMS.Leo")
+                                   .UseRandomName()
+                                   .Namespace("NMS.Leo.NCallerDynamic")
+                                   .Inheritance(callType)
+                                   .Body(body.ToString())
+                                   .GetType();
 
 
             return tempClass;
-
         }
-
     }
 }
-
