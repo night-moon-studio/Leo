@@ -8,49 +8,45 @@ using System.Text;
 
 namespace NCaller.Builder
 {
-    public static class FuzzyDictBuilder
+    public class FuzzyDictBuilder
     {
+
         static FuzzyDictBuilder()
         {
 
             _type_cache = new ConcurrentDictionary<Type, string>();
             _str_cache = new ConcurrentDictionary<string, string>();
-            StrTypeCache = new ConcurrentDictionary<string, Type>();
-            _fdc = new FDC<Type, DictBase>();
 
         }
 
         private static readonly ConcurrentDictionary<Type, string> _type_cache;
         private static readonly ConcurrentDictionary<string, string> _str_cache;
-        public static readonly ConcurrentDictionary<string, Type> StrTypeCache;
-        private static readonly FDC<Type,DictBase> _fdc;
 
 
 
-        public static Func<string, DictBase> Ctor(Type type)
+        public unsafe static DictBase Ctor(Type type)
         {
 
-            StrTypeCache[type.GetDevelopName()] = type;
             //获得动态生成的类型
-            Type result = DictBuilder.InitType(type, Core.Model.FindTreeType.Fuzzy);
+            Type proxyType = DictBuilder.InitType(type, Core.Model.FindTreeType.Fuzzy);
+
             //加入缓存
-            string script = $"return new {result.GetDevelopName()}();";
+            string script = $"return new {proxyType.GetDevelopName()}();";
             _str_cache[type.GetDevelopName()] = script;
             _type_cache[type] = script;
 
+            string newFindTree = "var str = arg.GetDevelopName();";
+            newFindTree += BTFTemplate.GetPrecisionPointBTFScript(_str_cache, "str");
+            newFindTree += $"return PrecisionDictBuilder.Ctor(arg);";
+
 
             //生成脚本
-            FDC<Type, DictBase> handler = default;
-            if (_fdc.BuilderInfo!=null)
-            {
-                handler = _fdc | _str_cache;
-            }
-            else
-            {
-                handler = (_fdc | _str_cache | FuzzyDictOperator.CreateFromString | FuzzyDictBuilder.Ctor) % CallerManagement.GetTypeFunc;
-            }
-            return NDelegate.UseDomain(type.GetDomain()).UnsafeFunc<string, DictBase>(handler.ToString(), _type_cache.Keys.ToArray(), "NCallerDynamic", "NCaller.Builder");
+            var newAction = NDelegate
+                .UseDomain(type.GetDomain(), builder => builder.LogCompilerError())
+                .UnsafeFunc<Type, DictBase>(newFindTree, _type_cache.Keys.ToArray(), "NCallerDynamic");
 
+            FuzzyDictOperator.CreateFromString = (delegate* managed<Type, DictBase>)(newAction.Method.MethodHandle.GetFunctionPointer());
+            return (DictBase)Activator.CreateInstance(proxyType);
         }
 
     }

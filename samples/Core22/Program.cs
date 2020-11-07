@@ -31,21 +31,21 @@ namespace Core22
 
 
 
-                var entity = LinkOperator.CreateFromType(typeof(TestB));
-                stopwatch.Restart();
-                for (int i = 0; i < 40000; i++)
-                {
-                    entity.New();
-                    if (entity.Get<string>("A2ge712") == "111")
-                    {
-                        //调用动态委托赋值
-                        entity.Set("A2ge712", "222");
-                    }
-                }
-                stopwatch.Stop();
-                Console.WriteLine("NCaller SimpleCaller:\t" + stopwatch.Elapsed);
+                //var entity = LinkOperator.CreateFromType(typeof(TestB));
+                //stopwatch.Restart();
+                //for (int i = 0; i < 40000; i++)
+                //{
+                //    entity.New();
+                //    if (entity.Get<string>("A2ge712") == "111")
+                //    {
+                //        //调用动态委托赋值
+                //        entity.Set("A2ge712", "222");
+                //    }
+                //}
+                //stopwatch.Stop();
+                //Console.WriteLine("NCaller SimpleCaller:\t" + stopwatch.Elapsed);
 
-                var dict = DictOperator.CreateFromType(typeof(TestB));
+                var dict = PrecisionDictOperator.CreateFromType(typeof(TestB));
                 stopwatch.Restart();
                 for (int i = 0; i < 40000; i++)
                 {
@@ -68,18 +68,18 @@ namespace Core22
                 Console.WriteLine("Dynamic :\t\t" + stopwatch.Elapsed);
 
 
-                stopwatch.Restart();
-                for (int i = 0; i < 40000; i++)
-                {
-                    var tEntity = (new TestB()).LinkCaller();
-                    if (tEntity.Get<string>("A2ge712") == "111")
-                    {
-                        //调用动态委托赋值
-                        tEntity.Set("A2ge712", "222");
-                    }
-                }
-                stopwatch.Stop();
-                Console.WriteLine("NCaller Extension:\t" + stopwatch.Elapsed);
+                //stopwatch.Restart();
+                //for (int i = 0; i < 40000; i++)
+                //{
+                //    var tEntity = (new TestB()).LinkCaller();
+                //    if (tEntity.Get<string>("A2ge712") == "111")
+                //    {
+                //        //调用动态委托赋值
+                //        tEntity.Set("A2ge712", "222");
+                //    }
+                //}
+                //stopwatch.Stop();
+                //Console.WriteLine("NCaller Extension:\t" + stopwatch.Elapsed);
 
 
                 //entity = DynamicCaller.Create(typeof(TestB));

@@ -1,7 +1,6 @@
 ﻿using BTFindTree;
 using Natasha;
 using Natasha.CSharp;
-using Natasha.CSharp.Operator;
 using NCaller.Core.Model;
 using System;
 using System.Collections.Generic;
@@ -102,7 +101,7 @@ namespace NCaller.Builder
                 body.Append($@"public override void New(){{ Instance = new {type.GetDevelopName()}();}}");
             }
 
-            Type tempClass = NClass.UseDomain(type.GetDomain())
+            Type tempClass = NClass.DefaultDomain()
                     .Public()
                     .Using(type)
                     .Using("System")

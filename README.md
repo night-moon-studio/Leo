@@ -8,7 +8,7 @@
 # NCaller
 
 [![Member project of Night Moon Studio](https://img.shields.io/badge/member%20project%20of-NMS-9e20c9.svg)](https://github.com/night-moon-studio)
-[![NuGet Badge](https://buildstats.info/nuget/DotNetCore.Natasha.NCaller?includePreReleases=true)](https://www.nuget.org/packages/DotNetCore.Natasha.NCaller)
+[![NuGet Badge](https://buildstats.info/nuget/NMS.NCaller?includePreReleases=true)](https://www.nuget.org/packages/NMS.NCaller)
  ![GitHub repo size](https://img.shields.io/github/repo-size/night-moon-studio/ncaller.svg)
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
 [![GitHub license](https://img.shields.io/github/license/night-moon-studio/ncaller.svg)](https://github.com/night-moon-studio/NCaller/blob/master/LICENSE)
@@ -36,6 +36,7 @@
 ### 发布计划： 
   
  - 2019-08-01 ： 发布v1.0.0.0, 高性能动态调用库。  
+ - 2020-10-12 ： 发布v1.2.0.0, 使用最新版 Natasha 和 最新版快速缓存；使用函数指针代替系统委托。  
  
  <br/>  
  
@@ -54,9 +55,14 @@
  
  - 引入 动态构件库： NMS.NCaller
 
- - 引入 编译环境库： DotNetCore.Compile.Environment
+ - Natasha 初始化
 
- - 向引擎中注入定制的域： DomainManagement.RegisterDefault< AssemblyDomain >()
+  ```C#
+  //仅仅注册组件
+  NatashaInitializer.Initialize();
+  //注册组件+预热组件 , 之后编译会更加快速
+  await NatashaInitializer.InitializeAndPreheating();
+  ```
 
  - 敲代码  
  
@@ -75,51 +81,21 @@ https://github.com/dotnet-lab/BTFindTree
 ```C#
 
 //DictOperator : 字典风格的操作，默认使用的是精确最小权方法构建属性/字段索引。
-CallerManagement.AddType(typeof(A));
-var handler = DictOperator.CreateFromType(typeof(A));
-var handler = DictOperator.CreateFromString("A");
-var handler = DictOperator<A>.Create();
+var handler = PrecisionDictOperator.CreateFromType(typeof(A));
+var handler = PrecisionDictOperator<A>.Create();
 
 
  
 //HashDictOperator : 字典风格的操作，默认使用的哈希二分查找方法构建属性/字段索引。
-CallerManagement.AddType(typeof(A));
 var handler = HashDictOperator.CreateFromType(typeof(A));
-var handler = HashDictOperator.CreateFromString("A");
 var handler = HashDictOperator<A>.Create();
 
 
 
 //FuzzyDictOperator : 字典风格的操作，默认使用的模糊指针查找方法构建属性/字段索引。
-CallerManagement.AddType(typeof(A));
 var handler = FuzzyDictOperator.CreateFromType(typeof(A));
-var handler = FuzzyDictOperator.CreateFromString("A");
 var handler = FuzzyDictOperator<A>.Create();
 
-
-
-//LinkOperator : 链式风格的操作，默认使用的是精确最小权方法构建属性/字段索引。
-CallerManagement.AddType(typeof(A));
-var handler = LinkOperator.CreateFromType(typeof(A));
-var handler = LinkOperator.CreateFromString("A");
-var handler = LinkOperator<A>.Create();
-
-
-
- 
-//HashLinkOperator : 链式风格的操作，默认使用的哈希二分查找方法构建属性/字段索引。
-CallerManagement.AddType(typeof(A));
-var handler = HashLinkOperator.CreateFromType(typeof(A));
-var handler = HashLinkOperator.CreateFromString("A");
-var handler = HashLinkOperator<A>.Create();
-
-
-
-//FuzzyLinkOperator : 链式风格的操作，默认使用的模糊指针查找方法构建属性/字段索引。
-CallerManagement.AddType(typeof(A));
-var handler = FuzzyLinkOperator.CreateFromType(typeof(A));
-var handler = FuzzyLinkOperator.CreateFromString("A");
-var handler = FuzzyLinkOperator<A>.Create();
 
 ```
 
@@ -144,24 +120,7 @@ public class B
 }
 
 
-//Link调用
-CallerManagement.AddType(typeof(A));
-var handler = LinkOperator.CreateFromType(typeof(A));
-
-handler.New();
-
-handler["Age"].Set(100);                                          // Set Operator
-handler.Set("Age", 100);                                          // Set Operator
-
-Console.WriteLine(handler["Time"].Get<DateTime>());               // Get Operator
-Console.WriteLine(handler.Get<DateTime>("Time"));                 // Get Operator
-
-handler.Get("Outter")["Name"].Set("NewName");                     // Link Operator
-handler.Get<B>("Outter").Name = "NewName";                        // Link Operator
-
-
 //字典调用
-CallerManagement.AddType(typeof(A));
 var handler = DictOperator.CreateFromType(typeof(A));
 handler.New();
 
@@ -172,22 +131,6 @@ Console.WriteLine(handler["Time"]);                           // Get Operator
 Console.WriteLine(handler.Get<DateTime>("Time"));             // Get Operator
 
 ((B)handler["Outter"]).Name = "NewName";                      // Link Operator
-```
-
-<br/>
-<br/>  
-
-#### 动态代理类:
-
-```C# 
-//可以对 接口/虚方法/抽象方法 进行覆盖及实现。
-//缓存采用精确查找树实现，以自实现的类名做Key, 提高查询性能。
-ProxyOperator<ITest> builder = new ProxyOperator<ITest>();
-builder.OopName("ITestClass");
-//builder["MethodName"] = "MethodBody";
-builder["SayHello"] = "Console.WriteLine(\"Hello World!\");";
-var test = builder.CreateProxy("ITestClass");
-test.SayHello();
 ```
 
 <br/>
