@@ -5,7 +5,7 @@ using BenchmarkDotNet.Order;
 using BenchmarkTest.Model;
 using Natasha;
 using Natasha.CSharp;
-using NCaller;
+using NMS.Leo;
 using System;
 using System.Collections.Generic;
 using System.Text;

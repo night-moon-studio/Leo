@@ -1,17 +1,17 @@
-using BTFindTree;
+﻿using BTFindTree;
 using Natasha;
 using Natasha.CSharp;
-using NCaller.Core.Model;
+using NMS.Leo.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
 
-namespace NCaller.Builder
+namespace NMS.Leo.Builder
 {
 
-    public class DictBuilder
+      public class DictBuilder
     {
 
         public static Type InitType(Type type, FindTreeType kind = FindTreeType.Hash)
@@ -149,9 +149,9 @@ namespace NCaller.Builder
                     .Using(type)
                     .AllowPrivate(type.Assembly)
                     .Using("System")
-                    .Using("NCaller")
+                    .Using("NMS.Leo")
                     .UseRandomName()
-                    .Namespace("NCallerDynamic")
+                    .Namespace("NMS.Leo.NCallerDynamic")
                     .Inheritance(callType)
                     .Body(body.ToString())
                     .GetType();

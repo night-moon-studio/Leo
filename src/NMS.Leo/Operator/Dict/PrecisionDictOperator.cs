@@ -1,11 +1,11 @@
 ﻿using Natasha.CSharp;
 using Natasha.CSharp.Builder;
-using NCaller.Builder;
-using NCaller.Constraint;
+using NMS.Leo.Builder;
+using NMS.Leo.Constraint;
 using System;
 
 
-namespace NCaller
+namespace NMS.Leo
 {
 
     public static unsafe class PrecisionDictOperator

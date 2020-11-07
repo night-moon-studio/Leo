@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NCaller.Constraint
+namespace NMS.Leo.Constraint
 {
     public class NullClass
     {

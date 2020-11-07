@@ -1,7 +1,7 @@
-﻿using NCaller.Builder;
+﻿using NMS.Leo.Builder;
 
 
-namespace NCaller
+namespace NMS.Leo
 {
 
     public static class EntityExtension
@@ -20,7 +20,7 @@ namespace NCaller
 
 
 
-        public unsafe static DictBase<T> DictCaller<T>(this T value)
+        public static unsafe DictBase<T> DictCaller<T>(this T value)
         {
 
             var caller = (DictBase<T>)PrecisionDictOperator<T>.Create();

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NCaller", "src\NCaller\NCaller.csproj", "{B268BCB5-250F-47E7-BE58-EEC10C972FF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Leo", "src\NMS.Leo\Leo.csproj", "{B268BCB5-250F-47E7-BE58-EEC10C972FF4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NCallerUT", "test\NCallerUT\NCallerUT.csproj", "{2CF49BA1-E74B-403E-958A-753DB6EE794D}"
 EndProject
@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BenchmarkTest", "test\BenchmarkTest\BenchmarkTest.csproj", "{C6028494-753E-4426-B365-6B18AD8FB492}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Leo.Typed", "src\NMS.Leo.Typed\Leo.Typed.csproj", "{CD44AC53-BFE9-4303-B35E-20AA7DE6E828}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 		{C6028494-753E-4426-B365-6B18AD8FB492}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6028494-753E-4426-B365-6B18AD8FB492}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6028494-753E-4426-B365-6B18AD8FB492}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD44AC53-BFE9-4303-B35E-20AA7DE6E828}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD44AC53-BFE9-4303-B35E-20AA7DE6E828}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD44AC53-BFE9-4303-B35E-20AA7DE6E828}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD44AC53-BFE9-4303-B35E-20AA7DE6E828}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{2CF49BA1-E74B-403E-958A-753DB6EE794D} = {F4C88845-8308-4E92-9D21-ED09AE0C014D}
 		{6E33A8DE-C608-4BFE-9B09-3DF614721770} = {7B6C4D0B-2E5A-453D-ACD7-CE754CBB2730}
 		{C6028494-753E-4426-B365-6B18AD8FB492} = {F4C88845-8308-4E92-9D21-ED09AE0C014D}
+		{CD44AC53-BFE9-4303-B35E-20AA7DE6E828} = {08108D7B-A78A-4591-BEF3-BE980A54F17E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02128F12-79BF-44E2-9D70-806ED8670AAD}

@@ -1,4 +1,4 @@
-﻿namespace NCaller
+﻿namespace NMS.Leo
 {
 
     public abstract class DictBase<T> : DictBase
@@ -13,22 +13,12 @@
 
         public object this[string name]
         {
-            get
-            {
-
-                return GetObject(name);
-
-            }
-            set
-            {
-
-                Set(name, value);
-
-            }
+            get => GetObject(name);
+            set => Set(name, value);
         }
 
 
-        public unsafe abstract object GetObject(string name);
+        public abstract unsafe object GetObject(string name);
 
     }
 

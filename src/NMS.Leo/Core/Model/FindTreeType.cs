@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NCaller.Core.Model
+namespace NMS.Leo.Core.Model
 {
     public enum FindTreeType
     {
