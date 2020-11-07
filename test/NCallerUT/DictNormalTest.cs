@@ -25,8 +25,11 @@ namespace HelloWorld
     {
         public Test(){
             Name=""111"";
+            Pp = 10;
+            Rp=""aa"";
         }
-
+        private long Pp;
+        private readonly string Rp;
         public string Name;
         public int Age{get;set;}
     }
@@ -42,6 +45,8 @@ namespace HelloWorld
             instance.New();
             //Get动态调用
             Assert.Equal("111", (string)instance["Name"]);
+            Assert.Equal("aa", (string)instance["Rp"]);
+            Assert.Equal(10, (long)instance["Pp"]);
             //调用动态委托赋值
             instance.Set("Name", "222");
 
