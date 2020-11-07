@@ -1,5 +1,5 @@
 language: csharp
-solution: NCaller.sln
+solution: Leo.sln
 dist: xenial
 dotnet: 2.2.300
 mono: none
