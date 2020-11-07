@@ -30,7 +30,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NMS.DynamicCache" Version="1.2.0" />
+    <PackageReference Include="NMS.DynamicCache" Version="1.4.2" />
   </ItemGroup>
 
 </Project>

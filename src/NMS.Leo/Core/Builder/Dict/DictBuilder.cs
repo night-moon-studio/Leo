@@ -140,11 +140,19 @@ namespace NMS.Leo.Builder
 
             if (!isStatic)
             {
+
                 callType = typeof(DictBase<>).With(type);
                 body.Append($@"public override void New(){{ Instance = new {type.GetDevelopName()}();}}");
+
+            }
+            else
+            {
+
+                body.Append($@"public override void SetObjInstance(object obj){{ }}");
+
             }
 
-            Type tempClass = NClass.DefaultDomain()
+            Type tempClass = NClass.UseDomain(type.GetDomain())
                     .Public()
                     .Using(type)
                     .AllowPrivate(type.Assembly)

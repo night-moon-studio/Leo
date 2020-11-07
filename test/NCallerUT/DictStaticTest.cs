@@ -35,7 +35,6 @@ namespace HelloWorld
             var oop = new AssemblyCSharpBuilder();
             oop.Add(text);
             var type = oop.GetTypeFromShortName("StaticTest2");
-            CallerManagement.AddType(type);
             //创建动态类实例代理
             var instance = PrecisionDictOperator.CreateFromType(type);
             //Get动态调用

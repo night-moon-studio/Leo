@@ -41,7 +41,8 @@ namespace HelloWorld
             Type type = oop.GetTypeFromShortName("Test");
             //创建动态类实例代理
             var instance = PrecisionDictOperator.CreateFromType(type);
-            instance.New();
+            var obj = Activator.CreateInstance(type);
+            instance.SetObjInstance(obj);
             instance["Pp"] = 30L;
             instance["Rp"] = "ab";
             //Get动态调用
