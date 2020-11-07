@@ -39,14 +39,15 @@ namespace HelloWorld
             var oop = new AssemblyCSharpBuilder();
             oop.Add(text);
             Type type = oop.GetTypeFromShortName("Test");
-            CallerManagement.AddType(type);
             //创建动态类实例代理
             var instance = PrecisionDictOperator.CreateFromType(type);
             instance.New();
+            instance["Pp"] = 30L;
+            instance["Rp"] = "ab";
             //Get动态调用
             Assert.Equal("111", (string)instance["Name"]);
-            Assert.Equal("aa", (string)instance["Rp"]);
-            Assert.Equal(10, (long)instance["Pp"]);
+            Assert.Equal("ab", (string)instance["Rp"]);
+            Assert.Equal(30, (long)instance["Pp"]);
             //调用动态委托赋值
             instance.Set("Name", "222");
 
