@@ -33,14 +33,14 @@ jobs:
     displayName: restore
     inputs:
       command: restore
-      projects: './src/NCaller/NCaller.csproj'
+      projects: './src/NMS.Leo/Leo.csproj'
 
 
   - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
-      projects: './src/NCaller/NCaller.csproj'
+      projects: './src/NMS.Leo/Leo.csproj'
       arguments: '-c Release'
 
 
@@ -68,14 +68,14 @@ jobs:
     displayName: restore
     inputs:
       command: restore
-      projects: './src/NCaller/NCaller.csproj'
+      projects: './src/NMS.Leo/Leo.csproj'
 
 
   - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
-      projects: './src/NCaller/NCaller.csproj'
+      projects: './src/NMS.Leo/Leo.csproj'
       arguments: '-c Release'
 
 
@@ -103,14 +103,14 @@ jobs:
     displayName: restore
     inputs:
       command: restore
-      projects: './src/NCaller/NCaller.csproj'
+      projects: './src/NMS.Leo/Leo.csproj'
 
 
   - task: DotNetCoreCLI@1
     displayName: build
     inputs:
       command: build
-      projects: './src/NCaller/NCaller.csproj'
+      projects: './src/NMS.Leo/Leo.csproj'
       arguments: '-c Release'
 
 
