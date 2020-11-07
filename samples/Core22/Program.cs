@@ -9,6 +9,8 @@ namespace Core22
         public static DateTime TempTime;
         static void Main(string[] args)
         {
+            NatashaInitializer.InitializeAndPreheating();
+            
             TempTime = DateTime.Now;
             Stopwatch stopwatch = new Stopwatch();
             for (int j = 0; j < 20; j++)
