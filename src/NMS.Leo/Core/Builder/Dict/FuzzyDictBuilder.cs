@@ -6,7 +6,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 
-namespace NCaller.Builder
+namespace NMS.Leo.Builder
 {
     public class FuzzyDictBuilder
     {
@@ -24,7 +24,7 @@ namespace NCaller.Builder
 
 
 
-        public unsafe static DictBase Ctor(Type type)
+        public static unsafe DictBase Ctor(Type type)
         {
 
             //获得动态生成的类型

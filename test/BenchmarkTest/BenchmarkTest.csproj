@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NCaller\NCaller.csproj" />
+    <ProjectReference Include="..\..\src\NMS.Leo\Leo.csproj" />
   </ItemGroup>
 
 </Project>

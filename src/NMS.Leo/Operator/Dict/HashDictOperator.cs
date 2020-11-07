@@ -1,20 +1,19 @@
 ﻿using Natasha.CSharp;
-using NCaller.Builder;
-using NCaller.Constraint;
+using NMS.Leo.Builder;
+using NMS.Leo.Constraint;
 using System;
 
-namespace NCaller
+namespace NMS.Leo
 {
 
-
-    public static unsafe class FuzzyDictOperator
+    public unsafe static class HashDictOperator
     {
 
         public static delegate* managed<Type, DictBase> CreateFromString;
-        static FuzzyDictOperator()
+        static HashDictOperator()
         {
 
-            FuzzyDictBuilder.Ctor(typeof(NullClass));
+           HashDictBuilder.Ctor(typeof(NullClass));
 
         }
 
@@ -28,16 +27,17 @@ namespace NCaller
 
 
 
-    public unsafe static class FuzzyDictOperator<T>
+    public unsafe static class HashDictOperator<T>
     {
 
         public readonly static delegate* managed<DictBase> Create;
-        static FuzzyDictOperator()
+        static HashDictOperator()
         {
-            Type dynamicType = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Fuzzy);
+            Type dynamicType = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Hash);
             Create = (delegate* managed<DictBase>)(NInstance.Creator(dynamicType).Method.MethodHandle.GetFunctionPointer());
         }
 
     }
+
 
 }

@@ -1,9 +1,9 @@
 ﻿using Natasha;
-using NCaller.Constraint;
+using NMS.Leo.Constraint;
 using System;
 using System.Collections.Concurrent;
 
-namespace NCaller
+namespace NMS.Leo
 {
     public static class CallerManagement
     {
@@ -16,9 +16,6 @@ namespace NCaller
             Cache["NullClass"] = typeof(NullClass);
             GetTypeFunc = item => "CallerManagement.Cache[arg]";
         }
-
-
-
 
         public static void AddType(Type type)
         {
