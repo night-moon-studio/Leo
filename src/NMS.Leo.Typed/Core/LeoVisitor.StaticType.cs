@@ -12,10 +12,10 @@ namespace NMS.Leo.Typed.Core
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _leoType = leoType;
 
-            TargetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
+            SourceType = targetType ?? throw new ArgumentNullException(nameof(targetType));
         }
 
-        public Type TargetType { get; }
+        public Type SourceType { get; }
 
         public bool IsStatic => true;
 
@@ -40,6 +40,18 @@ namespace NMS.Leo.Typed.Core
         {
             get => _handler[name];
             set => _handler[name] = value;
+        }
+
+        public bool TryRepeat(out object result)
+        {
+            result = default;
+            return false;
+        }
+
+        public bool TryRepeat(object instance, out object result)
+        {
+            result = default;
+            return false;
         }
     }
 
@@ -53,10 +65,10 @@ namespace NMS.Leo.Typed.Core
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _leoType = leoType;
 
-            TargetType = typeof(T);
+            SourceType = typeof(T);
         }
 
-        public Type TargetType { get; }
+        public Type SourceType { get; }
 
         public bool IsStatic => true;
 
@@ -81,6 +93,30 @@ namespace NMS.Leo.Typed.Core
         {
             get => _handler[name];
             set => _handler[name] = value;
+        }
+
+        public bool TryRepeat(out object result)
+        {
+            result = default;
+            return false;
+        }
+
+        public bool TryRepeat(object instance, out object result)
+        {
+            result = default;
+            return false;
+        }
+
+        public bool TryRepeat(out T result)
+        {
+            result = default;
+            return false;
+        }
+
+        public bool TryRepeat(T instance, out T result)
+        {
+            result = default;
+            return false;
         }
     }
 }

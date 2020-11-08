@@ -4,28 +4,28 @@ namespace NMS.Leo.Typed.Core
 {
     internal static class LeoVisitorFactoryCore
     {
-        public static InstanceLeoVisitor CreateForInstance(Type type, object instance, LeoType leoType)
+        public static InstanceLeoVisitor CreateForInstance(Type type, object instance, LeoType leoType, bool repeatable)
         {
             var handler = SafeLeoHandleSwitcher.Switch(leoType)(type);
-            return new InstanceLeoVisitor(handler, type, instance, leoType);
+            return new InstanceLeoVisitor(handler, type, instance, leoType, repeatable);
         }
 
-        public static InstanceLeoVisitor<T> CreateForInstance<T>(T instance, LeoType leoType)
+        public static InstanceLeoVisitor<T> CreateForInstance<T>(T instance, LeoType leoType, bool repeatable)
         {
             var handler = (DictBase<T>) UnsafeLeoHandleSwitcher.Switch<T>(leoType)();
-            return new InstanceLeoVisitor<T>(handler, instance, leoType);
+            return new InstanceLeoVisitor<T>(handler, instance, leoType, repeatable);
         }
 
-        public static FutureInstanceLeoVisitor CreateForFutureInstance(Type type, LeoType leoType)
+        public static FutureInstanceLeoVisitor CreateForFutureInstance(Type type, LeoType leoType, bool repeatable)
         {
             var handler = SafeLeoHandleSwitcher.Switch(leoType)(type);
-            return new FutureInstanceLeoVisitor(handler, type, leoType);
+            return new FutureInstanceLeoVisitor(handler, type, leoType, repeatable);
         }
 
-        public static FutureInstanceLeoVisitor<T> CreateForFutureInstance<T>(LeoType leoType)
+        public static FutureInstanceLeoVisitor<T> CreateForFutureInstance<T>(LeoType leoType, bool repeatable)
         {
             var handler = (DictBase<T>) UnsafeLeoHandleSwitcher.Switch<T>(leoType)();
-            return new FutureInstanceLeoVisitor<T>(handler, leoType);
+            return new FutureInstanceLeoVisitor<T>(handler, leoType, repeatable);
         }
 
         public static StaticTypeLeoVisitor CreateForStaticType(Type type, LeoType leoType)
