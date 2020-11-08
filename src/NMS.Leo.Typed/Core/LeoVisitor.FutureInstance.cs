@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Linq.Expressions;
+using System.Net.Http.Headers;
+using System.Reflection;
+using Leo.Typed.Core;
 
 namespace NMS.Leo.Typed.Core
 {
@@ -35,6 +39,28 @@ namespace NMS.Leo.Typed.Core
             _handler[name] = value;
         }
 
+        public void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value)
+        {
+            if (expression is null)
+                return;
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            NormalHistoricalContext?.RegisterOperation(c => c[name] = value);
+            _handler[name] = value;
+        }
+
+        public void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value)
+        {
+            if (expression is null)
+                return;
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            NormalHistoricalContext?.RegisterOperation(c => c[name] = value);
+            _handler[name] = value;
+        }
+
         public object GetValue(string name)
         {
             return _handler[name];
@@ -42,6 +68,26 @@ namespace NMS.Leo.Typed.Core
 
         public TValue GetValue<TValue>(string name)
         {
+            return _handler.Get<TValue>(name);
+        }
+
+        public object GetValue<TObj>(Expression<Func<TObj, object>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            return _handler[name];
+        }
+
+        public TValue GetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
             return _handler.Get<TValue>(name);
         }
 
@@ -103,13 +149,97 @@ namespace NMS.Leo.Typed.Core
             _handler[name] = value;
         }
 
+        void ILeoVisitor.SetValue<TObj>(Expression<Func<TObj, object>> expression, object value)
+        {
+            if (expression is null)
+                return;
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
+            _handler[name] = value;
+        }
+
+        void ILeoVisitor.SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value)
+        {
+            if (expression is null)
+                return;
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
+            _handler[name] = value;
+        }
+
+        public void SetValue(Expression<Func<T, object>> expression, object value)
+        {
+            if (expression is null)
+                return;
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
+            _handler[name] = value;
+        }
+
+        public void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value)
+        {
+            if (expression is null)
+                return;
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
+            _handler[name] = value;
+        }
+
         public object GetValue(string name)
         {
             return _handler[name];
         }
 
+        public object GetValue(Expression<Func<T, object>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            return _handler[name];
+        }
+
         public TValue GetValue<TValue>(string name)
         {
+            return _handler.Get<TValue>(name);
+        }
+
+        object ILeoVisitor.GetValue<TObj>(Expression<Func<TObj, object>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            return _handler[name];
+        }
+
+        TValue ILeoVisitor.GetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            return _handler.Get<TValue>(name);
+        }
+
+        public TValue GetValue<TValue>(Expression<Func<T, TValue>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
             return _handler.Get<TValue>(name);
         }
 
