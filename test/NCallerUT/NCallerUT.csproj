@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\NMS.Leo.Typed\Leo.Typed.csproj" />
     <ProjectReference Include="..\..\src\NMS.Leo\Leo.csproj" />
   </ItemGroup>
 

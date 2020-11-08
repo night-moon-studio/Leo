@@ -43,8 +43,6 @@ namespace NCallerUT.Model
     }
 
 
-
-
     public class FakeStaticTestModel1
     {
         public static int Age;
@@ -76,7 +74,6 @@ namespace NCallerUT.Model
     }
 
 
-
     public class TestB
     {
         public TestB()
@@ -87,6 +84,7 @@ namespace NCallerUT.Model
                 Name = "abc"
             };
         }
+
         public string Name { get; set; }
         public int Age;
         public TestC InstanceC;

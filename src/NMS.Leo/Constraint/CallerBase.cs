@@ -21,7 +21,5 @@
         /// <param name="name">字段/属性名</param>
         /// <param name="value">字段/属性新值</param>
         public abstract unsafe void Set(string name, object value);
-
     }
-
 }
