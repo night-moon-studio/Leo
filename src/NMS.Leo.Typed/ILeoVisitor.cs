@@ -4,7 +4,7 @@ namespace NMS.Leo.Typed
 {
     public interface ILeoVisitor
     {
-        Type TargetType { get; }
+        Type SourceType { get; }
 
         bool IsStatic { get; }
 
@@ -17,7 +17,16 @@ namespace NMS.Leo.Typed
         TValue GetValue<TValue>(string name);
 
         object this[string name] { get; set; }
+
+        bool TryRepeat(out object result);
+
+        bool TryRepeat(object instance, out object result);
     }
 
-    public interface ILeoVisitor<T> : ILeoVisitor { }
+    public interface ILeoVisitor<T> : ILeoVisitor
+    {
+        bool TryRepeat(out T result);
+
+        bool TryRepeat(T instance, out T result);
+    }
 }

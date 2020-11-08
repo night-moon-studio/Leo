@@ -7,8 +7,10 @@ namespace NMS.Leo.Typed.Core
         private readonly DictBase _handler;
         private readonly object _instance;
         private readonly LeoType _leoType;
+        
+        protected HistoricalContext NormalHistoricalContext { get; set; }
 
-        public InstanceLeoVisitor(DictBase handler, Type targetType, object instance, LeoType leoType)
+        public InstanceLeoVisitor(DictBase handler, Type sourceType, object instance, LeoType leoType, bool repeatable)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _instance = instance;
@@ -16,10 +18,14 @@ namespace NMS.Leo.Typed.Core
 
             _handler.SetObjInstance(_instance);
 
-            TargetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
+            SourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
+
+            NormalHistoricalContext = repeatable
+                ? new HistoricalContext(sourceType, leoType)
+                : null;
         }
 
-        public Type TargetType { get; }
+        public Type SourceType { get; }
 
         public bool IsStatic => false;
 
@@ -27,6 +33,7 @@ namespace NMS.Leo.Typed.Core
 
         public void SetValue(string name, object value)
         {
+            NormalHistoricalContext?.RegisterOperation(c => c[name] = value);
             _handler[name] = value;
         }
 
@@ -42,8 +49,26 @@ namespace NMS.Leo.Typed.Core
 
         public object this[string name]
         {
-            get => _handler[name];
-            set => _handler[name] = value;
+            get => GetValue(name);
+            set => SetValue(name, value);
+        }
+
+        public bool TryRepeat(out object result)
+        {
+            result = default;
+            if (IsStatic) return false;
+            if (NormalHistoricalContext is null) return false;
+            result = NormalHistoricalContext.Repeat();
+            return true;
+        }
+
+        public bool TryRepeat(object instance, out object result)
+        {
+            result = default;
+            if (IsStatic) return false;
+            if (NormalHistoricalContext is null) return false;
+            result = NormalHistoricalContext.Repeat(instance);
+            return true;
         }
     }
 
@@ -53,7 +78,9 @@ namespace NMS.Leo.Typed.Core
         private readonly T _instance;
         private readonly LeoType _leoType;
 
-        public InstanceLeoVisitor(DictBase<T> handler, T instance, LeoType leoType)
+        protected HistoricalContext<T> GenericHistoricalContext { get; set; }
+
+        public InstanceLeoVisitor(DictBase<T> handler, T instance, LeoType leoType, bool repeatable)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _instance = instance;
@@ -61,10 +88,14 @@ namespace NMS.Leo.Typed.Core
 
             _handler.SetInstance(_instance);
 
-            TargetType = typeof(T);
+            SourceType = typeof(T);
+
+            GenericHistoricalContext = repeatable
+                ? new HistoricalContext<T>(leoType)
+                : null;
         }
 
-        public Type TargetType { get; }
+        public Type SourceType { get; }
 
         public bool IsStatic => false;
 
@@ -72,6 +103,7 @@ namespace NMS.Leo.Typed.Core
 
         public void SetValue(string name, object value)
         {
+            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
             _handler[name] = value;
         }
 
@@ -87,8 +119,44 @@ namespace NMS.Leo.Typed.Core
 
         public object this[string name]
         {
-            get => _handler[name];
-            set => _handler[name] = value;
+            get => GetValue(name);
+            set => SetValue(name, value);
+        }
+
+        public bool TryRepeat(out object result)
+        {
+            result = default;
+            if (IsStatic) return false;
+            if (GenericHistoricalContext is null) return false;
+            result = GenericHistoricalContext.Repeat();
+            return true;
+        }
+
+        public bool TryRepeat(object instance, out object result)
+        {
+            result = default;
+            if (IsStatic) return false;
+            if (GenericHistoricalContext is null) return false;
+            result = GenericHistoricalContext.Repeat(instance);
+            return true;
+        }
+
+        public bool TryRepeat(out T result)
+        {
+            result = default;
+            if (IsStatic) return false;
+            if (GenericHistoricalContext is null) return false;
+            result = GenericHistoricalContext.Repeat();
+            return true;
+        }
+
+        public bool TryRepeat(T instance, out T result)
+        {
+            result = default;
+            if (IsStatic) return false;
+            if (GenericHistoricalContext is null) return false;
+            result = GenericHistoricalContext.Repeat(instance);
+            return true;
         }
     }
 }

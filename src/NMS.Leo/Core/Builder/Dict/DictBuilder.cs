@@ -118,8 +118,8 @@ namespace NMS.Leo.Builder
                 default:
                     break;
             }
-            
-            
+
+
             body.AppendLine("public unsafe override void Set(string name,object value){");
             body.AppendLine(setObjectBody);
             body.Append('}');

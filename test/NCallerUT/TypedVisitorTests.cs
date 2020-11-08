@@ -21,7 +21,7 @@ namespace NCallerUT
             var v = act.ToLeoVisitor();
 
             Assert.False(v.IsStatic);
-            Assert.Equal(typeof(NiceAct), v.TargetType);
+            Assert.Equal(typeof(NiceAct), v.SourceType);
             Assert.Equal(LeoType.Precision, v.AlgorithmType);
 
             Assert.Equal("Hu", v.GetValue<string>("Name"));
@@ -62,7 +62,7 @@ namespace NCallerUT
             var v = type.ToLeoVisitor();
 
             Assert.False(v.IsStatic);
-            Assert.Equal(typeof(NiceAct), v.TargetType);
+            Assert.Equal(typeof(NiceAct), v.SourceType);
             Assert.Equal(LeoType.Precision, v.AlgorithmType);
 
             v.SetValue("Name", "Du");
@@ -105,7 +105,7 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(type, act);
 
             Assert.False(v.IsStatic);
-            Assert.Equal(typeof(NiceAct), v.TargetType);
+            Assert.Equal(typeof(NiceAct), v.SourceType);
             Assert.Equal(LeoType.Precision, v.AlgorithmType);
 
             Assert.Equal("Hu", v.GetValue<string>("Name"));
@@ -146,7 +146,7 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(type);
 
             Assert.False(v.IsStatic);
-            Assert.Equal(typeof(NiceAct), v.TargetType);
+            Assert.Equal(typeof(NiceAct), v.SourceType);
             Assert.Equal(LeoType.Precision, v.AlgorithmType);
 
             v.SetValue("Name", "Du");
@@ -188,7 +188,7 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create<NiceAct>(act);
 
             Assert.False(v.IsStatic);
-            Assert.Equal(typeof(NiceAct), v.TargetType);
+            Assert.Equal(typeof(NiceAct), v.SourceType);
             Assert.Equal(LeoType.Precision, v.AlgorithmType);
 
             Assert.Equal("Hu", v.GetValue<string>("Name"));
@@ -228,7 +228,7 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create<NiceAct>();
 
             Assert.False(v.IsStatic);
-            Assert.Equal(typeof(NiceAct), v.TargetType);
+            Assert.Equal(typeof(NiceAct), v.SourceType);
             Assert.Equal(LeoType.Precision, v.AlgorithmType);
 
             v.SetValue("Name", "Du");
@@ -269,7 +269,7 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(type);
 
             Assert.True(v.IsStatic);
-            Assert.Equal(typeof(StaticNiceAct1), v.TargetType);
+            Assert.Equal(typeof(StaticNiceAct1), v.SourceType);
             Assert.Equal(LeoType.Precision, v.AlgorithmType);
 
             Assert.Equal("Hu", v.GetValue<string>("Name"));
@@ -318,7 +318,7 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(type, act);
 
             Assert.False(v.IsStatic);
-            Assert.Equal(typeof(StaticNiceAct2), v.TargetType);
+            Assert.Equal(typeof(StaticNiceAct2), v.SourceType);
             Assert.Equal(LeoType.Precision, v.AlgorithmType);
 
             Assert.Equal("Hu", v.GetValue<string>("Name"));
