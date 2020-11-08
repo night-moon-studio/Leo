@@ -2,7 +2,7 @@
 {
     public abstract class DictBase<T> : DictBase
     {
-        protected T Instance;
+        public T Instance;
         public void SetInstance(T value) => Instance = value;
 
         public override void SetObjInstance(object obj)
