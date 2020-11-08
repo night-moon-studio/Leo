@@ -34,6 +34,8 @@ namespace NMS.Leo.Typed.Core
             handler.New();
             _handleHistory?.Invoke(handler);
 
+            // Get 'Instance' Field and touch from 'Instance' Field by reflection.
+            //
             var fieldInfo = handler.GetType().GetField("Instance", BindingFlags.Instance | BindingFlags.NonPublic);
 
             return fieldInfo?.GetValue(handler);
@@ -44,6 +46,9 @@ namespace NMS.Leo.Typed.Core
             var handler = SafeLeoHandleSwitcher.Switch(AlgorithmType)(SourceType);
             handler.SetObjInstance(instance);
             _handleHistory?.Invoke(handler);
+
+            // Return the instance directly.
+            //
             return instance;
         }
     }
@@ -60,7 +65,11 @@ namespace NMS.Leo.Typed.Core
 
             _handleHistory?.Invoke(handler);
 
-            return instance;
+            return handler.Instance;
+
+            // Return the instance directly.
+            //
+            //return instance;
         }
 
         public TObject Repeat()
@@ -71,10 +80,14 @@ namespace NMS.Leo.Typed.Core
 
             _handleHistory?.Invoke(handler);
 
-            var fieldInfo = typeof(DictBase<TObject>)
-                .GetField("Instance", BindingFlags.Instance | BindingFlags.NonPublic);
+            return handler.Instance;
 
-            return (TObject)fieldInfo?.GetValue(handler);
+            // Get 'Instance' Field and touch from 'Instance' Field by reflection.
+            //
+            //var fieldInfo = typeof(DictBase<TObject>)
+            //    .GetField("Instance", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            //return (TObject)fieldInfo?.GetValue(handler);
         }
     }
 }
