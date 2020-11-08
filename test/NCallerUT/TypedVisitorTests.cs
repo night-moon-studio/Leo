@@ -269,7 +269,7 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(type);
 
             Assert.True(v.IsStatic);
-            Assert.Equal(typeof(NiceAct), v.TargetType);
+            Assert.Equal(typeof(StaticNiceAct1), v.TargetType);
             Assert.Equal(LeoType.Precision, v.AlgorithmType);
 
             Assert.Equal("Hu", v.GetValue<string>("Name"));
