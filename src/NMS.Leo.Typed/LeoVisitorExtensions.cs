@@ -14,5 +14,39 @@ namespace NMS.Leo.Typed
         {
             return LeoVisitorFactory.Create(type, leoType, repeatable);
         }
+
+        public static bool TryRepeatAs<TObj>(this ILeoVisitor visitor, out TObj result)
+        {
+            result = default;
+            var ret = visitor.TryRepeat(out var val);
+            if (!ret) return false;
+
+            try
+            {
+                result = (TObj)val;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool TryRepeatAs<TObj>(this ILeoVisitor visitor, object instance, out TObj result)
+        {
+            result = default;
+            var ret = visitor.TryRepeat(instance, out var val);
+            if (!ret) return false;
+
+            try
+            {
+                result = (TObj)val;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace NCallerUT
 
             var n1 = new NiceAct();
             var b1 = v.TryRepeat(n1, out var o1);
-            var to1 = (NiceAct) o1;
+            var to1 = (NiceAct)o1;
 
             Assert.True(b1);
             Assert.Equal("Du", to1.Name);
@@ -45,13 +45,18 @@ namespace NCallerUT
 
             var n2 = new NiceAct();
             var b2 = v.TryRepeat(n2, out var o2);
-            var to2 = (NiceAct) o2;
+            var to2 = (NiceAct)o2;
 
             var b3 = v.TryRepeat(n1, out var o3);
-            var to3 = (NiceAct) o3;
+            var to3 = (NiceAct)o3;
 
             var b4 = v.TryRepeat(out var o4);
             var to4 = (NiceAct)o4;
+
+            var b5 = v.TryRepeatAs<NiceAct>(out var o5);
+
+            var n6 = new NiceAct();
+            var b6 = v.TryRepeatAs<NiceAct>(n6, out var o6);
 
             Assert.True(b2);
             Assert.Equal("Au", to2.Name);
@@ -73,6 +78,20 @@ namespace NCallerUT
             Assert.Equal(Country.China, to4.Country);
             Assert.Equal(DateTime.Today.AddDays(1), to4.Birthday);
             Assert.False(to4.IsValid);
+
+            Assert.True(b5);
+            Assert.Equal("Au", o5.Name);
+            Assert.Equal(77, o5.Age);
+            Assert.Equal(Country.China, o5.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o5.Birthday);
+            Assert.False(o5.IsValid);
+
+            Assert.True(b6);
+            Assert.Equal("Au", o6.Name);
+            Assert.Equal(77, o6.Age);
+            Assert.Equal(Country.China, o6.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o6.Birthday);
+            Assert.False(o6.IsValid);
         }
 
         [Fact(DisplayName = "直接类型重复操作测试")]
@@ -89,7 +108,7 @@ namespace NCallerUT
 
             var n1 = new NiceAct();
             var b1 = v.TryRepeat(n1, out var o1);
-            var to1 = (NiceAct) o1;
+            var to1 = (NiceAct)o1;
 
             Assert.True(b1);
             Assert.Equal("Du", to1.Name);
@@ -106,13 +125,18 @@ namespace NCallerUT
 
             var n2 = new NiceAct();
             var b2 = v.TryRepeat(n2, out var o2);
-            var to2 = (NiceAct) o2;
+            var to2 = (NiceAct)o2;
 
             var b3 = v.TryRepeat(n1, out var o3);
-            var to3 = (NiceAct) o3;
+            var to3 = (NiceAct)o3;
 
             var b4 = v.TryRepeat(out var o4);
-            var to4 = (NiceAct) o4;
+            var to4 = (NiceAct)o4;
+
+            var b5 = v.TryRepeatAs<NiceAct>(out var o5);
+
+            var n6 = new NiceAct();
+            var b6 = v.TryRepeatAs<NiceAct>(n6, out var o6);
 
             Assert.True(b2);
             Assert.Equal("Au", to2.Name);
@@ -134,6 +158,20 @@ namespace NCallerUT
             Assert.Equal(Country.China, to4.Country);
             Assert.Equal(DateTime.Today.AddDays(1), to4.Birthday);
             Assert.False(to4.IsValid);
+
+            Assert.True(b5);
+            Assert.Equal("Au", o5.Name);
+            Assert.Equal(77, o5.Age);
+            Assert.Equal(Country.China, o5.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o5.Birthday);
+            Assert.False(o5.IsValid);
+
+            Assert.True(b6);
+            Assert.Equal("Au", o6.Name);
+            Assert.Equal(77, o6.Age);
+            Assert.Equal(Country.China, o6.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o6.Birthday);
+            Assert.False(o6.IsValid);
         }
 
         [Fact(DisplayName = "泛型实例重复操作测试")]
@@ -157,7 +195,7 @@ namespace NCallerUT
 
             var n1 = new NiceAct();
             var b1 = v.TryRepeat(n1, out var o1);
-            var to1 = (NiceAct) o1;
+            var to1 = (NiceAct)o1;
 
             Assert.True(b1);
             Assert.Equal("Du", to1.Name);
@@ -179,6 +217,11 @@ namespace NCallerUT
 
             var b4 = v.TryRepeat(out var o4);
 
+            var b5 = v.TryRepeatAs<NiceAct>(out var o5);
+
+            var n6 = new NiceAct();
+            var b6 = v.TryRepeatAs<NiceAct>(n6, out var o6);
+
             Assert.True(b2);
             Assert.Equal("Au", o2.Name);
             Assert.Equal(77, o2.Age);
@@ -199,6 +242,20 @@ namespace NCallerUT
             Assert.Equal(Country.China, o4.Country);
             Assert.Equal(DateTime.Today.AddDays(1), o4.Birthday);
             Assert.False(o4.IsValid);
+
+            Assert.True(b5);
+            Assert.Equal("Au", o5.Name);
+            Assert.Equal(77, o5.Age);
+            Assert.Equal(Country.China, o5.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o5.Birthday);
+            Assert.False(o5.IsValid);
+
+            Assert.True(b6);
+            Assert.Equal("Au", o6.Name);
+            Assert.Equal(77, o6.Age);
+            Assert.Equal(Country.China, o6.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o6.Birthday);
+            Assert.False(o6.IsValid);
         }
 
         [Fact(DisplayName = "泛型类型重复操作测试")]
@@ -214,7 +271,7 @@ namespace NCallerUT
 
             var n1 = new NiceAct();
             var b1 = v.TryRepeat(n1, out var o1);
-            var to1 = (NiceAct) o1;
+            var to1 = (NiceAct)o1;
 
             Assert.True(b1);
             Assert.Equal("Du", to1.Name);
@@ -236,6 +293,11 @@ namespace NCallerUT
 
             var b4 = v.TryRepeat(out var o4);
 
+            var b5 = v.TryRepeatAs<NiceAct>(out var o5);
+
+            var n6 = new NiceAct();
+            var b6 = v.TryRepeatAs<NiceAct>(n6, out var o6);
+
             Assert.True(b2);
             Assert.Equal("Au", o2.Name);
             Assert.Equal(77, o2.Age);
@@ -256,6 +318,20 @@ namespace NCallerUT
             Assert.Equal(Country.China, o4.Country);
             Assert.Equal(DateTime.Today.AddDays(1), o4.Birthday);
             Assert.False(o4.IsValid);
+
+            Assert.True(b5);
+            Assert.Equal("Au", o5.Name);
+            Assert.Equal(77, o5.Age);
+            Assert.Equal(Country.China, o5.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o5.Birthday);
+            Assert.False(o5.IsValid);
+
+            Assert.True(b6);
+            Assert.Equal("Au", o6.Name);
+            Assert.Equal(77, o6.Age);
+            Assert.Equal(Country.China, o6.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o6.Birthday);
+            Assert.False(o6.IsValid);
         }
     }
 }
