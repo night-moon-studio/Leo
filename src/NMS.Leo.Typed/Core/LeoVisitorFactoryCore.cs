@@ -1,43 +1,44 @@
 ﻿using System;
+using Leo.Typed.Core;
 
 namespace NMS.Leo.Typed.Core
 {
     internal static class LeoVisitorFactoryCore
     {
-        public static InstanceLeoVisitor CreateForInstance(Type type, object instance, LeoType leoType, bool repeatable)
+        public static InstanceLeoVisitor CreateForInstance(Type type, object instance, AlgorithmType algorithmType, bool repeatable)
         {
-            var handler = SafeLeoHandleSwitcher.Switch(leoType)(type);
-            return new InstanceLeoVisitor(handler, type, instance, leoType, repeatable);
+            var handler = SafeLeoHandleSwitcher.Switch(algorithmType)(type);
+            return new InstanceLeoVisitor(handler, type, instance, algorithmType, repeatable);
         }
 
-        public static InstanceLeoVisitor<T> CreateForInstance<T>(T instance, LeoType leoType, bool repeatable)
+        public static InstanceLeoVisitor<T> CreateForInstance<T>(T instance, AlgorithmType algorithmType, bool repeatable)
         {
-            var handler = (DictBase<T>) UnsafeLeoHandleSwitcher.Switch<T>(leoType)();
-            return new InstanceLeoVisitor<T>(handler, instance, leoType, repeatable);
+            var handler = UnsafeLeoHandleSwitcher.Switch<T>(algorithmType)().With<T>(); ;
+            return new InstanceLeoVisitor<T>(handler, instance, algorithmType, repeatable);
         }
 
-        public static FutureInstanceLeoVisitor CreateForFutureInstance(Type type, LeoType leoType, bool repeatable)
+        public static FutureInstanceLeoVisitor CreateForFutureInstance(Type type, AlgorithmType algorithmType, bool repeatable)
         {
-            var handler = SafeLeoHandleSwitcher.Switch(leoType)(type);
-            return new FutureInstanceLeoVisitor(handler, type, leoType, repeatable);
+            var handler = SafeLeoHandleSwitcher.Switch(algorithmType)(type);
+            return new FutureInstanceLeoVisitor(handler, type, algorithmType, repeatable);
         }
 
-        public static FutureInstanceLeoVisitor<T> CreateForFutureInstance<T>(LeoType leoType, bool repeatable)
+        public static FutureInstanceLeoVisitor<T> CreateForFutureInstance<T>(AlgorithmType algorithmType, bool repeatable)
         {
-            var handler = (DictBase<T>) UnsafeLeoHandleSwitcher.Switch<T>(leoType)();
-            return new FutureInstanceLeoVisitor<T>(handler, leoType, repeatable);
+            var handler = UnsafeLeoHandleSwitcher.Switch<T>(algorithmType)().With<T>();
+            return new FutureInstanceLeoVisitor<T>(handler, algorithmType, repeatable);
         }
 
-        public static StaticTypeLeoVisitor CreateForStaticType(Type type, LeoType leoType)
+        public static StaticTypeLeoVisitor CreateForStaticType(Type type, AlgorithmType algorithmType)
         {
-            var handler = SafeLeoHandleSwitcher.Switch(leoType)(type);
-            return new StaticTypeLeoVisitor(handler, type, leoType);
+            var handler = SafeLeoHandleSwitcher.Switch(algorithmType)(type);
+            return new StaticTypeLeoVisitor(handler, type, algorithmType);
         }
 
-        public static StaticTypeLeoVisitor<T> CreateForStaticType<T>(LeoType leoType)
+        public static StaticTypeLeoVisitor<T> CreateForStaticType<T>(AlgorithmType algorithmType)
         {
-            var handler = (DictBase<T>) UnsafeLeoHandleSwitcher.Switch<T>(leoType)();
-            return new StaticTypeLeoVisitor<T>(handler, leoType);
+            var handler = UnsafeLeoHandleSwitcher.Switch<T>(algorithmType)().With<T>();
+            return new StaticTypeLeoVisitor<T>(handler, algorithmType);
         }
     }
 }

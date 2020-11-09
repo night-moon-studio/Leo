@@ -1,6 +1,6 @@
 ﻿namespace NMS.Leo.Typed
 {
-    public enum LeoType
+    public enum AlgorithmType
     {
         Precision,
         Hash,
