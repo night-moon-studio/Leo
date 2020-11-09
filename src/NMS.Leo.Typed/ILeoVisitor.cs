@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace NMS.Leo.Typed
 {
@@ -10,7 +9,7 @@ namespace NMS.Leo.Typed
 
         bool IsStatic { get; }
 
-        LeoType AlgorithmType { get; }
+        AlgorithmType AlgorithmType { get; }
 
         void SetValue(string name, object value);
 
@@ -31,6 +30,8 @@ namespace NMS.Leo.Typed
         bool TryRepeat(out object result);
 
         bool TryRepeat(object instance, out object result);
+        
+        ILeoRepeater ToRepeater();
     }
 
     public interface ILeoVisitor<T> : ILeoVisitor
@@ -46,5 +47,7 @@ namespace NMS.Leo.Typed
         bool TryRepeat(out T result);
 
         bool TryRepeat(T instance, out T result);
+
+        new ILeoRepeater<T> ToRepeater();
     }
 }

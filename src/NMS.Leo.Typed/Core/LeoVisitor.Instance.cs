@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq.Expressions;
-using System.Reflection;
 using Leo.Typed.Core;
 
 namespace NMS.Leo.Typed.Core
@@ -9,22 +8,22 @@ namespace NMS.Leo.Typed.Core
     {
         private readonly DictBase _handler;
         private readonly object _instance;
-        private readonly LeoType _leoType;
+        private readonly AlgorithmType _algorithmType;
 
         protected HistoricalContext NormalHistoricalContext { get; set; }
 
-        public InstanceLeoVisitor(DictBase handler, Type sourceType, object instance, LeoType leoType, bool repeatable)
+        public InstanceLeoVisitor(DictBase handler, Type sourceType, object instance, AlgorithmType algorithmType, bool repeatable)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _instance = instance;
-            _leoType = leoType;
+            _algorithmType = algorithmType;
 
             _handler.SetObjInstance(_instance);
 
             SourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
 
             NormalHistoricalContext = repeatable
-                ? new HistoricalContext(sourceType, leoType)
+                ? new HistoricalContext(sourceType, algorithmType)
                 : null;
         }
 
@@ -32,7 +31,7 @@ namespace NMS.Leo.Typed.Core
 
         public bool IsStatic => false;
 
-        public LeoType AlgorithmType => _leoType;
+        public AlgorithmType AlgorithmType => _algorithmType;
 
         public void SetValue(string name, object value)
         {
@@ -115,28 +114,35 @@ namespace NMS.Leo.Typed.Core
             result = NormalHistoricalContext.Repeat(instance);
             return true;
         }
+
+        public ILeoRepeater ToRepeater()
+        {
+            if (IsStatic) return new EmptyRepeater(SourceType);
+            if (NormalHistoricalContext is null)return new EmptyRepeater(SourceType);
+            return new LeoRepeater(NormalHistoricalContext);
+        }
     }
 
     internal class InstanceLeoVisitor<T> : ILeoVisitor<T>
     {
         private readonly DictBase<T> _handler;
         private readonly T _instance;
-        private readonly LeoType _leoType;
+        private readonly AlgorithmType _algorithmType;
 
         protected HistoricalContext<T> GenericHistoricalContext { get; set; }
 
-        public InstanceLeoVisitor(DictBase<T> handler, T instance, LeoType leoType, bool repeatable)
+        public InstanceLeoVisitor(DictBase<T> handler, T instance, AlgorithmType algorithmType, bool repeatable)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _instance = instance;
-            _leoType = leoType;
+            _algorithmType = algorithmType;
 
             _handler.SetInstance(_instance);
 
             SourceType = typeof(T);
 
             GenericHistoricalContext = repeatable
-                ? new HistoricalContext<T>(leoType)
+                ? new HistoricalContext<T>(algorithmType)
                 : null;
         }
 
@@ -144,7 +150,7 @@ namespace NMS.Leo.Typed.Core
 
         public bool IsStatic => false;
 
-        public LeoType AlgorithmType => _leoType;
+        public AlgorithmType AlgorithmType => _algorithmType;
 
         public void SetValue(string name, object value)
         {
@@ -286,6 +292,18 @@ namespace NMS.Leo.Typed.Core
             if (GenericHistoricalContext is null) return false;
             result = GenericHistoricalContext.Repeat(instance);
             return true;
+        }
+
+        public ILeoRepeater<T> ToRepeater()
+        {
+            if (IsStatic) return new EmptyRepeater<T>();
+            if (GenericHistoricalContext is null) return new EmptyRepeater<T>();
+            return new LeoRepeater<T>(GenericHistoricalContext);
+        }
+        
+        ILeoRepeater ILeoVisitor.ToRepeater()
+        {
+            return ToRepeater();
         }
     }
 }

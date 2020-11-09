@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq.Expressions;
-using System.Reflection;
 using Leo.Typed.Core;
 
 namespace NMS.Leo.Typed.Core
@@ -8,12 +7,12 @@ namespace NMS.Leo.Typed.Core
     internal class StaticTypeLeoVisitor : ILeoVisitor
     {
         private readonly DictBase _handler;
-        private readonly LeoType _leoType;
+        private readonly AlgorithmType _algorithmType;
 
-        public StaticTypeLeoVisitor(DictBase handler, Type targetType, LeoType leoType)
+        public StaticTypeLeoVisitor(DictBase handler, Type targetType, AlgorithmType algorithmType)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
-            _leoType = leoType;
+            _algorithmType = algorithmType;
 
             SourceType = targetType ?? throw new ArgumentNullException(nameof(targetType));
         }
@@ -22,7 +21,7 @@ namespace NMS.Leo.Typed.Core
 
         public bool IsStatic => true;
 
-        public LeoType AlgorithmType => _leoType;
+        public AlgorithmType AlgorithmType => _algorithmType;
 
         public void SetValue(string name, object value)
         {
@@ -96,17 +95,22 @@ namespace NMS.Leo.Typed.Core
             result = default;
             return false;
         }
+
+        public ILeoRepeater ToRepeater()
+        {
+            return StaticEmptyRepeater.Instance;
+        }
     }
 
     internal class StaticTypeLeoVisitor<T> : ILeoVisitor<T>
     {
         private readonly DictBase<T> _handler;
-        private readonly LeoType _leoType;
+        private readonly AlgorithmType _algorithmType;
 
-        public StaticTypeLeoVisitor(DictBase<T> handler, LeoType leoType)
+        public StaticTypeLeoVisitor(DictBase<T> handler, AlgorithmType algorithmType)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
-            _leoType = leoType;
+            _algorithmType = algorithmType;
 
             SourceType = typeof(T);
         }
@@ -115,7 +119,7 @@ namespace NMS.Leo.Typed.Core
 
         public bool IsStatic => true;
 
-        public LeoType AlgorithmType => _leoType;
+        public AlgorithmType AlgorithmType => _algorithmType;
 
         public void SetValue(string name, object value)
         {
@@ -240,6 +244,16 @@ namespace NMS.Leo.Typed.Core
         {
             result = default;
             return false;
+        }
+
+        public ILeoRepeater<T> ToRepeater()
+        {
+            return StaticEmptyRepeater<T>.Instance;
+        }
+
+        ILeoRepeater ILeoVisitor.ToRepeater()
+        {
+            return ToRepeater();
         }
     }
 }
