@@ -29,7 +29,7 @@ namespace NCallerUT
 
             var n1 = new NiceAct();
             var b1 = v.TryRepeat(n1, out var o1);
-            var to1 = (NiceAct)o1;
+            var to1 = (NiceAct) o1;
 
             Assert.True(b1);
             Assert.Equal("Du", to1.Name);
@@ -46,13 +46,13 @@ namespace NCallerUT
 
             var n2 = new NiceAct();
             var b2 = v.TryRepeat(n2, out var o2);
-            var to2 = (NiceAct)o2;
+            var to2 = (NiceAct) o2;
 
             var b3 = v.TryRepeat(n1, out var o3);
-            var to3 = (NiceAct)o3;
+            var to3 = (NiceAct) o3;
 
             var b4 = v.TryRepeat(out var o4);
-            var to4 = (NiceAct)o4;
+            var to4 = (NiceAct) o4;
 
             var b5 = v.TryRepeatAs<NiceAct>(out var o5);
 
@@ -94,17 +94,17 @@ namespace NCallerUT
             Assert.Equal(DateTime.Today.AddDays(1), o6.Birthday);
             Assert.False(o6.IsValid);
 
-            var repeater = v.ToRepeater();
+            var repeater = v.ForRepeat();
             var n7 = new NiceAct();
-            var o7 = (NiceAct)repeater.Play(n7);
-            var o8 = (NiceAct)repeater.NewAndPlay();
-            
+            var o7 = (NiceAct) repeater.Play(n7);
+            var o8 = (NiceAct) repeater.NewAndPlay();
+
             Assert.Equal("Au", o7.Name);
             Assert.Equal(77, o7.Age);
             Assert.Equal(Country.China, o7.Country);
             Assert.Equal(DateTime.Today.AddDays(1), o7.Birthday);
             Assert.False(o7.IsValid);
-            
+
             Assert.Equal("Au", o8.Name);
             Assert.Equal(77, o8.Age);
             Assert.Equal(Country.China, o8.Country);
@@ -126,7 +126,7 @@ namespace NCallerUT
 
             var n1 = new NiceAct();
             var b1 = v.TryRepeat(n1, out var o1);
-            var to1 = (NiceAct)o1;
+            var to1 = (NiceAct) o1;
 
             Assert.True(b1);
             Assert.Equal("Du", to1.Name);
@@ -143,13 +143,13 @@ namespace NCallerUT
 
             var n2 = new NiceAct();
             var b2 = v.TryRepeat(n2, out var o2);
-            var to2 = (NiceAct)o2;
+            var to2 = (NiceAct) o2;
 
             var b3 = v.TryRepeat(n1, out var o3);
-            var to3 = (NiceAct)o3;
+            var to3 = (NiceAct) o3;
 
             var b4 = v.TryRepeat(out var o4);
-            var to4 = (NiceAct)o4;
+            var to4 = (NiceAct) o4;
 
             var b5 = v.TryRepeatAs<NiceAct>(out var o5);
 
@@ -191,17 +191,17 @@ namespace NCallerUT
             Assert.Equal(DateTime.Today.AddDays(1), o6.Birthday);
             Assert.False(o6.IsValid);
 
-            var repeater = v.ToRepeater();
+            var repeater = v.ForRepeat();
             var n7 = new NiceAct();
-            var o7 = (NiceAct)repeater.Play(n7);
-            var o8 = (NiceAct)repeater.NewAndPlay();
-            
+            var o7 = (NiceAct) repeater.Play(n7);
+            var o8 = (NiceAct) repeater.NewAndPlay();
+
             Assert.Equal("Au", o7.Name);
             Assert.Equal(77, o7.Age);
             Assert.Equal(Country.China, o7.Country);
             Assert.Equal(DateTime.Today.AddDays(1), o7.Birthday);
             Assert.False(o7.IsValid);
-            
+
             Assert.Equal("Au", o8.Name);
             Assert.Equal(77, o8.Age);
             Assert.Equal(Country.China, o8.Country);
@@ -230,7 +230,7 @@ namespace NCallerUT
 
             var n1 = new NiceAct();
             var b1 = v.TryRepeat(n1, out var o1);
-            var to1 = (NiceAct)o1;
+            var to1 = (NiceAct) o1;
 
             Assert.True(b1);
             Assert.Equal("Du", to1.Name);
@@ -292,17 +292,17 @@ namespace NCallerUT
             Assert.Equal(DateTime.Today.AddDays(1), o6.Birthday);
             Assert.False(o6.IsValid);
 
-            var repeater = v.ToRepeater();
+            var repeater = v.ForRepeat();
             var n7 = new NiceAct();
             var o7 = repeater.Play(n7);
             var o8 = repeater.NewAndPlay();
-            
+
             Assert.Equal("Au", o7.Name);
             Assert.Equal(77, o7.Age);
             Assert.Equal(Country.China, o7.Country);
             Assert.Equal(DateTime.Today.AddDays(1), o7.Birthday);
             Assert.False(o7.IsValid);
-            
+
             Assert.Equal("Au", o8.Name);
             Assert.Equal(77, o8.Age);
             Assert.Equal(Country.China, o8.Country);
@@ -323,7 +323,7 @@ namespace NCallerUT
 
             var n1 = new NiceAct();
             var b1 = v.TryRepeat(n1, out var o1);
-            var to1 = (NiceAct)o1;
+            var to1 = (NiceAct) o1;
 
             Assert.True(b1);
             Assert.Equal("Du", to1.Name);
@@ -385,17 +385,17 @@ namespace NCallerUT
             Assert.Equal(DateTime.Today.AddDays(1), o6.Birthday);
             Assert.False(o6.IsValid);
 
-            var repeater = v.ToRepeater();
+            var repeater = v.ForRepeat();
             var n7 = new NiceAct();
             var o7 = repeater.Play(n7);
             var o8 = repeater.NewAndPlay();
-            
+
             Assert.Equal("Au", o7.Name);
             Assert.Equal(77, o7.Age);
             Assert.Equal(Country.China, o7.Country);
             Assert.Equal(DateTime.Today.AddDays(1), o7.Birthday);
             Assert.False(o7.IsValid);
-            
+
             Assert.Equal("Au", o8.Name);
             Assert.Equal(77, o8.Age);
             Assert.Equal(Country.China, o8.Country);
