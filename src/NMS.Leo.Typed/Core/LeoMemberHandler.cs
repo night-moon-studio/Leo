@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NMS.Leo;
 
-namespace Leo.Typed.Core
+namespace NMS.Leo.Typed.Core
 {
     internal class LeoMemberHandler
     {

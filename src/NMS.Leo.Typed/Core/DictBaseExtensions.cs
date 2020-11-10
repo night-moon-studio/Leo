@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using NMS.Leo;
+﻿using System.Reflection;
 
-namespace Leo.Typed.Core
+namespace NMS.Leo.Typed.Core
 {
     internal static class DictBaseExtensions
     {

@@ -1,5 +1,4 @@
 ﻿using System;
-using Leo.Typed.Core;
 
 namespace NMS.Leo.Typed.Core
 {
