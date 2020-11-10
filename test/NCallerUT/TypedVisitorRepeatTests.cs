@@ -4,6 +4,7 @@ using Xunit;
 
 namespace NCallerUT
 {
+    [Trait("TypedVisitor.Repeat", "LeoRepeater")]
     public class TypedVisitorRepeatTests : Prepare
     {
         [Fact(DisplayName = "直接实例重复操作测试")]

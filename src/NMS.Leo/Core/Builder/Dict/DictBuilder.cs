@@ -3,6 +3,7 @@ using Natasha.CSharp;
 using NMS.Leo.Core.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -20,6 +21,7 @@ namespace NMS.Leo.Builder
             var setByObjectCache = new Dictionary<string, string>();
             var getByObjectCache = new Dictionary<string, string>();
             var getByStrongTypeCache = new Dictionary<string, string>();
+            var getByLeoMembersCache = new Dictionary<string, LeoMember>();
 
             #region Field
 
@@ -56,6 +58,9 @@ namespace NMS.Leo.Builder
                 //get
                 getByObjectCache[fieldName] = $"return {caller}.{fieldName};";
                 getByStrongTypeCache[fieldName] = $"return (T)(object)({caller}.{fieldName});";
+
+                //member metadata
+                getByLeoMembersCache[fieldName] = field;
             }
 
             #endregion
@@ -90,6 +95,9 @@ namespace NMS.Leo.Builder
                     getByObjectCache[propertyName] = $"return {caller}.{propertyName};";
                     getByStrongTypeCache[propertyName] = $"return (T)(object)({caller}.{propertyName});";
                 }
+
+                //member metadata
+                getByLeoMembersCache[propertyName] = property;
             }
 
             #endregion
@@ -145,6 +153,17 @@ namespace NMS.Leo.Builder
                 body.Append($@"public override void SetObjInstance(object obj){{ }}");
             }
 
+            var leoMemberMetadataScriptBuilder = getByLeoMembersCache.ToLeoMemberMetadataScript();
+
+            if (leoMemberMetadataScriptBuilder.Length > 0)
+            {
+                body.Append($@"protected override Dictionary<string, LeoMember> InternalMembersMetadata {{ get; }} = new Dictionary<string, LeoMember>() {{ {leoMemberMetadataScriptBuilder} }};");
+            }
+            else
+            {
+                body.Append($@"protected override Dictionary<string, LeoMember> InternalMembersMetadata {{ get; }} = new Dictionary<string, LeoMember>();");
+            }
+
             Type tempClass = NClass.UseDomain(type.GetDomain())
                                    .Public()
                                    .Using(type)
@@ -159,6 +178,45 @@ namespace NMS.Leo.Builder
 
 
             return tempClass;
+        }
+    }
+
+    internal static class LeoMemberExtensions
+    {
+        public static StringBuilder ToLeoMemberMetadataScript(this Dictionary<string, LeoMember> leoMembersCache)
+        {
+            var builder = new StringBuilder();
+
+            /*
+             * 样本：
+             *
+        protected virtual Dictionary<string, LeoMember> InternalMembersMetadata { get; } = new Dictionary<string, LeoMember>()
+        {
+            {"123", new LeoMember(true, true, true, "", typeof(string), true, true, true, true, true, true, true)},
+            {"123", new LeoMember(true, true, true, "", typeof(string), true, true, true, true, true, true, true)},
+            {"123", new LeoMember(true, true, true, "", typeof(string), true, true, true, true, true, true, true)},
+            {"123", new LeoMember(true, true, true, "", typeof(string), true, true, true, true, true, true, true)},
+        };
+             *
+             * */
+
+            if (leoMembersCache.Any())
+            {
+                var leoMemberDevelopName = typeof(LeoMember).GetDevelopName();
+                foreach (var member in leoMembersCache)
+                {
+                    var v = member.Value;
+                    builder.Append(
+                        $@"{{ ""{member.Key}"", new {leoMemberDevelopName}({v.CanWrite.L()},{v.CanRead.L()},{v.IsConst.L()},""{v.MemberName}"",typeof({v.MemberType.GetDevelopName()}),{v.IsStatic.L()},{v.IsAsync.L()},{v.IsAbstract.L()},{v.IsVirtual.L()},{v.IsNew.L()},{v.IsOverride.L()},{v.IsReadOnly.L()}) }},");
+                }
+            }
+
+            return builder;
+        }
+
+        private static string L(this bool boolean)
+        {
+            return boolean ? "true" : "false";
         }
     }
 }
