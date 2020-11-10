@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NMS.Leo;
 using Xunit;
 
@@ -19,6 +20,18 @@ namespace NCallerUT
             Assert.Equal(5, members0.Count());
             Assert.Equal(5, members1.Count());
             Assert.Equal(5, members2.Count());
+            
+            Assert.NotNull(instance.GetMember("Name"));
+            Assert.NotNull(instance.GetMember("Age"));
+            Assert.NotNull(instance.GetMember("Birthday"));
+            Assert.NotNull(instance.GetMember("Country"));
+            Assert.NotNull(instance.GetMember("IsValid"));
+            
+            Assert.Equal(typeof(string), instance.GetMember("Name").MemberType);
+            Assert.Equal(typeof(int), instance.GetMember("Age").MemberType);
+            Assert.Equal(typeof(DateTime), instance.GetMember("Birthday").MemberType);
+            Assert.Equal(typeof(Country), instance.GetMember("Country").MemberType);
+            Assert.Equal(typeof(bool), instance.GetMember("IsValid").MemberType);
         }
         
         [Fact(DisplayName = "泛型元数据测试")]
@@ -33,6 +46,18 @@ namespace NCallerUT
             Assert.Equal(5, members0.Count());
             Assert.Equal(5, members1.Count());
             Assert.Equal(5, members2.Count());
+            
+            Assert.NotNull(instance.GetMember("Name"));
+            Assert.NotNull(instance.GetMember("Age"));
+            Assert.NotNull(instance.GetMember("Birthday"));
+            Assert.NotNull(instance.GetMember("Country"));
+            Assert.NotNull(instance.GetMember("IsValid"));
+            
+            Assert.Equal(typeof(string), instance.GetMember("Name").MemberType);
+            Assert.Equal(typeof(int), instance.GetMember("Age").MemberType);
+            Assert.Equal(typeof(DateTime), instance.GetMember("Birthday").MemberType);
+            Assert.Equal(typeof(Country), instance.GetMember("Country").MemberType);
+            Assert.Equal(typeof(bool), instance.GetMember("IsValid").MemberType);
         }
     }
 }

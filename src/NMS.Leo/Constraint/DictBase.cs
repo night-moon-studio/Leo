@@ -57,5 +57,7 @@ namespace NMS.Leo
                 if (metadata.Value.CanWrite)
                     yield return metadata.Value;
         }
+
+        public LeoMember GetMember(string name) => InternalMembersMetadata.TryGetValue(name, out var member) ? member : default;
     }
 }
