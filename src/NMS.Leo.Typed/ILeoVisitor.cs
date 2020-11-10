@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace NMS.Leo.Typed
@@ -30,8 +31,12 @@ namespace NMS.Leo.Typed
         bool TryRepeat(out object result);
 
         bool TryRepeat(object instance, out object result);
-        
-        ILeoRepeater ToRepeater();
+
+        ILeoRepeater ForRepeat();
+
+        IEnumerable<string> GetMemberNames();
+
+        LeoMember GetMember(string name);
     }
 
     public interface ILeoVisitor<T> : ILeoVisitor
@@ -48,6 +53,8 @@ namespace NMS.Leo.Typed
 
         bool TryRepeat(T instance, out T result);
 
-        new ILeoRepeater<T> ToRepeater();
+        new ILeoRepeater<T> ForRepeat();
+
+        LeoMember GetMember<TValue>(Expression<Func<T, TValue>> expression);
     }
 }

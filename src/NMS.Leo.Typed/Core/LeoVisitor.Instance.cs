@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using Leo.Typed.Core;
 
@@ -9,6 +10,8 @@ namespace NMS.Leo.Typed.Core
         private readonly DictBase _handler;
         private readonly object _instance;
         private readonly AlgorithmType _algorithmType;
+
+        private Lazy<LeoMemberHandler> _lazyMemberHandler;
 
         protected HistoricalContext NormalHistoricalContext { get; set; }
 
@@ -25,6 +28,8 @@ namespace NMS.Leo.Typed.Core
             NormalHistoricalContext = repeatable
                 ? new HistoricalContext(sourceType, algorithmType)
                 : null;
+
+            _lazyMemberHandler = new Lazy<LeoMemberHandler>(() => new LeoMemberHandler(_handler, SourceType));
         }
 
         public Type SourceType { get; }
@@ -115,12 +120,17 @@ namespace NMS.Leo.Typed.Core
             return true;
         }
 
-        public ILeoRepeater ToRepeater()
+        public ILeoRepeater ForRepeat()
         {
             if (IsStatic) return new EmptyRepeater(SourceType);
-            if (NormalHistoricalContext is null)return new EmptyRepeater(SourceType);
+            if (NormalHistoricalContext is null) return new EmptyRepeater(SourceType);
             return new LeoRepeater(NormalHistoricalContext);
         }
+
+        public IEnumerable<string> GetMemberNames() => _lazyMemberHandler.Value.GetNames();
+
+        public LeoMember GetMember(string name) => _lazyMemberHandler.Value.GetMember(name);
+        
     }
 
     internal class InstanceLeoVisitor<T> : ILeoVisitor<T>
@@ -128,6 +138,8 @@ namespace NMS.Leo.Typed.Core
         private readonly DictBase<T> _handler;
         private readonly T _instance;
         private readonly AlgorithmType _algorithmType;
+
+        private Lazy<LeoMemberHandler> _lazyMemberHandler;
 
         protected HistoricalContext<T> GenericHistoricalContext { get; set; }
 
@@ -144,6 +156,8 @@ namespace NMS.Leo.Typed.Core
             GenericHistoricalContext = repeatable
                 ? new HistoricalContext<T>(algorithmType)
                 : null;
+
+            _lazyMemberHandler = new Lazy<LeoMemberHandler>(() => new LeoMemberHandler(_handler, SourceType));
         }
 
         public Type SourceType { get; }
@@ -294,16 +308,30 @@ namespace NMS.Leo.Typed.Core
             return true;
         }
 
-        public ILeoRepeater<T> ToRepeater()
+        public ILeoRepeater<T> ForRepeat()
         {
             if (IsStatic) return new EmptyRepeater<T>();
             if (GenericHistoricalContext is null) return new EmptyRepeater<T>();
             return new LeoRepeater<T>(GenericHistoricalContext);
         }
-        
-        ILeoRepeater ILeoVisitor.ToRepeater()
+
+        ILeoRepeater ILeoVisitor.ForRepeat()
         {
-            return ToRepeater();
+            return ForRepeat();
+        }
+
+        public IEnumerable<string> GetMemberNames() => _lazyMemberHandler.Value.GetNames();
+
+        public LeoMember GetMember(string name) => _lazyMemberHandler.Value.GetMember(name);
+
+        public LeoMember GetMember<TValue>(Expression<Func<T, TValue>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            return _lazyMemberHandler.Value.GetMember(name);
         }
     }
 }

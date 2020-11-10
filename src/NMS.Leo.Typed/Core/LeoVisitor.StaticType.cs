@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using Leo.Typed.Core;
 
@@ -9,12 +10,16 @@ namespace NMS.Leo.Typed.Core
         private readonly DictBase _handler;
         private readonly AlgorithmType _algorithmType;
 
+        private Lazy<LeoMemberHandler> _lazyMemberHandler;
+
         public StaticTypeLeoVisitor(DictBase handler, Type targetType, AlgorithmType algorithmType)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _algorithmType = algorithmType;
 
             SourceType = targetType ?? throw new ArgumentNullException(nameof(targetType));
+
+            _lazyMemberHandler = new Lazy<LeoMemberHandler>(() => new LeoMemberHandler(_handler, SourceType));
         }
 
         public Type SourceType { get; }
@@ -96,10 +101,14 @@ namespace NMS.Leo.Typed.Core
             return false;
         }
 
-        public ILeoRepeater ToRepeater()
+        public ILeoRepeater ForRepeat()
         {
             return StaticEmptyRepeater.Instance;
         }
+
+        public IEnumerable<string> GetMemberNames() => _lazyMemberHandler.Value.GetNames();
+
+        public LeoMember GetMember(string name) => _lazyMemberHandler.Value.GetMember(name);
     }
 
     internal class StaticTypeLeoVisitor<T> : ILeoVisitor<T>
@@ -107,12 +116,16 @@ namespace NMS.Leo.Typed.Core
         private readonly DictBase<T> _handler;
         private readonly AlgorithmType _algorithmType;
 
+        private Lazy<LeoMemberHandler> _lazyMemberHandler;
+
         public StaticTypeLeoVisitor(DictBase<T> handler, AlgorithmType algorithmType)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _algorithmType = algorithmType;
 
             SourceType = typeof(T);
+
+            _lazyMemberHandler = new Lazy<LeoMemberHandler>(() => new LeoMemberHandler(_handler, SourceType));
         }
 
         public Type SourceType { get; }
@@ -246,14 +259,28 @@ namespace NMS.Leo.Typed.Core
             return false;
         }
 
-        public ILeoRepeater<T> ToRepeater()
+        public ILeoRepeater<T> ForRepeat()
         {
             return StaticEmptyRepeater<T>.Instance;
         }
 
-        ILeoRepeater ILeoVisitor.ToRepeater()
+        ILeoRepeater ILeoVisitor.ForRepeat()
         {
-            return ToRepeater();
+            return ForRepeat();
+        }
+
+        public IEnumerable<string> GetMemberNames() => _lazyMemberHandler.Value.GetNames();
+
+        public LeoMember GetMember(string name) => _lazyMemberHandler.Value.GetMember(name);
+
+        public LeoMember GetMember<TValue>(Expression<Func<T, TValue>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            return _lazyMemberHandler.Value.GetMember(name);
         }
     }
 }
