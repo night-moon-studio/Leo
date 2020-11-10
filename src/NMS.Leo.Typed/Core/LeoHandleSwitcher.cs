@@ -4,15 +4,15 @@ namespace NMS.Leo.Typed.Core
 {
     internal static class SafeLeoHandleSwitcher
     {
-        public static Func<Type, DictBase> Switch(AlgorithmType algorithmType)
+        public static Func<Type, DictBase> Switch(AlgorithmKind kind)
         {
-            switch (algorithmType)
+            switch (kind)
             {
-                case AlgorithmType.Precision:
+                case AlgorithmKind.Precision:
                     return PrecisionDictOperator.CreateFromType;
-                case AlgorithmType.Hash:
+                case AlgorithmKind.Hash:
                     return HashDictOperator.CreateFromType;
-                case AlgorithmType.Fuzzy:
+                case AlgorithmKind.Fuzzy:
                     return FuzzyDictOperator.CreateFromType;
                 default:
                     throw new InvalidOperationException("Unknown AlgorithmType.");
@@ -22,15 +22,15 @@ namespace NMS.Leo.Typed.Core
 
     internal static unsafe class UnsafeLeoHandleSwitcher
     {
-        public static Func<DictBase> Switch<T>(AlgorithmType algorithmType)
+        public static Func<DictBase> Switch<T>(AlgorithmKind kind)
         {
-            switch (algorithmType)
+            switch (kind)
             {
-                case AlgorithmType.Precision:
+                case AlgorithmKind.Precision:
                     return () => PrecisionDictOperator<T>.Create();
-                case AlgorithmType.Hash:
+                case AlgorithmKind.Hash:
                     return () => HashDictOperator<T>.Create();
-                case AlgorithmType.Fuzzy:
+                case AlgorithmKind.Fuzzy:
                     return () => FuzzyDictOperator<T>.Create();
                 default:
                     throw new InvalidOperationException("Unknown AlgorithmType.");

@@ -5,15 +5,15 @@ namespace NMS.Leo.Typed.Core
 {
     internal class HistoricalContext
     {
-        public HistoricalContext(Type sourceType, AlgorithmType algorithmType)
+        public HistoricalContext(Type sourceType, AlgorithmKind kind)
         {
             SourceType = sourceType;
-            AlgorithmType = algorithmType;
+            AlgorithmKind = kind;
         }
 
         public Type SourceType { get; }
 
-        public AlgorithmType AlgorithmType { get; }
+        public AlgorithmKind AlgorithmKind { get; }
 
         protected Action<DictBase> _handleHistory;
 
@@ -29,7 +29,7 @@ namespace NMS.Leo.Typed.Core
 
         public object Repeat()
         {
-            var handler = SafeLeoHandleSwitcher.Switch(AlgorithmType)(SourceType);
+            var handler = SafeLeoHandleSwitcher.Switch(AlgorithmKind)(SourceType);
             handler.New();
             _handleHistory?.Invoke(handler);
 
@@ -38,7 +38,7 @@ namespace NMS.Leo.Typed.Core
 
         public object Repeat(object instance)
         {
-            var handler = SafeLeoHandleSwitcher.Switch(AlgorithmType)(SourceType);
+            var handler = SafeLeoHandleSwitcher.Switch(AlgorithmKind)(SourceType);
             handler.SetObjInstance(instance);
             _handleHistory?.Invoke(handler);
 
@@ -48,11 +48,11 @@ namespace NMS.Leo.Typed.Core
 
     internal class HistoricalContext<TObject> : HistoricalContext
     {
-        public HistoricalContext(AlgorithmType algorithmType) : base(typeof(TObject), algorithmType) { }
+        public HistoricalContext(AlgorithmKind kind) : base(typeof(TObject), kind) { }
 
         public TObject Repeat(TObject instance)
         {
-            var handler = UnsafeLeoHandleSwitcher.Switch<TObject>(AlgorithmType)().With<TObject>();
+            var handler = UnsafeLeoHandleSwitcher.Switch<TObject>(AlgorithmKind)().With<TObject>();
 
             handler.SetInstance(instance);
 
@@ -63,7 +63,7 @@ namespace NMS.Leo.Typed.Core
 
         public new TObject Repeat()
         {
-            var handler = UnsafeLeoHandleSwitcher.Switch<TObject>(AlgorithmType)().With<TObject>();
+            var handler = UnsafeLeoHandleSwitcher.Switch<TObject>(AlgorithmKind)().With<TObject>();
 
             handler.New();
 

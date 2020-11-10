@@ -26,7 +26,7 @@ namespace NMS.Leo
 
         static PrecisionDictOperator()
         {
-            var dynamicType = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Precision);
+            var dynamicType = DictBuilder.InitType(typeof(T), AlgorithmKind.Precision);
             Create = (delegate * managed<DictBase>)(NInstance.Creator(dynamicType).Method.MethodHandle.GetFunctionPointer());
         }
     }

@@ -4,15 +4,15 @@ namespace NMS.Leo.Typed
 {
     public static class LeoVisitorExtensions
     {
-        public static ILeoVisitor<T> ToLeoVisitor<T>(this T instanceObj, AlgorithmType algorithmType = AlgorithmType.Precision, bool repeatable = true)
+        public static ILeoVisitor<T> ToLeoVisitor<T>(this T instanceObj, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = true)
             where T : class
         {
-            return LeoVisitorFactory.Create(instanceObj, algorithmType, repeatable);
+            return LeoVisitorFactory.Create(instanceObj, kind, repeatable);
         }
 
-        public static ILeoVisitor ToLeoVisitor(this Type type, AlgorithmType algorithmType = AlgorithmType.Precision, bool repeatable = true)
+        public static ILeoVisitor ToLeoVisitor(this Type type, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = true)
         {
-            return LeoVisitorFactory.Create(type, algorithmType, repeatable);
+            return LeoVisitorFactory.Create(type, kind, repeatable);
         }
 
         public static bool TryRepeatAs<TObj>(this ILeoVisitor visitor, out TObj result)

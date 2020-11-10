@@ -26,7 +26,7 @@ namespace NMS.Leo
 
         static HashDictOperator()
         {
-            var dynamicType = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Hash);
+            var dynamicType = DictBuilder.InitType(typeof(T), AlgorithmKind.Hash);
             Create = (delegate * managed<DictBase>)(NInstance.Creator(dynamicType).Method.MethodHandle.GetFunctionPointer());
         }
     }

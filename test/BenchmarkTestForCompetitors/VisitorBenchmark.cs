@@ -49,9 +49,9 @@ namespace BenchmarkTestForCompetitors
             _leoHashHandler = NMS.Leo.HashDictOperator.CreateFromType(typeof(NiceLemon));
             _leoFuzzyHandler = NMS.Leo.FuzzyDictOperator.CreateFromType(typeof(NiceLemon));
 
-            _leoPrecisionVisitor = _lemon.ToLeoVisitor(AlgorithmType.Precision);
-            _leoHashVisitor = _lemon.ToLeoVisitor(AlgorithmType.Hash);
-            _leoFuzzyVisitor = _lemon.ToLeoVisitor(AlgorithmType.Fuzzy);
+            _leoPrecisionVisitor = _lemon.ToLeoVisitor(AlgorithmKind.Precision);
+            _leoHashVisitor = _lemon.ToLeoVisitor(AlgorithmKind.Hash);
+            _leoFuzzyVisitor = _lemon.ToLeoVisitor(AlgorithmKind.Fuzzy);
 
             _ovVisitor = _lemon.V();
 

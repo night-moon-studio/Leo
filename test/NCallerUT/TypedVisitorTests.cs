@@ -22,7 +22,7 @@ namespace NCallerUT
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(NiceAct), v.SourceType);
-            Assert.Equal(AlgorithmType.Precision, v.AlgorithmType);
+            Assert.Equal(AlgorithmType.Precision, v.AlgorithmKind);
 
             Assert.Equal("Hu", v.GetValue<string>("Name"));
             Assert.Equal(22, v.GetValue<int>("Age"));
@@ -87,7 +87,7 @@ namespace NCallerUT
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(NiceAct), v.SourceType);
-            Assert.Equal(AlgorithmType.Precision, v.AlgorithmType);
+            Assert.Equal(AlgorithmType.Precision, v.AlgorithmKind);
 
             v.SetValue("Name", "Du");
             v.SetValue("Age", 55);
@@ -154,7 +154,7 @@ namespace NCallerUT
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(NiceAct), v.SourceType);
-            Assert.Equal(AlgorithmType.Precision, v.AlgorithmType);
+            Assert.Equal(AlgorithmType.Precision, v.AlgorithmKind);
 
             Assert.Equal("Hu", v.GetValue<string>("Name"));
             Assert.Equal(22, v.GetValue<int>("Age"));
@@ -219,7 +219,7 @@ namespace NCallerUT
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(NiceAct), v.SourceType);
-            Assert.Equal(AlgorithmType.Precision, v.AlgorithmType);
+            Assert.Equal(AlgorithmType.Precision, v.AlgorithmKind);
 
             v.SetValue("Name", "Du");
             v.SetValue("Age", 55);
@@ -285,7 +285,7 @@ namespace NCallerUT
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(NiceAct), v.SourceType);
-            Assert.Equal(AlgorithmType.Precision, v.AlgorithmType);
+            Assert.Equal(AlgorithmType.Precision, v.AlgorithmKind);
 
             Assert.Equal("Hu", v.GetValue<string>("Name"));
             Assert.Equal(22, v.GetValue<int>("Age"));
@@ -361,7 +361,7 @@ namespace NCallerUT
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(NiceAct), v.SourceType);
-            Assert.Equal(AlgorithmType.Precision, v.AlgorithmType);
+            Assert.Equal(AlgorithmType.Precision, v.AlgorithmKind);
 
             v.SetValue("Name", "Du");
             v.SetValue("Age", 55);
@@ -438,7 +438,7 @@ namespace NCallerUT
 
             Assert.True(v.IsStatic);
             Assert.Equal(typeof(StaticNiceAct1), v.SourceType);
-            Assert.Equal(AlgorithmType.Precision, v.AlgorithmType);
+            Assert.Equal(AlgorithmType.Precision, v.AlgorithmKind);
 
             Assert.Equal("Hu", v.GetValue<string>("Name"));
             Assert.Equal(22, v.GetValue<int>("Age"));
@@ -511,7 +511,7 @@ namespace NCallerUT
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(StaticNiceAct2), v.SourceType);
-            Assert.Equal(AlgorithmType.Precision, v.AlgorithmType);
+            Assert.Equal(AlgorithmType.Precision, v.AlgorithmKind);
 
             Assert.Equal("Hu", v.GetValue<string>("Name"));
             Assert.Equal(22, v.GetValue<int>("Age"));

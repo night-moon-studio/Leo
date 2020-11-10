@@ -20,14 +20,14 @@ namespace NMS.Leo.Builder
         public static unsafe DictBase Ctor(Type type)
         {
             //获得动态生成的类型
-            Type proxyType = DictBuilder.InitType(type, Core.Model.FindTreeType.Fuzzy);
+            var proxyType = DictBuilder.InitType(type, AlgorithmKind.Fuzzy);
 
             //加入缓存
-            string script = $"return new {proxyType.GetDevelopName()}();";
+            var script = $"return new {proxyType.GetDevelopName()}();";
             _str_cache[type.GetDevelopName()] = script;
             _type_cache[type] = script;
 
-            string newFindTree = "var str = arg.GetDevelopName();";
+            var newFindTree = "var str = arg.GetDevelopName();";
             newFindTree += BTFTemplate.GetPrecisionPointBTFScript(_str_cache, "str");
             newFindTree += $"return PrecisionDictBuilder.Ctor(arg);";
 
