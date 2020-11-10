@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
 
 namespace NMS.Leo.Typed.Core
 {
     internal class HistoricalContext
     {
-        public HistoricalContext(Type sourceType, LeoType leoType)
+        public HistoricalContext(Type sourceType, AlgorithmKind kind)
         {
             SourceType = sourceType;
-            AlgorithmType = leoType;
+            AlgorithmKind = kind;
         }
 
         public Type SourceType { get; }
 
-        public LeoType AlgorithmType { get; }
+        public AlgorithmKind AlgorithmKind { get; }
 
         protected Action<DictBase> _handleHistory;
 
@@ -30,51 +28,47 @@ namespace NMS.Leo.Typed.Core
 
         public object Repeat()
         {
-            var handler = SafeLeoHandleSwitcher.Switch(AlgorithmType)(SourceType);
+            var handler = SafeLeoHandleSwitcher.Switch(AlgorithmKind)(SourceType);
             handler.New();
             _handleHistory?.Invoke(handler);
 
-            var fieldInfo = handler.GetType().GetField("Instance", BindingFlags.Instance | BindingFlags.NonPublic);
-
-            return fieldInfo?.GetValue(handler);
+            return handler.GetInstance();
         }
 
         public object Repeat(object instance)
         {
-            var handler = SafeLeoHandleSwitcher.Switch(AlgorithmType)(SourceType);
+            var handler = SafeLeoHandleSwitcher.Switch(AlgorithmKind)(SourceType);
             handler.SetObjInstance(instance);
             _handleHistory?.Invoke(handler);
-            return instance;
+
+            return handler.GetInstance();
         }
     }
 
     internal class HistoricalContext<TObject> : HistoricalContext
     {
-        public HistoricalContext(LeoType leoType) : base(typeof(TObject), leoType) { }
+        public HistoricalContext(AlgorithmKind kind) : base(typeof(TObject), kind) { }
 
         public TObject Repeat(TObject instance)
         {
-            var handler = (DictBase<TObject>)UnsafeLeoHandleSwitcher.Switch<TObject>(AlgorithmType)();
+            var handler = UnsafeLeoHandleSwitcher.Switch<TObject>(AlgorithmKind)().With<TObject>();
 
             handler.SetInstance(instance);
 
             _handleHistory?.Invoke(handler);
 
-            return instance;
+            return handler.GetInstance();
         }
 
-        public TObject Repeat()
+        public new TObject Repeat()
         {
-            var handler = (DictBase<TObject>)UnsafeLeoHandleSwitcher.Switch<TObject>(AlgorithmType)();
+            var handler = UnsafeLeoHandleSwitcher.Switch<TObject>(AlgorithmKind)().With<TObject>();
 
             handler.New();
 
             _handleHistory?.Invoke(handler);
 
-            var fieldInfo = typeof(DictBase<TObject>)
-                .GetField("Instance", BindingFlags.Instance | BindingFlags.NonPublic);
-
-            return (TObject)fieldInfo?.GetValue(handler);
+            return handler.GetInstance();
         }
     }
 }

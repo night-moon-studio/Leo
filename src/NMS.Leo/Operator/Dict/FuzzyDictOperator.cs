@@ -26,7 +26,7 @@ namespace NMS.Leo
 
         static FuzzyDictOperator()
         {
-            var dynamicType = DictBuilder.InitType(typeof(T), Core.Model.FindTreeType.Fuzzy);
+            var dynamicType = DictBuilder.InitType(typeof(T), AlgorithmKind.Fuzzy);
             Create = (delegate * managed<DictBase>)(NInstance.Creator(dynamicType).Method.MethodHandle.GetFunctionPointer());
         }
     }

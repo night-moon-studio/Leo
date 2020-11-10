@@ -53,21 +53,21 @@ namespace NMS.Leo
             IsNew = isNew;
             MemberName = name;
             MemberType = type;
-            IsArray = ElementType.IsArray;
+            //IsArray = ElementType.IsArray;
             IsInterface = type.IsInterface;
-            if (IsArray)
-            {
-
-                while (ElementType.HasElementType)
-                {
-
-                    ArrayLayer += 1;
-                    ElementType = ElementType.GetElementType();
-
-                }
-                ArrayDimensions = type.GetConstructors()[0].GetParameters().Length;
-
-            }
+            // if (IsArray)
+            // {
+            //
+            //     while (ElementType.HasElementType)
+            //     {
+            //
+            //         ArrayLayer += 1;
+            //         ElementType = ElementType.GetElementType();
+            //
+            //     }
+            //     ArrayDimensions = type.GetConstructors()[0].GetParameters().Length;
+            //
+            // }
             IsReadOnly = isReadonly;
 
         }

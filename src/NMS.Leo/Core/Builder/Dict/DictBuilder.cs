@@ -1,6 +1,5 @@
 ﻿using BTFindTree;
 using Natasha.CSharp;
-using NMS.Leo.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -11,15 +10,16 @@ namespace NMS.Leo.Builder
 {
     public class DictBuilder
     {
-        public static Type InitType(Type type, FindTreeType kind = FindTreeType.Hash)
+        public static Type InitType(Type type, AlgorithmKind kind = AlgorithmKind.Hash)
         {
-            bool isStatic = (type.IsSealed && type.IsAbstract);
-            Type callType = typeof(DictBase);
+            var isStatic = type.IsSealed && type.IsAbstract;
+            var callType = typeof(DictBase);
 
-            StringBuilder body = new StringBuilder();
+            var body = new StringBuilder();
             var setByObjectCache = new Dictionary<string, string>();
             var getByObjectCache = new Dictionary<string, string>();
             var getByStrongTypeCache = new Dictionary<string, string>();
+            var getByLeoMembersCache = new Dictionary<string, LeoMember>();
 
             #region Field
 
@@ -31,7 +31,8 @@ namespace NMS.Leo.Builder
                     continue;
                 }
 
-                string caller = "Instance";
+                var caller = "Instance";
+                
                 if (field.IsStatic)
                 {
                     caller = type.GetDevelopName();
@@ -44,6 +45,7 @@ namespace NMS.Leo.Builder
                 if (!field.IsLiteral)
                 {
                     var fieldScript = $"{caller}.{fieldName}";
+                    
                     if (field.IsInitOnly)
                     {
                         fieldScript = fieldScript.ReadonlyScript();
@@ -56,6 +58,9 @@ namespace NMS.Leo.Builder
                 //get
                 getByObjectCache[fieldName] = $"return {caller}.{fieldName};";
                 getByStrongTypeCache[fieldName] = $"return (T)(object)({caller}.{fieldName});";
+
+                //member metadata
+                getByLeoMembersCache[fieldName] = field;
             }
 
             #endregion
@@ -67,7 +72,8 @@ namespace NMS.Leo.Builder
             {
                 var method = property.CanRead ? property.GetGetMethod(true) : property.GetSetMethod(true);
 
-                string caller = "Instance";
+                var caller = "Instance";
+                
                 if (method.IsStatic)
                 {
                     caller = type.GetDevelopName();
@@ -90,6 +96,9 @@ namespace NMS.Leo.Builder
                     getByObjectCache[propertyName] = $"return {caller}.{propertyName};";
                     getByStrongTypeCache[propertyName] = $"return (T)(object)({caller}.{propertyName});";
                 }
+
+                //member metadata
+                getByLeoMembersCache[propertyName] = property;
             }
 
             #endregion
@@ -100,22 +109,20 @@ namespace NMS.Leo.Builder
 
             switch (kind)
             {
-                case FindTreeType.Fuzzy:
+                case AlgorithmKind.Fuzzy:
                     setObjectBody = BTFTemplate.GetFuzzyPointBTFScript(setByObjectCache, "name");
                     getObjectBody = BTFTemplate.GetFuzzyPointBTFScript(getByObjectCache, "name");
                     getStrongTypeBody = BTFTemplate.GetFuzzyPointBTFScript(getByStrongTypeCache, "name");
                     break;
-                case FindTreeType.Hash:
+                case AlgorithmKind.Hash:
                     setObjectBody = BTFTemplate.GetHashBTFScript(setByObjectCache, "name");
                     getObjectBody = BTFTemplate.GetHashBTFScript(getByObjectCache, "name");
                     getStrongTypeBody = BTFTemplate.GetHashBTFScript(getByStrongTypeCache, "name");
                     break;
-                case FindTreeType.Precision:
+                case AlgorithmKind.Precision:
                     setObjectBody = BTFTemplate.GetGroupPrecisionPointBTFScript(setByObjectCache, "name");
                     getObjectBody = BTFTemplate.GetGroupPrecisionPointBTFScript(getByObjectCache, "name");
                     getStrongTypeBody = BTFTemplate.GetGroupPrecisionPointBTFScript(getByStrongTypeCache, "name");
-                    break;
-                default:
                     break;
             }
 
@@ -145,18 +152,28 @@ namespace NMS.Leo.Builder
                 body.Append($@"public override void SetObjInstance(object obj){{ }}");
             }
 
-            Type tempClass = NClass.UseDomain(type.GetDomain())
-                                   .Public()
-                                   .Using(type)
-                                   .AllowPrivate(type.Assembly)
-                                   .Using("System")
-                                   .Using("NMS.Leo")
-                                   .UseRandomName()
-                                   .Namespace("NMS.Leo.NCallerDynamic")
-                                   .Inheritance(callType)
-                                   .Body(body.ToString())
-                                   .GetType();
+            var leoMemberMetadataScriptBuilder = getByLeoMembersCache.ToLeoMemberMetadataScript();
 
+            if (leoMemberMetadataScriptBuilder.Length > 0)
+            {
+                body.Append($@"protected override Dictionary<string, LeoMember> InternalMembersMetadata {{ get; }} = new Dictionary<string, LeoMember>() {{ {leoMemberMetadataScriptBuilder} }};");
+            }
+            else
+            {
+                body.Append($@"protected override Dictionary<string, LeoMember> InternalMembersMetadata {{ get; }} = new Dictionary<string, LeoMember>();");
+            }
+
+            var tempClass = NClass.UseDomain(type.GetDomain())
+                                  .Public()
+                                  .Using(type)
+                                  .AllowPrivate(type.Assembly)
+                                  .Using("System")
+                                  .Using("NMS.Leo")
+                                  .UseRandomName()
+                                  .Namespace("NMS.Leo.NCallerDynamic")
+                                  .Inheritance(callType)
+                                  .Body(body.ToString())
+                                  .GetType();
 
             return tempClass;
         }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace NMS.Leo.Typed.Core
 {
@@ -6,33 +8,59 @@ namespace NMS.Leo.Typed.Core
     {
         private readonly DictBase _handler;
         private readonly object _instance;
-        private readonly LeoType _leoType;
-        
+        private readonly AlgorithmKind _algorithmKind;
+
+        private Lazy<LeoMemberHandler> _lazyMemberHandler;
+
         protected HistoricalContext NormalHistoricalContext { get; set; }
 
-        public InstanceLeoVisitor(DictBase handler, Type sourceType, object instance, LeoType leoType, bool repeatable)
+        public InstanceLeoVisitor(DictBase handler, Type sourceType, object instance, AlgorithmKind kind, bool repeatable)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _instance = instance;
-            _leoType = leoType;
+            _algorithmKind = kind;
 
             _handler.SetObjInstance(_instance);
 
             SourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
 
             NormalHistoricalContext = repeatable
-                ? new HistoricalContext(sourceType, leoType)
+                ? new HistoricalContext(sourceType, kind)
                 : null;
+
+            _lazyMemberHandler = new Lazy<LeoMemberHandler>(() => new LeoMemberHandler(_handler, SourceType));
         }
 
         public Type SourceType { get; }
 
         public bool IsStatic => false;
 
-        public LeoType AlgorithmType => _leoType;
+        public AlgorithmKind AlgorithmKind => _algorithmKind;
 
         public void SetValue(string name, object value)
         {
+            NormalHistoricalContext?.RegisterOperation(c => c[name] = value);
+            _handler[name] = value;
+        }
+
+        public void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value)
+        {
+            if (expression is null)
+                return;
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            NormalHistoricalContext?.RegisterOperation(c => c[name] = value);
+            _handler[name] = value;
+        }
+
+        public void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value)
+        {
+            if (expression is null)
+                return;
+
+            var name = PropertySelector.GetPropertyName(expression);
+
             NormalHistoricalContext?.RegisterOperation(c => c[name] = value);
             _handler[name] = value;
         }
@@ -44,6 +72,26 @@ namespace NMS.Leo.Typed.Core
 
         public TValue GetValue<TValue>(string name)
         {
+            return _handler.Get<TValue>(name);
+        }
+
+        public object GetValue<TObj>(Expression<Func<TObj, object>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            return _handler[name];
+        }
+
+        public TValue GetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
             return _handler.Get<TValue>(name);
         }
 
@@ -70,39 +118,113 @@ namespace NMS.Leo.Typed.Core
             result = NormalHistoricalContext.Repeat(instance);
             return true;
         }
+
+        public ILeoRepeater ForRepeat()
+        {
+            if (IsStatic) return new EmptyRepeater(SourceType);
+            if (NormalHistoricalContext is null) return new EmptyRepeater(SourceType);
+            return new LeoRepeater(NormalHistoricalContext);
+        }
+
+        public IEnumerable<string> GetMemberNames() => _lazyMemberHandler.Value.GetNames();
+
+        public LeoMember GetMember(string name) => _lazyMemberHandler.Value.GetMember(name);
+
+        public ILeoLooper ForEach(Action<string, object, LeoMember> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
+
+        public ILeoLooper ForEach(Action<string, object> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
+
+        public ILeoLooper ForEach(Action<LeoLoopContext> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
     }
 
     internal class InstanceLeoVisitor<T> : ILeoVisitor<T>
     {
         private readonly DictBase<T> _handler;
         private readonly T _instance;
-        private readonly LeoType _leoType;
+        private readonly AlgorithmKind _algorithmKind;
+
+        private Lazy<LeoMemberHandler> _lazyMemberHandler;
 
         protected HistoricalContext<T> GenericHistoricalContext { get; set; }
 
-        public InstanceLeoVisitor(DictBase<T> handler, T instance, LeoType leoType, bool repeatable)
+        public InstanceLeoVisitor(DictBase<T> handler, T instance, AlgorithmKind kind, bool repeatable)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _instance = instance;
-            _leoType = leoType;
+            _algorithmKind = kind;
 
             _handler.SetInstance(_instance);
 
             SourceType = typeof(T);
 
             GenericHistoricalContext = repeatable
-                ? new HistoricalContext<T>(leoType)
+                ? new HistoricalContext<T>(kind)
                 : null;
+
+            _lazyMemberHandler = new Lazy<LeoMemberHandler>(() => new LeoMemberHandler(_handler, SourceType));
         }
 
         public Type SourceType { get; }
 
         public bool IsStatic => false;
 
-        public LeoType AlgorithmType => _leoType;
+        public AlgorithmKind AlgorithmKind => _algorithmKind;
 
         public void SetValue(string name, object value)
         {
+            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
+            _handler[name] = value;
+        }
+
+        void ILeoVisitor.SetValue<TObj>(Expression<Func<TObj, object>> expression, object value)
+        {
+            if (expression is null)
+                return;
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
+            _handler[name] = value;
+        }
+
+        void ILeoVisitor.SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value)
+        {
+            if (expression is null)
+                return;
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
+            _handler[name] = value;
+        }
+
+        public void SetValue(Expression<Func<T, object>> expression, object value)
+        {
+            if (expression is null)
+                return;
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
+            _handler[name] = value;
+        }
+
+        public void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value)
+        {
+            if (expression is null)
+                return;
+
+            var name = PropertySelector.GetPropertyName(expression);
+
             GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
             _handler[name] = value;
         }
@@ -112,8 +234,48 @@ namespace NMS.Leo.Typed.Core
             return _handler[name];
         }
 
+        object ILeoVisitor.GetValue<TObj>(Expression<Func<TObj, object>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            return _handler[name];
+        }
+
+        TValue ILeoVisitor.GetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            return _handler.Get<TValue>(name);
+        }
+
+        public object GetValue(Expression<Func<T, object>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            return _handler[name];
+        }
+
         public TValue GetValue<TValue>(string name)
         {
+            return _handler.Get<TValue>(name);
+        }
+
+        public TValue GetValue<TValue>(Expression<Func<T, TValue>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
             return _handler.Get<TValue>(name);
         }
 
@@ -157,6 +319,62 @@ namespace NMS.Leo.Typed.Core
             if (GenericHistoricalContext is null) return false;
             result = GenericHistoricalContext.Repeat(instance);
             return true;
+        }
+
+        public ILeoRepeater<T> ForRepeat()
+        {
+            if (IsStatic) return new EmptyRepeater<T>();
+            if (GenericHistoricalContext is null) return new EmptyRepeater<T>();
+            return new LeoRepeater<T>(GenericHistoricalContext);
+        }
+
+        ILeoRepeater ILeoVisitor.ForRepeat()
+        {
+            return ForRepeat();
+        }
+
+        public IEnumerable<string> GetMemberNames() => _lazyMemberHandler.Value.GetNames();
+
+        public LeoMember GetMember(string name) => _lazyMemberHandler.Value.GetMember(name);
+
+        public LeoMember GetMember<TValue>(Expression<Func<T, TValue>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            return _lazyMemberHandler.Value.GetMember(name);
+        }
+
+        public ILeoLooper<T> ForEach(Action<string, object, LeoMember> loopAct)
+        {
+            return new LeoLooper<T>(this, _lazyMemberHandler, loopAct);
+        }
+
+        public ILeoLooper<T> ForEach(Action<string, object> loopAct)
+        {
+            return new LeoLooper<T>(this, _lazyMemberHandler, loopAct);
+        }
+
+        public ILeoLooper<T> ForEach(Action<LeoLoopContext> loopAct)
+        {
+            return new LeoLooper<T>(this, _lazyMemberHandler, loopAct);
+        }
+
+        ILeoLooper ILeoVisitor.ForEach(Action<string, object, LeoMember> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
+
+        ILeoLooper ILeoVisitor.ForEach(Action<string, object> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
+
+        ILeoLooper ILeoVisitor.ForEach(Action<LeoLoopContext> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
         }
     }
 }
