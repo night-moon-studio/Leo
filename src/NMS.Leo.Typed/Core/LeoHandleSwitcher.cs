@@ -15,7 +15,7 @@ namespace NMS.Leo.Typed.Core
                 case AlgorithmKind.Fuzzy:
                     return FuzzyDictOperator.CreateFromType;
                 default:
-                    throw new InvalidOperationException("Unknown AlgorithmType.");
+                    throw new InvalidOperationException("Unknown AlgorithmKind.");
             }
         }
     }
@@ -33,7 +33,7 @@ namespace NMS.Leo.Typed.Core
                 case AlgorithmKind.Fuzzy:
                     return () => FuzzyDictOperator<T>.Create();
                 default:
-                    throw new InvalidOperationException("Unknown AlgorithmType.");
+                    throw new InvalidOperationException("Unknown AlgorithmKind.");
             }
         }
     }
