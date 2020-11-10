@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Leo.Typed.Core;
 
 namespace NMS.Leo.Typed.Core
 {
@@ -9,22 +8,22 @@ namespace NMS.Leo.Typed.Core
     {
         private readonly DictBase _handler;
         private readonly Type _sourceType;
-        private readonly AlgorithmType _algorithmType;
+        private readonly AlgorithmKind _algorithmKind;
 
         private Lazy<LeoMemberHandler> _lazyMemberHandler;
 
         protected HistoricalContext NormalHistoricalContext { get; set; }
 
-        public FutureInstanceLeoVisitor(DictBase handler, Type sourceType, AlgorithmType algorithmType, bool repeatable)
+        public FutureInstanceLeoVisitor(DictBase handler, Type sourceType, AlgorithmKind kind, bool repeatable)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _sourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
-            _algorithmType = algorithmType;
+            _algorithmKind = kind;
 
             _handler.New();
 
             NormalHistoricalContext = repeatable
-                ? new HistoricalContext(sourceType, algorithmType)
+                ? new HistoricalContext(sourceType, kind)
                 : null;
 
             _lazyMemberHandler = new Lazy<LeoMemberHandler>(() => new LeoMemberHandler(_handler, _sourceType));
@@ -34,7 +33,7 @@ namespace NMS.Leo.Typed.Core
 
         public bool IsStatic => false;
 
-        public AlgorithmType AlgorithmType => _algorithmType;
+        public AlgorithmKind AlgorithmKind => _algorithmKind;
 
         public void SetValue(string name, object value)
         {
@@ -128,28 +127,43 @@ namespace NMS.Leo.Typed.Core
         public IEnumerable<string> GetMemberNames() => _lazyMemberHandler.Value.GetNames();
 
         public LeoMember GetMember(string name) => _lazyMemberHandler.Value.GetMember(name);
+
+        public ILeoLooper ForEach(Action<string, object, LeoMember> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
+
+        public ILeoLooper ForEach(Action<string, object> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
+
+        public ILeoLooper ForEach(Action<LeoLoopContext> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
     }
 
     internal class FutureInstanceLeoVisitor<T> : ILeoVisitor<T>
     {
         private readonly DictBase<T> _handler;
         private readonly Type _sourceType;
-        private readonly AlgorithmType _algorithmType;
+        private readonly AlgorithmKind _algorithmKind;
 
         private Lazy<LeoMemberHandler> _lazyMemberHandler;
 
         protected HistoricalContext<T> GenericHistoricalContext { get; set; }
 
-        public FutureInstanceLeoVisitor(DictBase<T> handler, AlgorithmType algorithmType, bool repeatable)
+        public FutureInstanceLeoVisitor(DictBase<T> handler, AlgorithmKind kind, bool repeatable)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _sourceType = typeof(T);
-            _algorithmType = algorithmType;
+            _algorithmKind = kind;
 
             _handler.New();
 
             GenericHistoricalContext = repeatable
-                ? new HistoricalContext<T>(algorithmType)
+                ? new HistoricalContext<T>(kind)
                 : null;
 
             _lazyMemberHandler = new Lazy<LeoMemberHandler>(() => new LeoMemberHandler(_handler, _sourceType));
@@ -159,7 +173,7 @@ namespace NMS.Leo.Typed.Core
 
         public bool IsStatic => false;
 
-        public AlgorithmType AlgorithmType => _algorithmType;
+        public AlgorithmKind AlgorithmKind => _algorithmKind;
 
         public void SetValue(string name, object value)
         {
@@ -327,6 +341,36 @@ namespace NMS.Leo.Typed.Core
             var name = PropertySelector.GetPropertyName(expression);
 
             return _lazyMemberHandler.Value.GetMember(name);
+        }
+
+        public ILeoLooper<T> ForEach(Action<string, object, LeoMember> loopAct)
+        {
+            return new LeoLooper<T>(this, _lazyMemberHandler, loopAct);
+        }
+
+        public ILeoLooper<T> ForEach(Action<string, object> loopAct)
+        {
+            return new LeoLooper<T>(this, _lazyMemberHandler, loopAct);
+        }
+
+        public ILeoLooper<T> ForEach(Action<LeoLoopContext> loopAct)
+        {
+            return new LeoLooper<T>(this, _lazyMemberHandler, loopAct);
+        }
+
+        ILeoLooper ILeoVisitor.ForEach(Action<string, object, LeoMember> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
+
+        ILeoLooper ILeoVisitor.ForEach(Action<string, object> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
+
+        ILeoLooper ILeoVisitor.ForEach(Action<LeoLoopContext> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
         }
     }
 }

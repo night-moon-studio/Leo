@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Leo.Typed.Core;
 
 namespace NMS.Leo.Typed.Core
 {
     internal class StaticTypeLeoVisitor : ILeoVisitor
     {
         private readonly DictBase _handler;
-        private readonly AlgorithmType _algorithmType;
+        private readonly AlgorithmKind _algorithmKind;
 
         private Lazy<LeoMemberHandler> _lazyMemberHandler;
 
-        public StaticTypeLeoVisitor(DictBase handler, Type targetType, AlgorithmType algorithmType)
+        public StaticTypeLeoVisitor(DictBase handler, Type targetType, AlgorithmKind kind)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
-            _algorithmType = algorithmType;
+            _algorithmKind = kind;
 
             SourceType = targetType ?? throw new ArgumentNullException(nameof(targetType));
 
@@ -26,7 +25,7 @@ namespace NMS.Leo.Typed.Core
 
         public bool IsStatic => true;
 
-        public AlgorithmType AlgorithmType => _algorithmType;
+        public AlgorithmKind AlgorithmKind => _algorithmKind;
 
         public void SetValue(string name, object value)
         {
@@ -109,19 +108,34 @@ namespace NMS.Leo.Typed.Core
         public IEnumerable<string> GetMemberNames() => _lazyMemberHandler.Value.GetNames();
 
         public LeoMember GetMember(string name) => _lazyMemberHandler.Value.GetMember(name);
+
+        public ILeoLooper ForEach(Action<string, object, LeoMember> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
+
+        public ILeoLooper ForEach(Action<string, object> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
+
+        public ILeoLooper ForEach(Action<LeoLoopContext> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
     }
 
     internal class StaticTypeLeoVisitor<T> : ILeoVisitor<T>
     {
         private readonly DictBase<T> _handler;
-        private readonly AlgorithmType _algorithmType;
+        private readonly AlgorithmKind _algorithmKind;
 
         private Lazy<LeoMemberHandler> _lazyMemberHandler;
 
-        public StaticTypeLeoVisitor(DictBase<T> handler, AlgorithmType algorithmType)
+        public StaticTypeLeoVisitor(DictBase<T> handler, AlgorithmKind kind)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
-            _algorithmType = algorithmType;
+            _algorithmKind = kind;
 
             SourceType = typeof(T);
 
@@ -132,7 +146,7 @@ namespace NMS.Leo.Typed.Core
 
         public bool IsStatic => true;
 
-        public AlgorithmType AlgorithmType => _algorithmType;
+        public AlgorithmKind AlgorithmKind => _algorithmKind;
 
         public void SetValue(string name, object value)
         {
@@ -281,6 +295,36 @@ namespace NMS.Leo.Typed.Core
             var name = PropertySelector.GetPropertyName(expression);
 
             return _lazyMemberHandler.Value.GetMember(name);
+        }
+
+        public ILeoLooper<T> ForEach(Action<string, object, LeoMember> loopAct)
+        {
+            return new LeoLooper<T>(this, _lazyMemberHandler, loopAct);
+        }
+
+        public ILeoLooper<T> ForEach(Action<string, object> loopAct)
+        {
+            return new LeoLooper<T>(this, _lazyMemberHandler, loopAct);
+        }
+
+        public ILeoLooper<T> ForEach(Action<LeoLoopContext> loopAct)
+        {
+            return new LeoLooper<T>(this, _lazyMemberHandler, loopAct);
+        }
+
+        ILeoLooper ILeoVisitor.ForEach(Action<string, object, LeoMember> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
+
+        ILeoLooper ILeoVisitor.ForEach(Action<string, object> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
+
+        ILeoLooper ILeoVisitor.ForEach(Action<LeoLoopContext> loopAct)
+        {
+            return new LeoLooper(this, _lazyMemberHandler, loopAct);
         }
     }
 }

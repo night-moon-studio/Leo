@@ -10,7 +10,7 @@ namespace NMS.Leo.Typed
 
         bool IsStatic { get; }
 
-        AlgorithmType AlgorithmType { get; }
+        AlgorithmKind AlgorithmKind { get; }
 
         void SetValue(string name, object value);
 
@@ -37,6 +37,12 @@ namespace NMS.Leo.Typed
         IEnumerable<string> GetMemberNames();
 
         LeoMember GetMember(string name);
+
+        ILeoLooper ForEach(Action<string, object, LeoMember> loopAct);
+
+        ILeoLooper ForEach(Action<string, object> loopAct);
+
+        ILeoLooper ForEach(Action<LeoLoopContext> loopAct);
     }
 
     public interface ILeoVisitor<T> : ILeoVisitor
@@ -56,5 +62,11 @@ namespace NMS.Leo.Typed
         new ILeoRepeater<T> ForRepeat();
 
         LeoMember GetMember<TValue>(Expression<Func<T, TValue>> expression);
+
+        new ILeoLooper<T> ForEach(Action<string, object, LeoMember> loopAct);
+
+        new ILeoLooper<T> ForEach(Action<string, object> loopAct);
+
+        new ILeoLooper<T> ForEach(Action<LeoLoopContext> loopAct);
     }
 }
