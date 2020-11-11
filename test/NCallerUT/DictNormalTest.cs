@@ -35,7 +35,6 @@ namespace HelloWorld
     }
 }";
             //根据脚本创建动态类
-
             var oop = new AssemblyCSharpBuilder();
             oop.Add(text);
             Type type = oop.GetTypeFromShortName("Test");

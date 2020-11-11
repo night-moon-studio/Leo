@@ -6,7 +6,7 @@ using Xunit;
 namespace NCallerUT
 {
     [Trait("LeoMember", "Metadata")]
-    public class MemberMetadataTests : Prepare
+    public unsafe class MemberMetadataTests : Prepare
     {
         [Fact(DisplayName = "类型元数据测试")]
         public void DirectMetadataTest()
