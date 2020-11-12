@@ -13,11 +13,6 @@ namespace NMS.Leo.Builder
     {
         public static Type InitType(Type type, AlgorithmKind kind = AlgorithmKind.Hash)
         {
-            if (CallerManagement.TryGetRuntimeType(type, out var tempClass))
-            {
-                return tempClass;
-            }
-
             var isStatic = type.IsSealed && type.IsAbstract;
             var callType = typeof(DictBase);
 
@@ -197,7 +192,7 @@ namespace NMS.Leo.Builder
             }
 
 
-            tempClass = NClass.UseDomain(type.GetDomain())
+            var tempClass = NClass.UseDomain(type.GetDomain())
                                  .Public()
                                  .Using(type)
                                  .AllowPrivate(type.Assembly)
