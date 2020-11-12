@@ -29,6 +29,7 @@ namespace NMS.Leo.Builder
             var getByLeoMembersScriptCache = new Dictionary<string, string>();
 
             var getByReadOnlyStaticScriptBuilder = new StringBuilder();
+            var getByReadOnlySettingScriptBuilder = new StringBuilder();
             var getByInternalNamesScriptBuilder = new StringBuilder();
 
             #region Field
@@ -74,6 +75,8 @@ namespace NMS.Leo.Builder
                 getByLeoMembersScriptCache[fieldName] = $"return __metadata_LeoMember_{fieldName};";
                 getByReadOnlyStaticScriptBuilder.AppendLine($@"private static readonly LeoMember __metadata_LeoMember_{fieldName};");
                 getByInternalNamesScriptBuilder.Append($@"""{fieldName}"",");
+                getByReadOnlySettingScriptBuilder.Append($"__metadata_LeoMember_{fieldName}".ReadonlyScript());
+                getByReadOnlySettingScriptBuilder.Append($@" = leoMembersCache[""{fieldName}""];");
             }
 
             #endregion
@@ -115,6 +118,8 @@ namespace NMS.Leo.Builder
                 getByLeoMembersScriptCache[propertyName] = $"return __metadata_LeoMember_{propertyName};";
                 getByReadOnlyStaticScriptBuilder.AppendLine($@"private static readonly LeoMember __metadata_LeoMember_{propertyName};");
                 getByInternalNamesScriptBuilder.Append($@"""{propertyName}"",");
+                getByReadOnlySettingScriptBuilder.Append($"__metadata_LeoMember_{propertyName}".ReadonlyScript());
+                getByReadOnlySettingScriptBuilder.Append($@" = leoMembersCache[""{propertyName}""];");
             }
 
             #endregion
@@ -177,7 +182,7 @@ namespace NMS.Leo.Builder
 
 
             body.AppendLine("public static void InitMetadataMapping(Dictionary<string, LeoMember> leoMembersCache){");
-            body.AppendLine(GetMetadataSettingScript(getByLeoMembersScriptCache));
+            body.AppendLine(getByReadOnlySettingScriptBuilder.ToString());
             body.Append('}');
 
 
@@ -221,28 +226,6 @@ namespace NMS.Leo.Builder
                 .Compile();
 
             return (Action<Dictionary<string, LeoMember>>)delegateAction;
-        }
-
-        /// <summary>
-        /// This method is used in dynamic method 'InitMetadataMapping'.
-        /// </summary>
-        /// <param name="leoMembersScriptCache"></param>
-        /// <returns></returns>
-        private static string GetMetadataSettingScript(Dictionary<string, string> leoMembersScriptCache)
-        {
-            if (!leoMembersScriptCache.Any())
-                return string.Empty;
-
-            var builder = new StringBuilder();
-
-
-            foreach (var member in leoMembersScriptCache)
-            {
-                builder.Append($"__metadata_LeoMember_{member.Key}".ReadonlyScript());
-                builder.Append($@" = leoMembersCache[""{member.Key}""];");
-            }
-
-            return builder.ToString();
         }
     }
 }
