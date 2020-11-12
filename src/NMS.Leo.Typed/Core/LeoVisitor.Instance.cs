@@ -144,6 +144,21 @@ namespace NMS.Leo.Typed.Core
         {
             return new LeoLooper(this, _lazyMemberHandler, loopAct);
         }
+
+        public ILeoSelector<TVal> Select<TVal>(Func<string, object, LeoMember, TVal> loopFunc)
+        {
+            return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
+        }
+
+        public ILeoSelector<TVal> Select<TVal>(Func<string, object, TVal> loopFunc)
+        {
+            return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
+        }
+
+        public ILeoSelector<TVal> Select<TVal>(Func<LeoLoopContext, TVal> loopFunc)
+        {
+            return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
+        }
     }
 
     internal class InstanceLeoVisitor<T> : ILeoVisitor<T>
@@ -375,6 +390,36 @@ namespace NMS.Leo.Typed.Core
         ILeoLooper ILeoVisitor.ForEach(Action<LeoLoopContext> loopAct)
         {
             return new LeoLooper(this, _lazyMemberHandler, loopAct);
+        }
+
+        public ILeoSelector<T, TVal> Select<TVal>(Func<string, object, LeoMember, TVal> loopFunc)
+        {
+            return new LeoSelector<T, TVal>(this, _lazyMemberHandler, loopFunc);
+        }
+
+        public ILeoSelector<T, TVal> Select<TVal>(Func<string, object, TVal> loopFunc)
+        {
+            return new LeoSelector<T, TVal>(this, _lazyMemberHandler, loopFunc);
+        }
+
+        public ILeoSelector<T, TVal> Select<TVal>(Func<LeoLoopContext, TVal> loopFunc)
+        {
+            return new LeoSelector<T, TVal>(this, _lazyMemberHandler, loopFunc);
+        }
+
+        ILeoSelector<TVal> ILeoVisitor.Select<TVal>(Func<string, object, LeoMember, TVal> loopFunc)
+        {
+            return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
+        }
+
+        ILeoSelector<TVal> ILeoVisitor.Select<TVal>(Func<string, object, TVal> loopFunc)
+        {
+            return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
+        }
+
+        ILeoSelector<TVal> ILeoVisitor.Select<TVal>(Func<LeoLoopContext, TVal> loopFunc)
+        {
+            return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
         }
     }
 }
