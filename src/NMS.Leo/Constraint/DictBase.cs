@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace NMS.Leo
 {
@@ -28,43 +29,15 @@ namespace NMS.Leo
 
         public IEnumerable<string> GetMemberNames() => InternalMemberNames;
 
-        public IEnumerable<string> GetCanReadMemberNames()
-        {
-            foreach (var member in GetCanReadMembers())
-                yield return member.MemberName;
-        }
+        public IEnumerable<string> GetCanReadMemberNames() => GetCanReadMembers().Select(member => member.MemberName);
 
-        public IEnumerable<string> GetCanWriteMemberNames()
-        {
-            foreach (var member in GetCanWriteMembers())
-                yield return member.MemberName;
-        }
+        public IEnumerable<string> GetCanWriteMemberNames() => GetCanWriteMembers().Select(member => member.MemberName);
 
-        public IEnumerable<LeoMember> GetMembers()
-        {
-            foreach (var name in InternalMemberNames)
-                yield return GetMember(name);
-        }
+        public IEnumerable<LeoMember> GetMembers() => InternalMemberNames.Select(GetMember);
 
-        public IEnumerable<LeoMember> GetCanReadMembers()
-        {
-            foreach (var name in InternalMemberNames)
-            {
-                var member = GetMember(name);
-                if (member.CanRead)
-                    yield return member;
-            }
-        }
+        public IEnumerable<LeoMember> GetCanReadMembers() => GetMembers().Where(member => member.CanRead);
 
-        public IEnumerable<LeoMember> GetCanWriteMembers()
-        {
-            foreach (var name in InternalMemberNames)
-            {
-                var member = GetMember(name);
-                if (member.CanWrite)
-                    yield return member;
-            }
-        }
+        public IEnumerable<LeoMember> GetCanWriteMembers() => GetMembers().Where(member => member.CanWrite);
 
         public abstract unsafe LeoMember GetMember(string name);
     }
