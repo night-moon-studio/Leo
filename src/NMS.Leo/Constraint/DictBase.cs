@@ -25,7 +25,7 @@ namespace NMS.Leo
         public abstract void SetObjInstance(object obj);
         public abstract unsafe object GetObject(string name);
 
-        protected virtual List<string> InternalMemberNames { get; } = new List<string>();
+        protected virtual HashSet<string> InternalMemberNames { get; } = new HashSet<string>();
 
         public IEnumerable<string> GetMemberNames() => InternalMemberNames;
 

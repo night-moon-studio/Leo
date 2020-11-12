@@ -28,6 +28,9 @@ namespace NMS.Leo.Builder
             var getByLeoMembersCache = new Dictionary<string, LeoMember>();
             var getByLeoMembersScriptCache = new Dictionary<string, string>();
 
+            var getByReadOnlyStaticScriptBuilder = new StringBuilder();
+            var getByInternalNamesScriptBuilder = new StringBuilder();
+
             #region Field
 
             var fields = type.GetFields(BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
@@ -69,6 +72,8 @@ namespace NMS.Leo.Builder
                 //member metadata
                 getByLeoMembersCache[fieldName] = field;
                 getByLeoMembersScriptCache[fieldName] = $"return __metadata_LeoMember_{fieldName};";
+                getByReadOnlyStaticScriptBuilder.AppendLine($@"private static readonly LeoMember __metadata_LeoMember_{fieldName};");
+                getByInternalNamesScriptBuilder.Append($@"""{fieldName}"",");
             }
 
             #endregion
@@ -108,6 +113,8 @@ namespace NMS.Leo.Builder
                 //member metadata
                 getByLeoMembersCache[propertyName] = property;
                 getByLeoMembersScriptCache[propertyName] = $"return __metadata_LeoMember_{propertyName};";
+                getByReadOnlyStaticScriptBuilder.AppendLine($@"private static readonly LeoMember __metadata_LeoMember_{propertyName};");
+                getByInternalNamesScriptBuilder.Append($@"""{propertyName}"",");
             }
 
             #endregion
@@ -141,7 +148,7 @@ namespace NMS.Leo.Builder
 
 
             //To add readonly metadata (LeoMember) properties.
-            body.AppendLine(GetReadOnlyStaticMetadataScript(getByLeoMembersScriptCache));
+            body.AppendLine(getByReadOnlyStaticScriptBuilder.ToString());
 
 
             body.AppendLine("public unsafe override void Set(string name,object value){");
@@ -164,8 +171,8 @@ namespace NMS.Leo.Builder
             body.Append("return default;}");
 
 
-            body.AppendLine("protected override List<string> InternalMemberNames { get; } = new List<string>(){");
-            body.AppendLine(GetInitMetadataNamesCacheScript(getByLeoMembersCache));
+            body.AppendLine("protected override HashSet<string> InternalMemberNames { get; } = new HashSet<string>(){");
+            body.AppendLine(getByInternalNamesScriptBuilder.ToString());
             body.Append("};");
 
 
@@ -217,24 +224,6 @@ namespace NMS.Leo.Builder
         }
 
         /// <summary>
-        /// This method is used to add readonly metadata (LeoMember) properties.
-        /// </summary>
-        /// <param name="leoMembersScriptCache"></param>
-        /// <returns></returns>
-        private static string GetReadOnlyStaticMetadataScript(Dictionary<string, string> leoMembersScriptCache)
-        {
-            if (!leoMembersScriptCache.Any())
-                return string.Empty;
-
-            var builder = new StringBuilder();
-
-            foreach (var member in leoMembersScriptCache)
-                builder.AppendLine($@"private static LeoMember __metadata_LeoMember_{member.Key};");
-
-            return builder.ToString();
-        }
-
-        /// <summary>
         /// This method is used in dynamic method 'InitMetadataMapping'.
         /// </summary>
         /// <param name="leoMembersScriptCache"></param>
@@ -246,26 +235,12 @@ namespace NMS.Leo.Builder
 
             var builder = new StringBuilder();
 
+
             foreach (var member in leoMembersScriptCache)
-                builder.Append($@"__metadata_LeoMember_{member.Key} = leoMembersCache[""{member.Key}""];");
-
-            return builder.ToString();
-        }
-
-        /// <summary>
-        /// This method is used to init internal metadata (LeoMember)'s MemberName cache for 'InternalMemberNames'.
-        /// </summary>
-        /// <param name="leoMembersCache"></param>
-        /// <returns></returns>
-        private static string GetInitMetadataNamesCacheScript(Dictionary<string, LeoMember> leoMembersCache)
-        {
-            if (!leoMembersCache.Any())
-                return string.Empty;
-
-            var builder = new StringBuilder();
-
-            foreach (var member in leoMembersCache)
-                builder.Append($@"""{member.Key}"",");
+            {
+                builder.Append($"__metadata_LeoMember_{member.Key}".ReadonlyScript());
+                builder.Append($@" = leoMembersCache[""{member.Key}""];");
+            }
 
             return builder.ToString();
         }
