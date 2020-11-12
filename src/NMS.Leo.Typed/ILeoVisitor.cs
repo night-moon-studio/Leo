@@ -43,6 +43,12 @@ namespace NMS.Leo.Typed
         ILeoLooper ForEach(Action<string, object> loopAct);
 
         ILeoLooper ForEach(Action<LeoLoopContext> loopAct);
+
+        ILeoSelector<TVal> Select<TVal>(Func<string, object, LeoMember, TVal> loopFunc);
+
+        ILeoSelector<TVal> Select<TVal>(Func<string, object, TVal> loopFunc);
+
+        ILeoSelector<TVal> Select<TVal>(Func<LeoLoopContext, TVal> loopFunc);
     }
 
     public interface ILeoVisitor<T> : ILeoVisitor
@@ -68,5 +74,11 @@ namespace NMS.Leo.Typed
         new ILeoLooper<T> ForEach(Action<string, object> loopAct);
 
         new ILeoLooper<T> ForEach(Action<LeoLoopContext> loopAct);
+
+        new ILeoSelector<T, TVal> Select<TVal>(Func<string, object, LeoMember, TVal> loopFunc);
+
+        new ILeoSelector<T, TVal> Select<TVal>(Func<string, object, TVal> loopFunc);
+
+        new ILeoSelector<T, TVal> Select<TVal>(Func<LeoLoopContext, TVal> loopFunc);
     }
 }
