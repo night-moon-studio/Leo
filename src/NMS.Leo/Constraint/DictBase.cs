@@ -9,7 +9,7 @@ namespace NMS.Leo
 
         public override void SetObjInstance(object obj)
         {
-            Instance = (T) obj;
+            Instance = (T)obj;
         }
     }
 
@@ -24,40 +24,48 @@ namespace NMS.Leo
         public abstract void SetObjInstance(object obj);
         public abstract unsafe object GetObject(string name);
 
-        protected virtual Dictionary<string, LeoMember> InternalMembersMetadata { get; } = new Dictionary<string, LeoMember>();
+        protected virtual List<string> InternalMemberNames { get; } = new List<string>();
 
-        public IEnumerable<string> GetMemberNames() => InternalMembersMetadata.Keys;
+        public IEnumerable<string> GetMemberNames() => InternalMemberNames;
 
         public IEnumerable<string> GetCanReadMemberNames()
         {
-            foreach (var metadata in InternalMembersMetadata)
-                if (metadata.Value.CanRead)
-                    yield return metadata.Key;
+            foreach (var member in GetCanReadMembers())
+                yield return member.MemberName;
         }
 
         public IEnumerable<string> GetCanWriteMemberNames()
         {
-            foreach (var metadata in InternalMembersMetadata)
-                if (metadata.Value.CanWrite)
-                    yield return metadata.Key;
+            foreach (var member in GetCanWriteMembers())
+                yield return member.MemberName;
         }
 
-        public IEnumerable<LeoMember> GetMembers() => InternalMembersMetadata.Values;
+        public IEnumerable<LeoMember> GetMembers()
+        {
+            foreach (var name in InternalMemberNames)
+                yield return GetMember(name);
+        }
 
         public IEnumerable<LeoMember> GetCanReadMembers()
         {
-            foreach (var metadata in InternalMembersMetadata)
-                if (metadata.Value.CanRead)
-                    yield return metadata.Value;
+            foreach (var name in InternalMemberNames)
+            {
+                var member = GetMember(name);
+                if (member.CanRead)
+                    yield return member;
+            }
         }
 
         public IEnumerable<LeoMember> GetCanWriteMembers()
         {
-            foreach (var metadata in InternalMembersMetadata)
-                if (metadata.Value.CanWrite)
-                    yield return metadata.Value;
+            foreach (var name in InternalMemberNames)
+            {
+                var member = GetMember(name);
+                if (member.CanWrite)
+                    yield return member;
+            }
         }
 
-        public LeoMember GetMember(string name) => InternalMembersMetadata.TryGetValue(name, out var member) ? member : default;
+        public abstract unsafe LeoMember GetMember(string name);
     }
 }

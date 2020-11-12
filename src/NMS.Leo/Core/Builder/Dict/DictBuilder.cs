@@ -2,8 +2,10 @@
 using Natasha.CSharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
+using Natasha.Framework;
 
 
 namespace NMS.Leo.Builder
@@ -20,6 +22,7 @@ namespace NMS.Leo.Builder
             var getByObjectCache = new Dictionary<string, string>();
             var getByStrongTypeCache = new Dictionary<string, string>();
             var getByLeoMembersCache = new Dictionary<string, LeoMember>();
+            var getByLeoMembersScriptCache = new Dictionary<string, string>();
 
             #region Field
 
@@ -32,7 +35,7 @@ namespace NMS.Leo.Builder
                 }
 
                 var caller = "Instance";
-                
+
                 if (field.IsStatic)
                 {
                     caller = type.GetDevelopName();
@@ -45,7 +48,7 @@ namespace NMS.Leo.Builder
                 if (!field.IsLiteral)
                 {
                     var fieldScript = $"{caller}.{fieldName}";
-                    
+
                     if (field.IsInitOnly)
                     {
                         fieldScript = fieldScript.ReadonlyScript();
@@ -61,6 +64,7 @@ namespace NMS.Leo.Builder
 
                 //member metadata
                 getByLeoMembersCache[fieldName] = field;
+                getByLeoMembersScriptCache[fieldName] = $"return __metadata_LeoMember_{fieldName};";
             }
 
             #endregion
@@ -73,7 +77,7 @@ namespace NMS.Leo.Builder
                 var method = property.CanRead ? property.GetGetMethod(true) : property.GetSetMethod(true);
 
                 var caller = "Instance";
-                
+
                 if (method.IsStatic)
                 {
                     caller = type.GetDevelopName();
@@ -99,6 +103,7 @@ namespace NMS.Leo.Builder
 
                 //member metadata
                 getByLeoMembersCache[propertyName] = property;
+                getByLeoMembersScriptCache[propertyName] = $"return __metadata_LeoMember_{propertyName};";
             }
 
             #endregion
@@ -106,6 +111,7 @@ namespace NMS.Leo.Builder
             string setObjectBody = default;
             string getObjectBody = default;
             string getStrongTypeBody = default;
+            string getLeoMemberBody = default;
 
             switch (kind)
             {
@@ -113,18 +119,25 @@ namespace NMS.Leo.Builder
                     setObjectBody = BTFTemplate.GetFuzzyPointBTFScript(setByObjectCache, "name");
                     getObjectBody = BTFTemplate.GetFuzzyPointBTFScript(getByObjectCache, "name");
                     getStrongTypeBody = BTFTemplate.GetFuzzyPointBTFScript(getByStrongTypeCache, "name");
+                    getLeoMemberBody = BTFTemplate.GetFuzzyPointBTFScript(getByLeoMembersScriptCache, "name");
                     break;
                 case AlgorithmKind.Hash:
                     setObjectBody = BTFTemplate.GetHashBTFScript(setByObjectCache, "name");
                     getObjectBody = BTFTemplate.GetHashBTFScript(getByObjectCache, "name");
                     getStrongTypeBody = BTFTemplate.GetHashBTFScript(getByStrongTypeCache, "name");
+                    getLeoMemberBody = BTFTemplate.GetHashBTFScript(getByLeoMembersScriptCache, "name");
                     break;
                 case AlgorithmKind.Precision:
                     setObjectBody = BTFTemplate.GetGroupPrecisionPointBTFScript(setByObjectCache, "name");
                     getObjectBody = BTFTemplate.GetGroupPrecisionPointBTFScript(getByObjectCache, "name");
                     getStrongTypeBody = BTFTemplate.GetGroupPrecisionPointBTFScript(getByStrongTypeCache, "name");
+                    getLeoMemberBody = BTFTemplate.GetGroupPrecisionPointBTFScript(getByLeoMembersScriptCache, "name");
                     break;
             }
+
+
+            //To add readonly metadata (LeoMember) properties.
+            body.AppendLine(GetReadOnlyStaticMetadataScript(getByLeoMembersScriptCache));
 
 
             body.AppendLine("public unsafe override void Set(string name,object value){");
@@ -142,6 +155,21 @@ namespace NMS.Leo.Builder
             body.Append("return default;}");
 
 
+            body.AppendLine("public unsafe override LeoMember GetMember(string name){");
+            body.AppendLine(getLeoMemberBody);
+            body.Append("return default;}");
+
+
+            body.AppendLine("protected override List<string> InternalMemberNames { get; } = new List<string>(){");
+            body.AppendLine(GetInitMetadataNamesCacheScript(getByLeoMembersCache));
+            body.Append("};");
+
+
+            body.AppendLine("public static void InitMetadataMapping(Dictionary<string, LeoMember> leoMembersCache){");
+            body.AppendLine(GetMetadataSettingScript(getByLeoMembersScriptCache));
+            body.Append('}');
+
+
             if (!isStatic)
             {
                 callType = typeof(DictBase<>).With(type);
@@ -152,16 +180,6 @@ namespace NMS.Leo.Builder
                 body.Append($@"public override void SetObjInstance(object obj){{ }}");
             }
 
-            var leoMemberMetadataScriptBuilder = getByLeoMembersCache.ToLeoMemberMetadataScript();
-
-            if (leoMemberMetadataScriptBuilder.Length > 0)
-            {
-                body.Append($@"protected override Dictionary<string, LeoMember> InternalMembersMetadata {{ get; }} = new Dictionary<string, LeoMember>() {{ {leoMemberMetadataScriptBuilder} }};");
-            }
-            else
-            {
-                body.Append($@"protected override Dictionary<string, LeoMember> InternalMembersMetadata {{ get; }} = new Dictionary<string, LeoMember>();");
-            }
 
             var tempClass = NClass.UseDomain(type.GetDomain())
                                   .Public()
@@ -175,7 +193,75 @@ namespace NMS.Leo.Builder
                                   .Body(body.ToString())
                                   .GetType();
 
+            InitMetadataMappingCaller(tempClass)(getByLeoMembersCache);
+
             return tempClass;
+        }
+
+        private static Action<Dictionary<string, LeoMember>> InitMetadataMappingCaller(Type runtimeProxyType)
+        {
+            var delegateAction = FastMethodOperator
+                .UseDomain(runtimeProxyType.GetDomain())
+                .AssemblyName(runtimeProxyType.Assembly.FullName)
+                .Param<Dictionary<string, LeoMember>>("arg1")
+                .Body($"{runtimeProxyType.GetDevelopName()}.InitMetadataMapping(arg1);")
+                .Compile();
+
+            return (Action<Dictionary<string, LeoMember>>)delegateAction;
+        }
+
+        /// <summary>
+        /// This method is used to add readonly metadata (LeoMember) properties.
+        /// </summary>
+        /// <param name="leoMembersScriptCache"></param>
+        /// <returns></returns>
+        private static string GetReadOnlyStaticMetadataScript(Dictionary<string, string> leoMembersScriptCache)
+        {
+            if (!leoMembersScriptCache.Any())
+                return string.Empty;
+
+            var builder = new StringBuilder();
+
+            foreach (var member in leoMembersScriptCache)
+                builder.AppendLine($@"private static LeoMember __metadata_LeoMember_{member.Key};");
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// This method is used in dynamic method 'InitMetadataMapping'.
+        /// </summary>
+        /// <param name="leoMembersScriptCache"></param>
+        /// <returns></returns>
+        private static string GetMetadataSettingScript(Dictionary<string, string> leoMembersScriptCache)
+        {
+            if (!leoMembersScriptCache.Any())
+                return string.Empty;
+
+            var builder = new StringBuilder();
+
+            foreach (var member in leoMembersScriptCache)
+                builder.Append($@"__metadata_LeoMember_{member.Key} = leoMembersCache[""{member.Key}""];");
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// This method is used to init internal metadata (LeoMember)'s MemberName cache for 'InternalMemberNames'.
+        /// </summary>
+        /// <param name="leoMembersCache"></param>
+        /// <returns></returns>
+        private static string GetInitMetadataNamesCacheScript(Dictionary<string, LeoMember> leoMembersCache)
+        {
+            if (!leoMembersCache.Any())
+                return string.Empty;
+
+            var builder = new StringBuilder();
+
+            foreach (var member in leoMembersCache)
+                builder.Append($@"""{member.Key}"",");
+
+            return builder.ToString();
         }
     }
 }
