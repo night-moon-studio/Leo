@@ -201,9 +201,6 @@ namespace NMS.Leo.Builder
                                  .Public()
                                  .Using(type)
                                  .AllowPrivate(type.Assembly)
-                                 .Using("System")
-                                 .Using("NMS.Leo")
-                                 .UseRandomName()
                                  .Namespace("NMS.Leo.NCallerDynamic")
                                  .Inheritance(callType)
                                  .Body(body.ToString())
@@ -211,21 +208,14 @@ namespace NMS.Leo.Builder
 
             InitMetadataMappingCaller(tempClass)(getByLeoMembersCache);
 
-            CallerManagement.AddType(type, tempClass);
-
             return tempClass;
         }
 
         private static Action<Dictionary<string, LeoMember>> InitMetadataMappingCaller(Type runtimeProxyType)
         {
-            var delegateAction = FastMethodOperator
+            return NDelegate
                 .UseDomain(runtimeProxyType.GetDomain())
-                .AssemblyName(runtimeProxyType.Assembly.FullName)
-                .Param<Dictionary<string, LeoMember>>("arg1")
-                .Body($"{runtimeProxyType.GetDevelopName()}.InitMetadataMapping(arg1);")
-                .Compile();
-
-            return (Action<Dictionary<string, LeoMember>>)delegateAction;
+                .Action<Dictionary<string, LeoMember>>($"{runtimeProxyType.GetDevelopName()}.InitMetadataMapping(obj);");
         }
     }
 }
