@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Natasha.Framework;
 
 
 namespace NMS.Leo.Builder
@@ -14,6 +13,11 @@ namespace NMS.Leo.Builder
     {
         public static Type InitType(Type type, AlgorithmKind kind = AlgorithmKind.Hash)
         {
+            if (CallerManagement.TryGetRuntimeType(type, out var tempClass))
+            {
+                return tempClass;
+            }
+
             var isStatic = type.IsSealed && type.IsAbstract;
             var callType = typeof(DictBase);
 
@@ -181,19 +185,21 @@ namespace NMS.Leo.Builder
             }
 
 
-            var tempClass = NClass.UseDomain(type.GetDomain())
-                                  .Public()
-                                  .Using(type)
-                                  .AllowPrivate(type.Assembly)
-                                  .Using("System")
-                                  .Using("NMS.Leo")
-                                  .UseRandomName()
-                                  .Namespace("NMS.Leo.NCallerDynamic")
-                                  .Inheritance(callType)
-                                  .Body(body.ToString())
-                                  .GetType();
+            tempClass = NClass.UseDomain(type.GetDomain())
+                                 .Public()
+                                 .Using(type)
+                                 .AllowPrivate(type.Assembly)
+                                 .Using("System")
+                                 .Using("NMS.Leo")
+                                 .UseRandomName()
+                                 .Namespace("NMS.Leo.NCallerDynamic")
+                                 .Inheritance(callType)
+                                 .Body(body.ToString())
+                                 .GetType();
 
             InitMetadataMappingCaller(tempClass)(getByLeoMembersCache);
+
+            CallerManagement.AddType(type, tempClass);
 
             return tempClass;
         }
