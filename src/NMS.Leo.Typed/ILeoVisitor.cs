@@ -49,6 +49,8 @@ namespace NMS.Leo.Typed
         ILeoSelector<TVal> Select<TVal>(Func<string, object, TVal> loopFunc);
 
         ILeoSelector<TVal> Select<TVal>(Func<LeoLoopContext, TVal> loopFunc);
+
+        Dictionary<string, object> ToDictionary();
     }
 
     public interface ILeoVisitor<T> : ILeoVisitor

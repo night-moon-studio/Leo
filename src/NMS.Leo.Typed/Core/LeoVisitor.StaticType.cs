@@ -138,6 +138,14 @@ namespace NMS.Leo.Typed.Core
         {
             return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
         }
+        
+        public Dictionary<string, object> ToDictionary()
+        {
+            var val = new Dictionary<string, object>();
+            foreach (var name in _lazyMemberHandler.Value.GetNames())
+                val[name] = _handler[name];
+            return val;
+        }
     }
 
     internal class StaticTypeLeoVisitor<T> : ILeoVisitor<T>
@@ -370,6 +378,14 @@ namespace NMS.Leo.Typed.Core
         ILeoSelector<TVal> ILeoVisitor.Select<TVal>(Func<LeoLoopContext, TVal> loopFunc)
         {
             return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
+        }
+        
+        public Dictionary<string, object> ToDictionary()
+        {
+            var val = new Dictionary<string, object>();
+            foreach (var name in _lazyMemberHandler.Value.GetNames())
+                val[name] = _handler[name];
+            return val;
         }
     }
 }
