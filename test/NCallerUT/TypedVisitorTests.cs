@@ -85,6 +85,20 @@ namespace NCallerUT
             Assert.Equal(Country.China, d["Country"]);
             Assert.Equal(DateTime.Today.AddDays(-2), d["Birthday"]);
             Assert.False((bool) d["IsValid"]);
+
+            d["Name"] = "Ax";
+            d["Age"] = 10086;
+            d["Country"] = Country.China;
+            d["Birthday"] = DateTime.Today.AddDays(10);
+            d["IsValid"] = true;
+            
+            v.SetValue(d);
+            
+            Assert.Equal("Ax", d["Name"]);
+            Assert.Equal(10086, d["Age"]);
+            Assert.Equal(Country.China, d["Country"]);
+            Assert.Equal(DateTime.Today.AddDays(10), d["Birthday"]);
+            Assert.True((bool) d["IsValid"]);
         }
 
         [Fact(DisplayName = "类型扩展方法测试")]
@@ -151,6 +165,20 @@ namespace NCallerUT
             Assert.Equal(Country.China, d["Country"]);
             Assert.Equal(DateTime.Today.AddDays(-2), d["Birthday"]);
             Assert.False((bool) d["IsValid"]);
+
+            d["Name"] = "Ax";
+            d["Age"] = 10086;
+            d["Country"] = Country.China;
+            d["Birthday"] = DateTime.Today.AddDays(10);
+            d["IsValid"] = true;
+            
+            v.SetValue(d);
+            
+            Assert.Equal("Ax", d["Name"]);
+            Assert.Equal(10086, d["Age"]);
+            Assert.Equal(Country.China, d["Country"]);
+            Assert.Equal(DateTime.Today.AddDays(10), d["Birthday"]);
+            Assert.True((bool) d["IsValid"]);
         }
 
         [Fact(DisplayName = "直接实例测试")]
@@ -231,6 +259,20 @@ namespace NCallerUT
             Assert.Equal(Country.China, d["Country"]);
             Assert.Equal(DateTime.Today.AddDays(-2), d["Birthday"]);
             Assert.False((bool) d["IsValid"]);
+
+            d["Name"] = "Ax";
+            d["Age"] = 10086;
+            d["Country"] = Country.China;
+            d["Birthday"] = DateTime.Today.AddDays(10);
+            d["IsValid"] = true;
+            
+            v.SetValue(d);
+            
+            Assert.Equal("Ax", d["Name"]);
+            Assert.Equal(10086, d["Age"]);
+            Assert.Equal(Country.China, d["Country"]);
+            Assert.Equal(DateTime.Today.AddDays(10), d["Birthday"]);
+            Assert.True((bool) d["IsValid"]);
         }
 
         [Fact(DisplayName = "直接类型测试")]
@@ -297,6 +339,20 @@ namespace NCallerUT
             Assert.Equal(Country.China, d["Country"]);
             Assert.Equal(DateTime.Today.AddDays(-2), d["Birthday"]);
             Assert.False((bool) d["IsValid"]);
+
+            d["Name"] = "Ax";
+            d["Age"] = 10086;
+            d["Country"] = Country.China;
+            d["Birthday"] = DateTime.Today.AddDays(10);
+            d["IsValid"] = true;
+            
+            v.SetValue(d);
+            
+            Assert.Equal("Ax", d["Name"]);
+            Assert.Equal(10086, d["Age"]);
+            Assert.Equal(Country.China, d["Country"]);
+            Assert.Equal(DateTime.Today.AddDays(10), d["Birthday"]);
+            Assert.True((bool) d["IsValid"]);
         }
 
         [Fact(DisplayName = "泛型实例测试")]
@@ -388,6 +444,20 @@ namespace NCallerUT
             Assert.Equal(Country.USA, d["Country"]);
             Assert.Equal(DateTime.Today, d["Birthday"]);
             Assert.True((bool) d["IsValid"]);
+
+            d["Name"] = "Ax";
+            d["Age"] = 10086;
+            d["Country"] = Country.China;
+            d["Birthday"] = DateTime.Today.AddDays(10);
+            d["IsValid"] = true;
+            
+            v.SetValue(d);
+            
+            Assert.Equal("Ax", d["Name"]);
+            Assert.Equal(10086, d["Age"]);
+            Assert.Equal(Country.China, d["Country"]);
+            Assert.Equal(DateTime.Today.AddDays(10), d["Birthday"]);
+            Assert.True((bool) d["IsValid"]);
         }
 
         [Fact(DisplayName = "泛型类型测试")]
@@ -464,6 +534,20 @@ namespace NCallerUT
             Assert.Equal(11, d["Age"]);
             Assert.Equal(Country.USA, d["Country"]);
             Assert.Equal(DateTime.Today, d["Birthday"]);
+            Assert.True((bool) d["IsValid"]);
+
+            d["Name"] = "Ax";
+            d["Age"] = 10086;
+            d["Country"] = Country.China;
+            d["Birthday"] = DateTime.Today.AddDays(10);
+            d["IsValid"] = true;
+            
+            v.SetValue(d);
+            
+            Assert.Equal("Ax", d["Name"]);
+            Assert.Equal(10086, d["Age"]);
+            Assert.Equal(Country.China, d["Country"]);
+            Assert.Equal(DateTime.Today.AddDays(10), d["Birthday"]);
             Assert.True((bool) d["IsValid"]);
         }
 
@@ -543,6 +627,20 @@ namespace NCallerUT
             Assert.Equal(Country.China, d["Country"]);
             Assert.Equal(DateTime.Today.AddDays(-2), d["Birthday"]);
             Assert.False((bool) d["IsValid"]);
+
+            d["Name"] = "Ax";
+            d["Age"] = 10086;
+            d["Country"] = Country.China;
+            d["Birthday"] = DateTime.Today.AddDays(10);
+            d["IsValid"] = true;
+            
+            v.SetValue(d);
+            
+            Assert.Equal("Ax", d["Name"]);
+            Assert.Equal(10086, d["Age"]);
+            Assert.Equal(Country.China, d["Country"]);
+            Assert.Equal(DateTime.Today.AddDays(10), d["Birthday"]);
+            Assert.True((bool) d["IsValid"]);
         }
 
         [Fact(DisplayName = "伪静态类型测试")]
@@ -623,6 +721,20 @@ namespace NCallerUT
             Assert.Equal(Country.China, d["Country"]);
             Assert.Equal(DateTime.Today.AddDays(-2), d["Birthday"]);
             Assert.False((bool) d["IsValid"]);
+
+            d["Name"] = "Ax";
+            d["Age"] = 10086;
+            d["Country"] = Country.China;
+            d["Birthday"] = DateTime.Today.AddDays(10);
+            d["IsValid"] = true;
+            
+            v.SetValue(d);
+            
+            Assert.Equal("Ax", d["Name"]);
+            Assert.Equal(10086, d["Age"]);
+            Assert.Equal(Country.China, d["Country"]);
+            Assert.Equal(DateTime.Today.AddDays(10), d["Birthday"]);
+            Assert.True((bool) d["IsValid"]);
         }
     }
 

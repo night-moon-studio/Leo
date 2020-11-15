@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NMS.Leo.Typed;
 using Xunit;
 
@@ -110,6 +111,40 @@ namespace NCallerUT
             Assert.Equal(Country.China, o8.Country);
             Assert.Equal(DateTime.Today.AddDays(1), o8.Birthday);
             Assert.False(o8.IsValid);
+
+            var d = new Dictionary<string, object>();
+            d["Name"] = "AuX";
+            d["Age"] = 707;
+            d["Country"] = Country.USA;
+            d["Birthday"] = DateTime.Today.AddDays(10);
+            d["IsValid"] = true;
+
+            var b10 = v.TryRepeat(d, out var o10);
+            var to10 = (NiceAct) o10;
+
+            var b11 = v.TryRepeatAs<NiceAct>(d, out var o11);
+
+            var o12 = (NiceAct) repeater.Play(d);
+
+            Assert.True(b10);
+            Assert.Equal("Au", to10.Name);
+            Assert.Equal(77, to10.Age);
+            Assert.Equal(Country.China, to10.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), to10.Birthday);
+            Assert.False(to10.IsValid);
+
+            Assert.True(b11);
+            Assert.Equal("Au", o11.Name);
+            Assert.Equal(77, o11.Age);
+            Assert.Equal(Country.China, o11.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o11.Birthday);
+            Assert.False(o11.IsValid);
+
+            Assert.Equal("Au", o12.Name);
+            Assert.Equal(77, o12.Age);
+            Assert.Equal(Country.China, o12.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o12.Birthday);
+            Assert.False(o12.IsValid);
         }
 
         [Fact(DisplayName = "直接类型重复操作测试")]
@@ -207,6 +242,40 @@ namespace NCallerUT
             Assert.Equal(Country.China, o8.Country);
             Assert.Equal(DateTime.Today.AddDays(1), o8.Birthday);
             Assert.False(o8.IsValid);
+
+            var d = new Dictionary<string, object>();
+            d["Name"] = "AuX";
+            d["Age"] = 707;
+            d["Country"] = Country.USA;
+            d["Birthday"] = DateTime.Today.AddDays(10);
+            d["IsValid"] = true;
+
+            var b10 = v.TryRepeat(d, out var o10);
+            var to10 = (NiceAct) o10;
+
+            var b11 = v.TryRepeatAs<NiceAct>(d, out var o11);
+
+            var o12 = (NiceAct) repeater.Play(d);
+
+            Assert.True(b10);
+            Assert.Equal("Au", to10.Name);
+            Assert.Equal(77, to10.Age);
+            Assert.Equal(Country.China, to10.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), to10.Birthday);
+            Assert.False(to10.IsValid);
+
+            Assert.True(b11);
+            Assert.Equal("Au", o11.Name);
+            Assert.Equal(77, o11.Age);
+            Assert.Equal(Country.China, o11.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o11.Birthday);
+            Assert.False(o11.IsValid);
+
+            Assert.Equal("Au", o12.Name);
+            Assert.Equal(77, o12.Age);
+            Assert.Equal(Country.China, o12.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o12.Birthday);
+            Assert.False(o12.IsValid);
         }
 
         [Fact(DisplayName = "泛型实例重复操作测试")]
@@ -308,6 +377,39 @@ namespace NCallerUT
             Assert.Equal(Country.China, o8.Country);
             Assert.Equal(DateTime.Today.AddDays(1), o8.Birthday);
             Assert.False(o8.IsValid);
+
+            var d = new Dictionary<string, object>();
+            d["Name"] = "AuX";
+            d["Age"] = 707;
+            d["Country"] = Country.USA;
+            d["Birthday"] = DateTime.Today.AddDays(10);
+            d["IsValid"] = true;
+
+            var b10 = v.TryRepeat(d, out var to10);
+
+            var b11 = v.TryRepeatAs<NiceAct>(d, out var o11);
+
+            var o12 =  repeater.Play(d);
+
+            Assert.True(b10);
+            Assert.Equal("Au", to10.Name);
+            Assert.Equal(77, to10.Age);
+            Assert.Equal(Country.China, to10.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), to10.Birthday);
+            Assert.False(to10.IsValid);
+
+            Assert.True(b11);
+            Assert.Equal("Au", o11.Name);
+            Assert.Equal(77, o11.Age);
+            Assert.Equal(Country.China, o11.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o11.Birthday);
+            Assert.False(o11.IsValid);
+
+            Assert.Equal("Au", o12.Name);
+            Assert.Equal(77, o12.Age);
+            Assert.Equal(Country.China, o12.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o12.Birthday);
+            Assert.False(o12.IsValid);
         }
 
         [Fact(DisplayName = "泛型类型重复操作测试")]
@@ -401,6 +503,39 @@ namespace NCallerUT
             Assert.Equal(Country.China, o8.Country);
             Assert.Equal(DateTime.Today.AddDays(1), o8.Birthday);
             Assert.False(o8.IsValid);
+
+            var d = new Dictionary<string, object>();
+            d["Name"] = "AuX";
+            d["Age"] = 707;
+            d["Country"] = Country.USA;
+            d["Birthday"] = DateTime.Today.AddDays(10);
+            d["IsValid"] = true;
+
+            var b10 = v.TryRepeat(d, out var to10);
+
+            var b11 = v.TryRepeatAs<NiceAct>(d, out var o11);
+
+            var o12 = repeater.Play(d);
+
+            Assert.True(b10);
+            Assert.Equal("Au", to10.Name);
+            Assert.Equal(77, to10.Age);
+            Assert.Equal(Country.China, to10.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), to10.Birthday);
+            Assert.False(to10.IsValid);
+
+            Assert.True(b11);
+            Assert.Equal("Au", o11.Name);
+            Assert.Equal(77, o11.Age);
+            Assert.Equal(Country.China, o11.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o11.Birthday);
+            Assert.False(o11.IsValid);
+
+            Assert.Equal("Au", o12.Name);
+            Assert.Equal(77, o12.Age);
+            Assert.Equal(Country.China, o12.Country);
+            Assert.Equal(DateTime.Today.AddDays(1), o12.Birthday);
+            Assert.False(o12.IsValid);
         }
     }
 }

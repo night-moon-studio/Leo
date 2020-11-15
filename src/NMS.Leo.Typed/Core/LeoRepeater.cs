@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NMS.Leo.Typed.Core
 {
@@ -14,6 +15,11 @@ namespace NMS.Leo.Typed.Core
         public object Play(object originalObj)
         {
             return NormalHistoricalContext.Repeat(originalObj);
+        }
+
+        public object Play(Dictionary<string, object> keyValueCollections)
+        {
+            return NormalHistoricalContext.Repeat(keyValueCollections);
         }
 
         public object NewAndPlay()
@@ -35,12 +41,22 @@ namespace NMS.Leo.Typed.Core
         {
             return GenericHistoricalContext.Repeat(originalObj);
         }
+        
+        public T Play(Dictionary<string, object> keyValueCollections)
+        {
+            return GenericHistoricalContext.Repeat(keyValueCollections);
+        }
 
         object ILeoRepeater.Play(object originalObj)
         {
             return GenericHistoricalContext.Repeat(originalObj);
         }
-
+        
+        object ILeoRepeater.Play(Dictionary<string, object> keyValueCollections)
+        {
+            return GenericHistoricalContext.Repeat(keyValueCollections);
+        }
+        
         public T NewAndPlay()
         {
             return GenericHistoricalContext.Repeat();
@@ -63,6 +79,8 @@ namespace NMS.Leo.Typed.Core
 
         public object Play(object originalObj) => originalObj;
 
+        public object Play(Dictionary<string, object> keyValueCollections) => default;
+
         public object NewAndPlay() => Activator.CreateInstance(_sourceType);
     }
 
@@ -70,7 +88,11 @@ namespace NMS.Leo.Typed.Core
     {
         public T Play(T originalObj) => originalObj;
 
+        public T Play(Dictionary<string, object> keyValueCollections) => default;
+
         object ILeoRepeater.Play(object originalObj) => originalObj;
+
+        object ILeoRepeater.Play(Dictionary<string, object> keyValueCollections) => default;
 
         public T NewAndPlay() => Activator.CreateInstance<T>();
 
@@ -80,6 +102,8 @@ namespace NMS.Leo.Typed.Core
     internal class StaticEmptyRepeater : ILeoRepeater
     {
         public object Play(object originalObj) => originalObj;
+
+        public object Play(Dictionary<string, object> keyValueCollections) => default;
 
         public object NewAndPlay() => null;
 
@@ -91,6 +115,10 @@ namespace NMS.Leo.Typed.Core
         public T Play(T originalObj) => originalObj;
 
         object ILeoRepeater.Play(object originalObj) => originalObj;
+
+        public T Play(Dictionary<string, object> keyValueCollections) => default;
+
+        object ILeoRepeater.Play(Dictionary<string, object> keyValueCollections) => default;
 
         public T NewAndPlay() => default;
 
