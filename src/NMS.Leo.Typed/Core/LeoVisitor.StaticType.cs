@@ -52,6 +52,14 @@ namespace NMS.Leo.Typed.Core
             _handler[name] = value;
         }
 
+        public void SetValue(Dictionary<string, object> keyValueCollections)
+        {
+            if (keyValueCollections is null)
+                throw new ArgumentNullException(nameof(keyValueCollections));
+            foreach (var keyValue in keyValueCollections)
+                SetValue(keyValue.Key, keyValue.Value);
+        }
+
         public object GetValue(string name)
         {
             return _handler[name];
@@ -100,6 +108,12 @@ namespace NMS.Leo.Typed.Core
             return false;
         }
 
+        public bool TryRepeat(Dictionary<string, object> keyValueCollections, out object result)
+        {
+            result = default;
+            return false;
+        }
+
         public ILeoRepeater ForRepeat()
         {
             return StaticEmptyRepeater.Instance;
@@ -137,6 +151,14 @@ namespace NMS.Leo.Typed.Core
         public ILeoSelector<TVal> Select<TVal>(Func<LeoLoopContext, TVal> loopFunc)
         {
             return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
+        }
+
+        public Dictionary<string, object> ToDictionary()
+        {
+            var val = new Dictionary<string, object>();
+            foreach (var name in _lazyMemberHandler.Value.GetNames())
+                val[name] = _handler[name];
+            return val;
         }
     }
 
@@ -208,6 +230,14 @@ namespace NMS.Leo.Typed.Core
             _handler[name] = value;
         }
 
+        public void SetValue(Dictionary<string, object> keyValueCollections)
+        {
+            if (keyValueCollections is null)
+                throw new ArgumentNullException(nameof(keyValueCollections));
+            foreach (var keyValue in keyValueCollections)
+                SetValue(keyValue.Key, keyValue.Value);
+        }
+
         public object GetValue(string name)
         {
             return _handler[name];
@@ -276,6 +306,12 @@ namespace NMS.Leo.Typed.Core
             return false;
         }
 
+        public bool TryRepeat(Dictionary<string, object> keyValueCollections, out object result)
+        {
+            result = default;
+            return false;
+        }
+
         public bool TryRepeat(out T result)
         {
             result = default;
@@ -283,6 +319,12 @@ namespace NMS.Leo.Typed.Core
         }
 
         public bool TryRepeat(T instance, out T result)
+        {
+            result = default;
+            return false;
+        }
+
+        public bool TryRepeat(Dictionary<string, object> keyValueCollections, out T result)
         {
             result = default;
             return false;
@@ -370,6 +412,14 @@ namespace NMS.Leo.Typed.Core
         ILeoSelector<TVal> ILeoVisitor.Select<TVal>(Func<LeoLoopContext, TVal> loopFunc)
         {
             return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
+        }
+
+        public Dictionary<string, object> ToDictionary()
+        {
+            var val = new Dictionary<string, object>();
+            foreach (var name in _lazyMemberHandler.Value.GetNames())
+                val[name] = _handler[name];
+            return val;
         }
     }
 }

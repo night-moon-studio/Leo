@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NMS.Leo.Typed.Core
 {
@@ -12,20 +13,20 @@ namespace NMS.Leo.Typed.Core
 
         public static InstanceLeoVisitor<T> CreateForInstance<T>(T instance, AlgorithmKind kind, bool repeatable)
         {
-            var handler = UnsafeLeoHandleSwitcher.Switch<T>(kind)().With<T>(); ;
+            var handler = UnsafeLeoHandleSwitcher.Switch<T>(kind)().With<T>();
             return new InstanceLeoVisitor<T>(handler, instance, kind, repeatable);
         }
 
-        public static FutureInstanceLeoVisitor CreateForFutureInstance(Type type, AlgorithmKind kind, bool repeatable)
+        public static FutureInstanceLeoVisitor CreateForFutureInstance(Type type, AlgorithmKind kind, bool repeatable, Dictionary<string, object> initialValues = null)
         {
             var handler = SafeLeoHandleSwitcher.Switch(kind)(type);
-            return new FutureInstanceLeoVisitor(handler, type, kind, repeatable);
+            return new FutureInstanceLeoVisitor(handler, type, kind, repeatable, initialValues);
         }
 
-        public static FutureInstanceLeoVisitor<T> CreateForFutureInstance<T>(AlgorithmKind kind, bool repeatable)
+        public static FutureInstanceLeoVisitor<T> CreateForFutureInstance<T>(AlgorithmKind kind, bool repeatable, Dictionary<string, object> initialValues = null)
         {
             var handler = UnsafeLeoHandleSwitcher.Switch<T>(kind)().With<T>();
-            return new FutureInstanceLeoVisitor<T>(handler, kind, repeatable);
+            return new FutureInstanceLeoVisitor<T>(handler, kind, repeatable, initialValues);
         }
 
         public static StaticTypeLeoVisitor CreateForStaticType(Type type, AlgorithmKind kind)

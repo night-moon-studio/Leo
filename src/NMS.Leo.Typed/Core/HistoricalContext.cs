@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NMS.Leo.Typed.Core
 {
@@ -29,7 +31,9 @@ namespace NMS.Leo.Typed.Core
         public object Repeat()
         {
             var handler = SafeLeoHandleSwitcher.Switch(AlgorithmKind)(SourceType);
+            
             handler.New();
+            
             _handleHistory?.Invoke(handler);
 
             return handler.GetInstance();
@@ -38,7 +42,28 @@ namespace NMS.Leo.Typed.Core
         public object Repeat(object instance)
         {
             var handler = SafeLeoHandleSwitcher.Switch(AlgorithmKind)(SourceType);
+            
             handler.SetObjInstance(instance);
+            
+            _handleHistory?.Invoke(handler);
+
+            return handler.GetInstance();
+        }
+
+        public object Repeat(Dictionary<string, object> keyValueCollections)
+        {
+            var handler = SafeLeoHandleSwitcher.Switch(AlgorithmKind)(SourceType);
+            
+            handler.New();
+            
+            if (keyValueCollections != null && keyValueCollections.Any())
+            {
+                foreach (var keyValue in keyValueCollections)
+                {
+                    handler[keyValue.Key] = keyValue.Value;
+                }
+            }
+
             _handleHistory?.Invoke(handler);
 
             return handler.GetInstance();
@@ -65,6 +90,25 @@ namespace NMS.Leo.Typed.Core
             var handler = UnsafeLeoHandleSwitcher.Switch<TObject>(AlgorithmKind)().With<TObject>();
 
             handler.New();
+
+            _handleHistory?.Invoke(handler);
+
+            return handler.GetInstance();
+        }
+
+        public new TObject Repeat(Dictionary<string, object> keyValueCollections)
+        {
+            var handler = UnsafeLeoHandleSwitcher.Switch<TObject>(AlgorithmKind)().With<TObject>();
+
+            handler.New();
+
+            if (keyValueCollections != null && keyValueCollections.Any())
+            {
+                foreach (var keyValue in keyValueCollections)
+                {
+                    handler[keyValue.Key] = keyValue.Value;
+                }
+            }
 
             _handleHistory?.Invoke(handler);
 

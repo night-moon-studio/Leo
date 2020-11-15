@@ -65,6 +65,14 @@ namespace NMS.Leo.Typed.Core
             _handler[name] = value;
         }
 
+        public void SetValue(Dictionary<string, object> keyValueCollections)
+        {
+            if (keyValueCollections is null)
+                throw new ArgumentNullException(nameof(keyValueCollections));
+            foreach (var keyValue in keyValueCollections)
+                SetValue(keyValue.Key, keyValue.Value);
+        }
+
         public object GetValue(string name)
         {
             return _handler[name];
@@ -119,6 +127,15 @@ namespace NMS.Leo.Typed.Core
             return true;
         }
 
+        public bool TryRepeat(Dictionary<string, object> keyValueCollections, out object result)
+        {
+            result = default;
+            if (IsStatic) return false;
+            if (NormalHistoricalContext is null) return false;
+            result = NormalHistoricalContext.Repeat(keyValueCollections);
+            return true;
+        }
+
         public ILeoRepeater ForRepeat()
         {
             if (IsStatic) return new EmptyRepeater(SourceType);
@@ -158,6 +175,14 @@ namespace NMS.Leo.Typed.Core
         public ILeoSelector<TVal> Select<TVal>(Func<LeoLoopContext, TVal> loopFunc)
         {
             return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
+        }
+
+        public Dictionary<string, object> ToDictionary()
+        {
+            var val = new Dictionary<string, object>();
+            foreach (var name in _lazyMemberHandler.Value.GetNames())
+                val[name] = _handler[name];
+            return val;
         }
     }
 
@@ -244,6 +269,14 @@ namespace NMS.Leo.Typed.Core
             _handler[name] = value;
         }
 
+        public void SetValue(Dictionary<string, object> keyValueCollections)
+        {
+            if (keyValueCollections is null)
+                throw new ArgumentNullException(nameof(keyValueCollections));
+            foreach (var keyValue in keyValueCollections)
+                SetValue(keyValue.Key, keyValue.Value);
+        }
+
         public object GetValue(string name)
         {
             return _handler[name];
@@ -318,6 +351,15 @@ namespace NMS.Leo.Typed.Core
             return true;
         }
 
+        public bool TryRepeat(Dictionary<string, object> keyValueCollections, out object result)
+        {
+            result = default;
+            if (IsStatic) return false;
+            if (GenericHistoricalContext is null) return false;
+            result = GenericHistoricalContext.Repeat(keyValueCollections);
+            return true;
+        }
+
         public bool TryRepeat(out T result)
         {
             result = default;
@@ -333,6 +375,15 @@ namespace NMS.Leo.Typed.Core
             if (IsStatic) return false;
             if (GenericHistoricalContext is null) return false;
             result = GenericHistoricalContext.Repeat(instance);
+            return true;
+        }
+
+        public bool TryRepeat(Dictionary<string, object> keyValueCollections, out T result)
+        {
+            result = default;
+            if (IsStatic) return false;
+            if (GenericHistoricalContext is null) return false;
+            result = GenericHistoricalContext.Repeat(keyValueCollections);
             return true;
         }
 
@@ -420,6 +471,15 @@ namespace NMS.Leo.Typed.Core
         ILeoSelector<TVal> ILeoVisitor.Select<TVal>(Func<LeoLoopContext, TVal> loopFunc)
         {
             return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
+        }
+
+
+        public Dictionary<string, object> ToDictionary()
+        {
+            var val = new Dictionary<string, object>();
+            foreach (var name in _lazyMemberHandler.Value.GetNames())
+                val[name] = _handler[name];
+            return val;
         }
     }
 }
