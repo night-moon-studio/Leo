@@ -10,7 +10,7 @@ namespace NMS.Leo
 
         public override void SetObjInstance(object obj)
         {
-            Instance = (T)obj;
+            Instance = (T) obj;
         }
     }
 
@@ -40,5 +40,10 @@ namespace NMS.Leo
         public IEnumerable<LeoMember> GetCanWriteMembers() => GetMembers().Where(member => member.CanWrite);
 
         public abstract unsafe LeoMember GetMember(string name);
+
+        public bool Contains(string name)
+        {
+            return !string.IsNullOrWhiteSpace(name) && InternalMemberNames.Contains(name);
+        }
     }
 }
