@@ -37,6 +37,8 @@ namespace NMS.Leo.Typed.Core
 
         public AlgorithmKind AlgorithmKind => _algorithmKind;
 
+        public object Instance => _handler.GetInstance();
+
         public void SetValue(string name, object value)
         {
             NormalHistoricalContext?.RegisterOperation(c => c[name] = value);
@@ -65,7 +67,7 @@ namespace NMS.Leo.Typed.Core
             _handler[name] = value;
         }
 
-        public void SetValue(Dictionary<string, object> keyValueCollections)
+        public void SetValue(IDictionary<string, object> keyValueCollections)
         {
             if (keyValueCollections is null)
                 throw new ArgumentNullException(nameof(keyValueCollections));
@@ -127,7 +129,7 @@ namespace NMS.Leo.Typed.Core
             return true;
         }
 
-        public bool TryRepeat(Dictionary<string, object> keyValueCollections, out object result)
+        public bool TryRepeat(IDictionary<string, object> keyValueCollections, out object result)
         {
             result = default;
             if (IsStatic) return false;
@@ -184,6 +186,8 @@ namespace NMS.Leo.Typed.Core
                 val[name] = _handler[name];
             return val;
         }
+
+        public bool Contains(string name) => _handler.Contains(name);
     }
 
     internal class InstanceLeoVisitor<T> : ILeoVisitor<T>
@@ -218,6 +222,10 @@ namespace NMS.Leo.Typed.Core
         public bool IsStatic => false;
 
         public AlgorithmKind AlgorithmKind => _algorithmKind;
+
+        object ILeoVisitor.Instance => _handler.GetInstance();
+
+        public T Instance => _handler.GetInstance();
 
         public void SetValue(string name, object value)
         {
@@ -269,7 +277,7 @@ namespace NMS.Leo.Typed.Core
             _handler[name] = value;
         }
 
-        public void SetValue(Dictionary<string, object> keyValueCollections)
+        public void SetValue(IDictionary<string, object> keyValueCollections)
         {
             if (keyValueCollections is null)
                 throw new ArgumentNullException(nameof(keyValueCollections));
@@ -351,7 +359,7 @@ namespace NMS.Leo.Typed.Core
             return true;
         }
 
-        public bool TryRepeat(Dictionary<string, object> keyValueCollections, out object result)
+        public bool TryRepeat(IDictionary<string, object> keyValueCollections, out object result)
         {
             result = default;
             if (IsStatic) return false;
@@ -378,7 +386,7 @@ namespace NMS.Leo.Typed.Core
             return true;
         }
 
-        public bool TryRepeat(Dictionary<string, object> keyValueCollections, out T result)
+        public bool TryRepeat(IDictionary<string, object> keyValueCollections, out T result)
         {
             result = default;
             if (IsStatic) return false;
@@ -472,8 +480,7 @@ namespace NMS.Leo.Typed.Core
         {
             return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
         }
-
-
+        
         public Dictionary<string, object> ToDictionary()
         {
             var val = new Dictionary<string, object>();
@@ -481,5 +488,7 @@ namespace NMS.Leo.Typed.Core
                 val[name] = _handler[name];
             return val;
         }
+
+        public bool Contains(string name) => _handler.Contains(name);
     }
 }

@@ -11,6 +11,8 @@ namespace NMS.Leo.Typed
         bool IsStatic { get; }
 
         AlgorithmKind AlgorithmKind { get; }
+        
+        object Instance { get; }
 
         void SetValue(string name, object value);
 
@@ -18,7 +20,7 @@ namespace NMS.Leo.Typed
 
         void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value);
 
-        void SetValue(Dictionary<string, object> keyValueCollections);
+        void SetValue(IDictionary<string, object> keyValueCollections);
 
         object GetValue(string name);
 
@@ -34,7 +36,7 @@ namespace NMS.Leo.Typed
 
         bool TryRepeat(object instance, out object result);
 
-        bool TryRepeat(Dictionary<string, object> keyValueCollections, out object result);
+        bool TryRepeat(IDictionary<string, object> keyValueCollections, out object result);
 
         ILeoRepeater ForRepeat();
 
@@ -55,10 +57,14 @@ namespace NMS.Leo.Typed
         ILeoSelector<TVal> Select<TVal>(Func<LeoLoopContext, TVal> loopFunc);
 
         Dictionary<string, object> ToDictionary();
+
+        bool Contains(string name);
     }
 
     public interface ILeoVisitor<T> : ILeoVisitor
     {
+        new T Instance { get; }
+
         void SetValue(Expression<Func<T, object>> expression, object value);
 
         void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value);
@@ -71,7 +77,7 @@ namespace NMS.Leo.Typed
 
         bool TryRepeat(T instance, out T result);
 
-        bool TryRepeat(Dictionary<string, object> keyValueCollections, out T result);
+        bool TryRepeat(IDictionary<string, object> keyValueCollections, out T result);
 
         new ILeoRepeater<T> ForRepeat();
 

@@ -302,7 +302,7 @@ namespace NCallerUT
             v["Country"] = Country.China;
             v["Birthday"] = DateTime.Today.AddDays(1);
             v["IsValid"] = false;
-
+            
             Assert.Equal("Au", v.GetValue<string>("Name"));
             Assert.Equal(77, v.GetValue<int>("Age"));
             Assert.Equal(Country.China, v.GetValue<Country>("Country"));

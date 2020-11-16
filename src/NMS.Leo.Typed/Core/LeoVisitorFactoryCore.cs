@@ -17,13 +17,13 @@ namespace NMS.Leo.Typed.Core
             return new InstanceLeoVisitor<T>(handler, instance, kind, repeatable);
         }
 
-        public static FutureInstanceLeoVisitor CreateForFutureInstance(Type type, AlgorithmKind kind, bool repeatable, Dictionary<string, object> initialValues = null)
+        public static FutureInstanceLeoVisitor CreateForFutureInstance(Type type, AlgorithmKind kind, bool repeatable, IDictionary<string, object> initialValues = null)
         {
             var handler = SafeLeoHandleSwitcher.Switch(kind)(type);
             return new FutureInstanceLeoVisitor(handler, type, kind, repeatable, initialValues);
         }
 
-        public static FutureInstanceLeoVisitor<T> CreateForFutureInstance<T>(AlgorithmKind kind, bool repeatable, Dictionary<string, object> initialValues = null)
+        public static FutureInstanceLeoVisitor<T> CreateForFutureInstance<T>(AlgorithmKind kind, bool repeatable, IDictionary<string, object> initialValues = null)
         {
             var handler = UnsafeLeoHandleSwitcher.Switch<T>(kind)().With<T>();
             return new FutureInstanceLeoVisitor<T>(handler, kind, repeatable, initialValues);

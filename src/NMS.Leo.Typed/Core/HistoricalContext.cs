@@ -50,7 +50,7 @@ namespace NMS.Leo.Typed.Core
             return handler.GetInstance();
         }
 
-        public object Repeat(Dictionary<string, object> keyValueCollections)
+        public object Repeat(IDictionary<string, object> keyValueCollections)
         {
             var handler = SafeLeoHandleSwitcher.Switch(AlgorithmKind)(SourceType);
             
@@ -96,7 +96,7 @@ namespace NMS.Leo.Typed.Core
             return handler.GetInstance();
         }
 
-        public new TObject Repeat(Dictionary<string, object> keyValueCollections)
+        public new TObject Repeat(IDictionary<string, object> keyValueCollections)
         {
             var handler = UnsafeLeoHandleSwitcher.Switch<TObject>(AlgorithmKind)().With<TObject>();
 

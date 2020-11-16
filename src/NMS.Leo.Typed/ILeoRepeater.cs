@@ -6,7 +6,7 @@ namespace NMS.Leo.Typed
     {
         object Play(object originalObj);
         
-        object Play(Dictionary<string, object> keyValueCollections);
+        object Play(IDictionary<string, object> keyValueCollections);
 
         object NewAndPlay();
     }
@@ -15,7 +15,7 @@ namespace NMS.Leo.Typed
     {
         T Play(T originalObj);
         
-        new T Play(Dictionary<string, object> keyValueCollections);
+        new T Play(IDictionary<string, object> keyValueCollections);
 
         new T NewAndPlay();
     }

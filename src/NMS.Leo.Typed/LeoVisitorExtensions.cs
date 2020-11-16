@@ -10,24 +10,13 @@ namespace NMS.Leo.Typed
         {
             return LeoVisitorFactory.Create(instanceObj, kind, repeatable);
         }
-
-        public static ILeoVisitor<T> ToLeoVisitor<T>(this Dictionary<string, object> initialValues, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = true)
-            where T : class
-        {
-            return LeoVisitorFactory.Create<T>(initialValues, kind, repeatable);
-        }
-
-        public static ILeoVisitor ToLeoVisitor(this Dictionary<string, object> initialValues, Type type, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = true)
-        {
-            return LeoVisitorFactory.Create(type, initialValues, kind, repeatable);
-        }
-
+        
         public static ILeoVisitor ToLeoVisitor(this Type type, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = true)
         {
             return LeoVisitorFactory.Create(type, kind, repeatable);
         }
 
-        public static ILeoVisitor ToLeoVisitor(this Type type, Dictionary<string, object> initialValues, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = true)
+        public static ILeoVisitor ToLeoVisitor(this Type type, IDictionary<string, object> initialValues, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = true)
         {
             return LeoVisitorFactory.Create(type, initialValues, kind, repeatable);
         }
@@ -66,7 +55,7 @@ namespace NMS.Leo.Typed
             }
         }
 
-        public static bool TryRepeatAs<TObj>(this ILeoVisitor visitor, Dictionary<string, object> keyValueCollections, out TObj result)
+        public static bool TryRepeatAs<TObj>(this ILeoVisitor visitor, IDictionary<string, object> keyValueCollections, out TObj result)
         {
             result = default;
             var ret = visitor.TryRepeat(keyValueCollections, out var val);

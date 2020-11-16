@@ -15,7 +15,7 @@ namespace NMS.Leo.Typed.Core
         protected HistoricalContext NormalHistoricalContext { get; set; }
 
         public FutureInstanceLeoVisitor(DictBase handler, Type sourceType, AlgorithmKind kind, bool repeatable,
-            Dictionary<string, object> initialValues = null)
+            IDictionary<string, object> initialValues = null)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _sourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
@@ -38,6 +38,8 @@ namespace NMS.Leo.Typed.Core
         public bool IsStatic => false;
 
         public AlgorithmKind AlgorithmKind => _algorithmKind;
+
+        public object Instance => _handler.GetInstance();
 
         public void SetValue(string name, object value)
         {
@@ -67,7 +69,7 @@ namespace NMS.Leo.Typed.Core
             _handler[name] = value;
         }
 
-        public void SetValue(Dictionary<string, object> keyValueCollections)
+        public void SetValue(IDictionary<string, object> keyValueCollections)
         {
             if (keyValueCollections is null)
                 throw new ArgumentNullException(nameof(keyValueCollections));
@@ -129,7 +131,7 @@ namespace NMS.Leo.Typed.Core
             return true;
         }
 
-        public bool TryRepeat(Dictionary<string, object> keyValueCollections, out object result)
+        public bool TryRepeat(IDictionary<string, object> keyValueCollections, out object result)
         {
             result = default;
             if (IsStatic) return false;
@@ -179,7 +181,6 @@ namespace NMS.Leo.Typed.Core
             return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
         }
 
-
         public Dictionary<string, object> ToDictionary()
         {
             var val = new Dictionary<string, object>();
@@ -187,6 +188,8 @@ namespace NMS.Leo.Typed.Core
                 val[name] = _handler[name];
             return val;
         }
+
+        public bool Contains(string name) => _handler.Contains(name);
     }
 
     internal class FutureInstanceLeoVisitor<T> : ILeoVisitor<T>
@@ -200,7 +203,7 @@ namespace NMS.Leo.Typed.Core
         protected HistoricalContext<T> GenericHistoricalContext { get; set; }
 
         public FutureInstanceLeoVisitor(DictBase<T> handler, AlgorithmKind kind, bool repeatable,
-            Dictionary<string, object> initialValues = null)
+            IDictionary<string, object> initialValues = null)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _sourceType = typeof(T);
@@ -213,7 +216,7 @@ namespace NMS.Leo.Typed.Core
                 : null;
 
             _lazyMemberHandler = new Lazy<LeoMemberHandler>(() => new LeoMemberHandler(_handler, _sourceType));
-            
+
             if (initialValues != null)
                 SetValue(initialValues);
         }
@@ -223,6 +226,10 @@ namespace NMS.Leo.Typed.Core
         public bool IsStatic => false;
 
         public AlgorithmKind AlgorithmKind => _algorithmKind;
+
+        object ILeoVisitor.Instance => _handler.GetInstance();
+
+        public T Instance => _handler.GetInstance();
 
         public void SetValue(string name, object value)
         {
@@ -274,7 +281,7 @@ namespace NMS.Leo.Typed.Core
             _handler[name] = value;
         }
 
-        public void SetValue(Dictionary<string, object> keyValueCollections)
+        public void SetValue(IDictionary<string, object> keyValueCollections)
         {
             if (keyValueCollections is null)
                 throw new ArgumentNullException(nameof(keyValueCollections));
@@ -356,7 +363,7 @@ namespace NMS.Leo.Typed.Core
             return true;
         }
 
-        public bool TryRepeat(Dictionary<string, object> keyValueCollections, out object result)
+        public bool TryRepeat(IDictionary<string, object> keyValueCollections, out object result)
         {
             result = default;
             if (IsStatic) return false;
@@ -383,7 +390,7 @@ namespace NMS.Leo.Typed.Core
             return true;
         }
 
-        public bool TryRepeat(Dictionary<string, object> keyValueCollections, out T result)
+        public bool TryRepeat(IDictionary<string, object> keyValueCollections, out T result)
         {
             result = default;
             if (IsStatic) return false;
@@ -485,5 +492,7 @@ namespace NMS.Leo.Typed.Core
                 val[name] = _handler[name];
             return val;
         }
+
+        public bool Contains(string name) => _handler.Contains(name);
     }
 }
