@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace NMS.Leo.Typed.Core
 {
-    internal class FutureInstanceLeoVisitor : ILeoVisitor
+    internal class FutureInstanceLeoVisitor : ILeoVisitor, ILeoGetter, ILeoSetter
     {
         private readonly DictBase _handler;
         private readonly Type _sourceType;
@@ -192,7 +192,7 @@ namespace NMS.Leo.Typed.Core
         public bool Contains(string name) => _handler.Contains(name);
     }
 
-    internal class FutureInstanceLeoVisitor<T> : ILeoVisitor<T>
+    internal class FutureInstanceLeoVisitor<T> : ILeoVisitor<T>, ILeoGetter<T>, ILeoSetter<T>
     {
         private readonly DictBase<T> _handler;
         private readonly Type _sourceType;
@@ -258,6 +258,12 @@ namespace NMS.Leo.Typed.Core
             GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
             _handler[name] = value;
         }
+
+        void ILeoSetter<T>.SetValue<TObj>(Expression<Func<TObj, object>> expression, object value)
+            => ((ILeoVisitor) this).SetValue(expression, value);
+
+        void ILeoSetter<T>.SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value)
+            => ((ILeoVisitor) this).SetValue(expression, value);
 
         public void SetValue(Expression<Func<T, object>> expression, object value)
         {
@@ -328,6 +334,12 @@ namespace NMS.Leo.Typed.Core
 
             return _handler.Get<TValue>(name);
         }
+
+        object ILeoGetter<T>.GetValue<TObj>(Expression<Func<TObj, object>> expression)
+            => ((ILeoVisitor) this).GetValue(expression);
+                
+        TValue ILeoGetter<T>.GetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression)
+            => ((ILeoVisitor) this).GetValue(expression);
 
         public TValue GetValue<TValue>(Expression<Func<T, TValue>> expression)
         {
