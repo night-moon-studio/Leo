@@ -6,7 +6,7 @@ namespace NMS.Leo.Typed.Core
     {
         public static DictBase<TObj> With<TObj>(this DictBase handler)
         {
-            return (DictBase<TObj>)handler;
+            return (DictBase<TObj>) handler;
         }
 
         public static object GetInstance(this DictBase handler)
@@ -25,7 +25,7 @@ namespace NMS.Leo.Typed.Core
             var fieldInfo = typeof(DictBase<TObject>)
                 .GetField("Instance", BindingFlags.Instance | BindingFlags.Public);
 
-            return (TObject)fieldInfo?.GetValue(handler);
+            return (TObject) fieldInfo?.GetValue(handler);
         }
     }
 }

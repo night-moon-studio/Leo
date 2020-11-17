@@ -1,29 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using NMS.Leo.Metadata;
+using NMS.Leo.Typed.Core.Members;
 
-namespace NMS.Leo.Typed.Core
+namespace NMS.Leo.Typed.Core.Select
 {
     internal class LeoSelector<TVal> : ILeoSelector<TVal>
     {
         private readonly ILeoVisitor _visitor;
-        private readonly Lazy<LeoMemberHandler> _memberHandler;
+        private readonly Lazy<MemberHandler> _memberHandler;
         private readonly InternalLeoSelectingContext<TVal> _context;
 
-        public LeoSelector(ILeoVisitor visitor, Lazy<LeoMemberHandler> memberHandler, Func<string, object, LeoMember, TVal> loopFunc)
+        public LeoSelector(ILeoVisitor visitor, Lazy<MemberHandler> memberHandler, Func<string, object, LeoMember, TVal> loopFunc)
         {
             _visitor = visitor ?? throw new ArgumentNullException(nameof(visitor));
             _memberHandler = memberHandler ?? throw new ArgumentNullException(nameof(memberHandler));
             _context = new InternalLeoSelectingContext<TVal>(loopFunc);
         }
 
-        public LeoSelector(ILeoVisitor visitor, Lazy<LeoMemberHandler> memberHandler, Func<string, object, TVal> loopFunc)
+        public LeoSelector(ILeoVisitor visitor, Lazy<MemberHandler> memberHandler, Func<string, object, TVal> loopFunc)
         {
             _visitor = visitor ?? throw new ArgumentNullException(nameof(visitor));
             _memberHandler = memberHandler ?? throw new ArgumentNullException(nameof(memberHandler));
             _context = new InternalLeoSelectingContext<TVal>(loopFunc);
         }
 
-        public LeoSelector(ILeoVisitor visitor, Lazy<LeoMemberHandler> memberHandler, Func<LeoLoopContext, TVal> loopFunc)
+        public LeoSelector(ILeoVisitor visitor, Lazy<MemberHandler> memberHandler, Func<LeoLoopContext, TVal> loopFunc)
         {
             _visitor = visitor ?? throw new ArgumentNullException(nameof(visitor));
             _memberHandler = memberHandler ?? throw new ArgumentNullException(nameof(memberHandler));
@@ -58,24 +60,24 @@ namespace NMS.Leo.Typed.Core
     internal class LeoSelector<T, TVal> : ILeoSelector<T, TVal>
     {
         private readonly ILeoVisitor<T> _visitor;
-        private readonly Lazy<LeoMemberHandler> _memberHandler;
+        private readonly Lazy<MemberHandler> _memberHandler;
         private readonly InternalLeoSelectingContext<TVal> _context;
 
-        public LeoSelector(ILeoVisitor<T> visitor, Lazy<LeoMemberHandler> memberHandler, Func<string, object, LeoMember, TVal> loopFunc)
+        public LeoSelector(ILeoVisitor<T> visitor, Lazy<MemberHandler> memberHandler, Func<string, object, LeoMember, TVal> loopFunc)
         {
             _visitor = visitor ?? throw new ArgumentNullException(nameof(visitor));
             _memberHandler = memberHandler ?? throw new ArgumentNullException(nameof(memberHandler));
             _context = new InternalLeoSelectingContext<TVal>(loopFunc);
         }
 
-        public LeoSelector(ILeoVisitor<T> visitor, Lazy<LeoMemberHandler> memberHandler, Func<string, object, TVal> loopFunc)
+        public LeoSelector(ILeoVisitor<T> visitor, Lazy<MemberHandler> memberHandler, Func<string, object, TVal> loopFunc)
         {
             _visitor = visitor ?? throw new ArgumentNullException(nameof(visitor));
             _memberHandler = memberHandler ?? throw new ArgumentNullException(nameof(memberHandler));
             _context = new InternalLeoSelectingContext<TVal>(loopFunc);
         }
 
-        public LeoSelector(ILeoVisitor<T> visitor, Lazy<LeoMemberHandler> memberHandler, Func<LeoLoopContext, TVal> loopFunc)
+        public LeoSelector(ILeoVisitor<T> visitor, Lazy<MemberHandler> memberHandler, Func<LeoLoopContext, TVal> loopFunc)
         {
             _visitor = visitor ?? throw new ArgumentNullException(nameof(visitor));
             _memberHandler = memberHandler ?? throw new ArgumentNullException(nameof(memberHandler));

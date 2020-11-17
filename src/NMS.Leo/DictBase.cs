@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NMS.Leo.Core;
+using NMS.Leo.Metadata;
 
 namespace NMS.Leo
 {
     public abstract class DictBase<T> : DictBase
     {
         public T Instance;
+        
         public void SetInstance(T value) => Instance = value;
 
         public override void SetObjInstance(object obj)
         {
-            Instance = (T)obj;
+            Instance = (T) obj;
         }
     }
 
@@ -23,6 +26,7 @@ namespace NMS.Leo
         }
 
         public abstract void SetObjInstance(object obj);
+        
         public abstract unsafe object GetObject(string name);
 
         protected virtual HashSet<string> InternalMemberNames { get; } = new HashSet<string>();
@@ -40,5 +44,10 @@ namespace NMS.Leo
         public IEnumerable<LeoMember> GetCanWriteMembers() => GetMembers().Where(member => member.CanWrite);
 
         public abstract unsafe LeoMember GetMember(string name);
+
+        public bool Contains(string name)
+        {
+            return !string.IsNullOrWhiteSpace(name) && InternalMemberNames.Contains(name);
+        }
     }
 }

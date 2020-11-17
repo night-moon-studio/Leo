@@ -26,7 +26,7 @@ jobs:
   - task: DotNetCoreInstaller@0
     displayName: install
     inputs:
-      version: '2.2.300'
+      version: '5.0.100'
 
 
   - task: DotNetCoreCLI@1
@@ -61,7 +61,7 @@ jobs:
   - task: DotNetCoreInstaller@0
     displayName: install
     inputs:
-      version: '2.2.300'
+      version: '5.0.100'
 
 
   - task: DotNetCoreCLI@1
@@ -96,7 +96,7 @@ jobs:
   - task: DotNetCoreInstaller@0
     displayName: install
     inputs:
-      version: '2.2.300'
+      version: '5.0.100'
 
 
   - task: DotNetCoreCLI@1

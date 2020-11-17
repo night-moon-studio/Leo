@@ -1,4 +1,4 @@
-﻿namespace NMS.Leo
+﻿namespace NMS.Leo.Core
 {
     public abstract class CallerBase
     {

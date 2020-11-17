@@ -18,7 +18,7 @@ namespace NMS.Leo.Typed
             return LeoVisitorFactoryCore.CreateForFutureInstance(type, kind, repeatable);
         }
 
-        public static ILeoVisitor Create(Type type, Dictionary<string, object> initialValues, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = true)
+        public static ILeoVisitor Create(Type type, IDictionary<string, object> initialValues, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = true)
         {
             if (type.IsAbstract && type.IsSealed)
                 return LeoVisitorFactoryCore.CreateForStaticType(type, kind);
@@ -38,7 +38,7 @@ namespace NMS.Leo.Typed
             return LeoVisitorFactoryCore.CreateForFutureInstance<T>(kind, repeatable);
         }
 
-        public static ILeoVisitor<T> Create<T>(Dictionary<string, object> initialValues, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = true)
+        public static ILeoVisitor<T> Create<T>(IDictionary<string, object> initialValues, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = true)
         {
             var type = typeof(T);
             if (type.IsAbstract && type.IsSealed)

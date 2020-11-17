@@ -1,4 +1,4 @@
-﻿namespace NMS.Leo.Constraint
+﻿namespace NMS.Leo.Core
 {
     public class NullClass { }
 }

@@ -1,4 +1,6 @@
-﻿namespace NMS.Leo.Typed
+﻿using NMS.Leo.Metadata;
+
+namespace NMS.Leo.Typed
 {
     public class LeoLoopContext
     {
