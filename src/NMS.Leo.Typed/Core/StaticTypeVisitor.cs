@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using NMS.Leo.Metadata;
 using NMS.Leo.Typed.Core.Members;
 using NMS.Leo.Typed.Core.Repeat;
 

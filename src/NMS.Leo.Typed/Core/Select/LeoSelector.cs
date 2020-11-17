@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NMS.Leo.Metadata;
 using NMS.Leo.Typed.Core.Members;
 
 namespace NMS.Leo.Typed.Core.Select
