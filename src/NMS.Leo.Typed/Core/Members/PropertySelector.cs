@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace NMS.Leo.Typed.Core
+namespace NMS.Leo.Typed.Core.Members
 {
     internal static class PropertySelector
     {

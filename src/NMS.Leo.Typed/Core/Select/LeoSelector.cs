@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using NMS.Leo.Typed.Core.Members;
 
-namespace NMS.Leo.Typed.Core
+namespace NMS.Leo.Typed.Core.Select
 {
     internal class LeoSelector<TVal> : ILeoSelector<TVal>
     {

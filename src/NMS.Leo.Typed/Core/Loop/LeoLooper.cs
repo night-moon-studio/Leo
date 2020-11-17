@@ -1,6 +1,7 @@
 ﻿using System;
+using NMS.Leo.Typed.Core.Members;
 
-namespace NMS.Leo.Typed.Core
+namespace NMS.Leo.Typed.Core.Loop
 {
     internal class LeoLooper : ILeoLooper
     {

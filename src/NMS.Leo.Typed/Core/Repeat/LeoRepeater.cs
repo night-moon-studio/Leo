@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NMS.Leo.Typed.Core
+namespace NMS.Leo.Typed.Core.Repeat
 {
     internal class LeoRepeater : ILeoRepeater
     {

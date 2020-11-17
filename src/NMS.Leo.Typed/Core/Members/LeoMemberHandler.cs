@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NMS.Leo.Typed.Core
+namespace NMS.Leo.Typed.Core.Members
 {
     internal class LeoMemberHandler
     {

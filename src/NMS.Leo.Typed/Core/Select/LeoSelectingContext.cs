@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NMS.Leo.Typed.Core
+namespace NMS.Leo.Typed.Core.Select
 {
     internal class InternalLeoSelectingContext<TVal>
     {
