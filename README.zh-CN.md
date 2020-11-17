@@ -155,8 +155,9 @@ Type type = oop.GetTypeFromShortName("Test");
 ```c#
 var instance = PrecisionDictOperator.CreateFromType(type);
 
+// 如果使用 NMS.Leo.Typed 的 LeoVisitor，则这两部是自动完成的
 var obj = Activator.CreateInstance(type);
-instance.SetObjInstance(obj); // 如果使用 NMS.Leo.Typed 的 LeoVisitor，则这两部是自动完成的
+instance.SetObjInstance(obj);
 
 instance["Pp"] = 30L;
 instance["Rp"] = "ab";
@@ -281,11 +282,11 @@ visitor.SetValue(d);
 - 2019-08-01 ： 发布 v1.0.0.0, 高性能动态调用库。
 - 2020-10-12 ： 发布 v1.2.0.0, 使用最新版本 Natasha 与 [DynamicCache](https://github.com/night-moon-studio/DynamicCache) ，并使用函数指针代替系统委托。  
 
-### 算法
+## 算法
 
-NCC BTFindTree Algorithm: https://github.com/dotnet-lab/BTFindTree
+- NCC BTFindTree Algorithm: https://github.com/dotnet-lab/BTFindTree
 
-### 性能
+## 性能
 
 ![Performance](Image/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%951.png)
 

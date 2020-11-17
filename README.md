@@ -157,8 +157,9 @@ Finally, use Leo to manipulate instances of this runtime type:
 ```c#
 var instance = PrecisionDictOperator.CreateFromType(type);
 
+// If you use LeoVisitor in NMS.Leo.Typed, these two parts are done automatically
 var obj = Activator.CreateInstance(type);
-instance.SetObjInstance(obj); // If you use LeoVisitor in NMS.Leo.Typed, these two parts are done automatically
+instance.SetObjInstance(obj);
 
 instance["Pp"] = 30L;
 instance["Rp"] = "ab";
@@ -283,9 +284,9 @@ visitor.SetValue(d);
 - 2019-08-01: Release v1.0.0.0, a high-performance dynamic calling library.
 - 2020-10-12: Release v1.2.0.0, use the latest version of Natasha and [DynamicCache](https://github.com/night-moon-studio/DynamicCache), and use function pointers instead of system delegates.
 
-### Algorithm
+## Algorithm
 
-NCC BTFindTree Algorithm: https://github.com/dotnet-lab/BTFindTree
+- NCC BTFindTree Algorithm: https://github.com/dotnet-lab/BTFindTree
 
 ## Performance 
 
