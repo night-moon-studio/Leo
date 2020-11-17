@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using NMS.Leo.Typed.Core.Loop;
 using NMS.Leo.Typed.Core.Members;
 using NMS.Leo.Typed.Core.Repeat;
-using NMS.Leo.Typed.Core.Select;
 
 namespace NMS.Leo.Typed.Core
 {
-    internal class StaticTypeLeoVisitor : ILeoVisitor, ILeoGetter, ILeoSetter
+    internal class StaticTypeLeoVisitor : ILeoVisitor, ICoreVisitor, ILeoGetter, ILeoSetter
     {
         private readonly DictBase _handler;
         private readonly AlgorithmKind _algorithmKind;
@@ -102,71 +100,16 @@ namespace NMS.Leo.Typed.Core
             set => _handler[name] = value;
         }
 
-        public bool TryRepeat(out object result)
-        {
-            result = default;
-            return false;
-        }
+        public HistoricalContext ExposeHistoricalContext() => default;
 
-        public bool TryRepeat(object instance, out object result)
-        {
-            result = default;
-            return false;
-        }
+        public Lazy<MemberHandler> ExposeLazyMemberHandler() => _lazyMemberHandler;
 
-        public bool TryRepeat(IDictionary<string, object> keyValueCollections, out object result)
-        {
-            result = default;
-            return false;
-        }
-
-        public ILeoRepeater ForRepeat()
-        {
-            return StaticEmptyRepeater.Instance;
-        }
+        public ILeoVisitor Owner => this;
 
         public IEnumerable<string> GetMemberNames() => _lazyMemberHandler.Value.GetNames();
 
         public LeoMember GetMember(string name) => _lazyMemberHandler.Value.GetMember(name);
 
-        public ILeoLooper ForEach(Action<string, object, LeoMember> loopAct)
-        {
-            return new LeoLooper(this, _lazyMemberHandler, loopAct);
-        }
-
-        public ILeoLooper ForEach(Action<string, object> loopAct)
-        {
-            return new LeoLooper(this, _lazyMemberHandler, loopAct);
-        }
-
-        public ILeoLooper ForEach(Action<LeoLoopContext> loopAct)
-        {
-            return new LeoLooper(this, _lazyMemberHandler, loopAct);
-        }
-
-        public ILeoSelector<TVal> Select<TVal>(Func<string, object, LeoMember, TVal> loopFunc)
-        {
-            return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
-        }
-
-        public ILeoSelector<TVal> Select<TVal>(Func<string, object, TVal> loopFunc)
-        {
-            return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
-        }
-
-        public ILeoSelector<TVal> Select<TVal>(Func<LeoLoopContext, TVal> loopFunc)
-        {
-            return new LeoSelector<TVal>(this, _lazyMemberHandler, loopFunc);
-        }
-
-        public Dictionary<string, object> ToDictionary()
-        {
-            var val = new Dictionary<string, object>();
-            foreach (var name in _lazyMemberHandler.Value.GetNames())
-                val[name] = _handler[name];
-            return val;
-        }
-
-        public bool Contains(string name) => _handler.Contains(name);
+        public bool Contains(string name) => _lazyMemberHandler.Value.Contains(name);
     }
 }

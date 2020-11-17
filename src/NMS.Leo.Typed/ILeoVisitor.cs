@@ -32,31 +32,9 @@ namespace NMS.Leo.Typed
 
         object this[string name] { get; set; }
 
-        bool TryRepeat(out object result);
-
-        bool TryRepeat(object instance, out object result);
-
-        bool TryRepeat(IDictionary<string, object> keyValueCollections, out object result);
-
-        ILeoRepeater ForRepeat();
-
         IEnumerable<string> GetMemberNames();
 
         LeoMember GetMember(string name);
-
-        ILeoLooper ForEach(Action<string, object, LeoMember> loopAct);
-
-        ILeoLooper ForEach(Action<string, object> loopAct);
-
-        ILeoLooper ForEach(Action<LeoLoopContext> loopAct);
-
-        ILeoSelector<TVal> Select<TVal>(Func<string, object, LeoMember, TVal> loopFunc);
-
-        ILeoSelector<TVal> Select<TVal>(Func<string, object, TVal> loopFunc);
-
-        ILeoSelector<TVal> Select<TVal>(Func<LeoLoopContext, TVal> loopFunc);
-
-        Dictionary<string, object> ToDictionary();
 
         bool Contains(string name);
     }
@@ -73,26 +51,6 @@ namespace NMS.Leo.Typed
 
         TValue GetValue<TValue>(Expression<Func<T, TValue>> expression);
 
-        bool TryRepeat(out T result);
-
-        bool TryRepeat(T instance, out T result);
-
-        bool TryRepeat(IDictionary<string, object> keyValueCollections, out T result);
-
-        new ILeoRepeater<T> ForRepeat();
-
         LeoMember GetMember<TValue>(Expression<Func<T, TValue>> expression);
-
-        new ILeoLooper<T> ForEach(Action<string, object, LeoMember> loopAct);
-
-        new ILeoLooper<T> ForEach(Action<string, object> loopAct);
-
-        new ILeoLooper<T> ForEach(Action<LeoLoopContext> loopAct);
-
-        new ILeoSelector<T, TVal> Select<TVal>(Func<string, object, LeoMember, TVal> loopFunc);
-
-        new ILeoSelector<T, TVal> Select<TVal>(Func<string, object, TVal> loopFunc);
-
-        new ILeoSelector<T, TVal> Select<TVal>(Func<LeoLoopContext, TVal> loopFunc);
     }
 }

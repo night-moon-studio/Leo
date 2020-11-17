@@ -19,7 +19,7 @@ namespace NCallerUT
                 Birthday = DateTime.Today
             };
 
-            var v = act.ToLeoVisitor();
+            var v = act.ToVisitor();
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(NiceAct), v.SourceType);
@@ -105,7 +105,7 @@ namespace NCallerUT
         public void DirectTypeExtensionsTest()
         {
             var type = typeof(NiceAct);
-            var v = type.ToLeoVisitor();
+            var v = type.ToVisitor();
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(NiceAct), v.SourceType);
