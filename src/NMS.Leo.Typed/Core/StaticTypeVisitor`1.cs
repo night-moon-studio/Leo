@@ -13,7 +13,7 @@ namespace NMS.Leo.Typed.Core
         private readonly DictBase<T> _handler;
         private readonly AlgorithmKind _algorithmKind;
 
-        private Lazy<LeoMemberHandler> _lazyMemberHandler;
+        private Lazy<MemberHandler> _lazyMemberHandler;
 
         public StaticTypeLeoVisitor(DictBase<T> handler, AlgorithmKind kind)
         {
@@ -22,7 +22,7 @@ namespace NMS.Leo.Typed.Core
 
             SourceType = typeof(T);
 
-            _lazyMemberHandler = new Lazy<LeoMemberHandler>(() => new LeoMemberHandler(_handler, SourceType));
+            _lazyMemberHandler = MemberHandler.Lazy(() => new MemberHandler(_handler, SourceType));
         }
 
         public Type SourceType { get; }

@@ -6,24 +6,24 @@ namespace NMS.Leo.Typed.Core.Loop
     internal class LeoLooper : ILeoLooper
     {
         private readonly ILeoVisitor _visitor;
-        private readonly Lazy<LeoMemberHandler> _memberHandler;
+        private readonly Lazy<MemberHandler> _memberHandler;
         private readonly InternalLeoLoopingContext _context;
 
-        public LeoLooper(ILeoVisitor visitor, Lazy<LeoMemberHandler> memberHandler, Action<string, object, LeoMember> loopAct)
+        public LeoLooper(ILeoVisitor visitor, Lazy<MemberHandler> memberHandler, Action<string, object, LeoMember> loopAct)
         {
             _visitor = visitor ?? throw new ArgumentNullException(nameof(visitor));
             _memberHandler = memberHandler ?? throw new ArgumentNullException(nameof(memberHandler));
             _context = new InternalLeoLoopingContext(loopAct);
         }
 
-        public LeoLooper(ILeoVisitor visitor, Lazy<LeoMemberHandler> memberHandler, Action<string, object> loopAct)
+        public LeoLooper(ILeoVisitor visitor, Lazy<MemberHandler> memberHandler, Action<string, object> loopAct)
         {
             _visitor = visitor ?? throw new ArgumentNullException(nameof(visitor));
             _memberHandler = memberHandler ?? throw new ArgumentNullException(nameof(memberHandler));
             _context = new InternalLeoLoopingContext(loopAct);
         }
 
-        public LeoLooper(ILeoVisitor visitor, Lazy<LeoMemberHandler> memberHandler, Action<LeoLoopContext> loopAct)
+        public LeoLooper(ILeoVisitor visitor, Lazy<MemberHandler> memberHandler, Action<LeoLoopContext> loopAct)
         {
             _visitor = visitor ?? throw new ArgumentNullException(nameof(visitor));
             _memberHandler = memberHandler ?? throw new ArgumentNullException(nameof(memberHandler));
@@ -58,24 +58,24 @@ namespace NMS.Leo.Typed.Core.Loop
     internal class LeoLooper<T> : ILeoLooper<T>
     {
         private readonly ILeoVisitor<T> _visitor;
-        private readonly Lazy<LeoMemberHandler> _memberHandler;
+        private readonly Lazy<MemberHandler> _memberHandler;
         private readonly InternalLeoLoopingContext _context;
 
-        public LeoLooper(ILeoVisitor<T> visitor, Lazy<LeoMemberHandler> memberHandler, Action<string, object, LeoMember> loopAct)
+        public LeoLooper(ILeoVisitor<T> visitor, Lazy<MemberHandler> memberHandler, Action<string, object, LeoMember> loopAct)
         {
             _visitor = visitor ?? throw new ArgumentNullException(nameof(visitor));
             _memberHandler = memberHandler ?? throw new ArgumentNullException(nameof(memberHandler));
             _context = new InternalLeoLoopingContext(loopAct);
         }
 
-        public LeoLooper(ILeoVisitor<T> visitor, Lazy<LeoMemberHandler> memberHandler, Action<string, object> loopAct)
+        public LeoLooper(ILeoVisitor<T> visitor, Lazy<MemberHandler> memberHandler, Action<string, object> loopAct)
         {
             _visitor = visitor ?? throw new ArgumentNullException(nameof(visitor));
             _memberHandler = memberHandler ?? throw new ArgumentNullException(nameof(memberHandler));
             _context = new InternalLeoLoopingContext(loopAct);
         }
 
-        public LeoLooper(ILeoVisitor<T> visitor, Lazy<LeoMemberHandler> memberHandler, Action<LeoLoopContext> loopAct)
+        public LeoLooper(ILeoVisitor<T> visitor, Lazy<MemberHandler> memberHandler, Action<LeoLoopContext> loopAct)
         {
             _visitor = visitor ?? throw new ArgumentNullException(nameof(visitor));
             _memberHandler = memberHandler ?? throw new ArgumentNullException(nameof(memberHandler));

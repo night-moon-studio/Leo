@@ -14,7 +14,7 @@ namespace NMS.Leo.Typed.Core
         private readonly object _instance;
         private readonly AlgorithmKind _algorithmKind;
 
-        private Lazy<LeoMemberHandler> _lazyMemberHandler;
+        private Lazy<MemberHandler> _lazyMemberHandler;
 
         protected HistoricalContext NormalHistoricalContext { get; set; }
 
@@ -32,7 +32,7 @@ namespace NMS.Leo.Typed.Core
                 ? new HistoricalContext(sourceType, kind)
                 : null;
 
-            _lazyMemberHandler = new Lazy<LeoMemberHandler>(() => new LeoMemberHandler(_handler, SourceType));
+            _lazyMemberHandler = MemberHandler.Lazy(() => new MemberHandler(_handler, SourceType));
         }
 
         public Type SourceType { get; }

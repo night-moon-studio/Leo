@@ -8,12 +8,12 @@ using NMS.Leo.Typed.Core.Select;
 
 namespace NMS.Leo.Typed.Core
 {
-      internal class StaticTypeLeoVisitor : ILeoVisitor, ILeoGetter, ILeoSetter
+    internal class StaticTypeLeoVisitor : ILeoVisitor, ILeoGetter, ILeoSetter
     {
         private readonly DictBase _handler;
         private readonly AlgorithmKind _algorithmKind;
 
-        private Lazy<LeoMemberHandler> _lazyMemberHandler;
+        private Lazy<MemberHandler> _lazyMemberHandler;
 
         public StaticTypeLeoVisitor(DictBase handler, Type targetType, AlgorithmKind kind)
         {
@@ -22,7 +22,7 @@ namespace NMS.Leo.Typed.Core
 
             SourceType = targetType ?? throw new ArgumentNullException(nameof(targetType));
 
-            _lazyMemberHandler = new Lazy<LeoMemberHandler>(() => new LeoMemberHandler(_handler, SourceType));
+            _lazyMemberHandler = MemberHandler.Lazy(() => new MemberHandler(_handler, SourceType));
         }
 
         public Type SourceType { get; }
