@@ -1,61 +1,59 @@
 <p align="center">
-<a href="README.zh-CN.md">中文</a> | 
-<span>English</span>
+<span>中文</span> | 
+<a href="README.md">English</a>
 </p>
 
 # Leo
 
-A high-performance type dynamic operation library.
+一个高性能的类型动态操作库。
 
 [![Member project of Night Moon Studio](https://img.shields.io/badge/member%20project%20of-NMS-9e20c9.svg)](https://github.com/night-moon-studio)
 [![NuGet Badge](https://buildstats.info/nuget/NMS.NCaller?includePreReleases=true)](https://www.nuget.org/packages/NMS.NCaller)
- ![GitHub repo size](https://img.shields.io/github/repo-size/night-moon-studio/ncaller.svg)
+![GitHub repo size](https://img.shields.io/github/repo-size/night-moon-studio/ncaller.svg)
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
 [![GitHub license](https://img.shields.io/github/license/night-moon-studio/ncaller.svg)](https://github.com/night-moon-studio/NCaller/blob/master/LICENSE)
 
+本项目基于 [NCC Natasha](https://github.com/dotnetcore/natasha) 和 .NET。
 
-This project is based on [NCC Natasha](https://github.com/dotnetcore/natasha) and .NET.
+通过运行时自动构建高性能操作代理类。为普通类、静态类、动态类、嵌套动态类以及动态生成的静态类等提供了完备的高性能操作。
 
-Automatically build high-performance operation agent classes through runtime. Provides complete high-performance operations for ordinary classes, static classes, dynamic classes, nested dynamic classes, and dynamically generated static classes.
+成员索引及类型缓存均采用高性能算法进行重建。如果反射、Dynamic 等方法都不能满足你的特殊需求，则你可以选择使用本方案。
 
-Member index and type cache are rebuilt using high-performance algorithms. If reflection, Dynamic and other methods cannot meet your special needs, you can choose to use this solution.
-
-### CI Build Status  
+### 持续构建
 
 | CI Platform | Build Server |  Master Test |
 |--------- |------------- | --------|
 | Github | ![os](https://img.shields.io/badge/os-all-black.svg) | [![Build status](https://img.shields.io/github/workflow/status/night-moon-studio/leo/.NET%20Core/master)](https://github.com/night-moon-studio/tree/actions) |
 
-## Getting Started
+## 开始
 
-### Install
+### 安装
 
-Leo can be installed in your project with the following command.
+Leo 可通过以下命令安装在你的项目中
 
 ```shell
 PM> Install-Package NMS.Leo
 PM> Install-Package NMS.Leo.Typed
 ```
 
-### Natasha initialization
+### Natasha 初始化
 
-```c#
-// Only register components
-NatashaInitializer.Initialize();
+```C#
+ // 仅仅注册组件
+ NatashaInitializer.Initialize();
+ 
+ // 或者
+ // 注册组件+预热组件 , 之后编译会更加快速
+ await NatashaInitializer.InitializeAndPreheating();
+ ```
 
-// or
-// Register the component and warm up the component, 
-// the runtime compilation speed will be faster.
-await NatashaInitializer.InitializeAndPreheating();
-```
+### 核心用法
 
-### Core Usage
+Leo 使用了 NCC BTFindTree Algorithm 作为方法查找算法，并默认选用 `Precision`（精确最小权）来构建属性和字段的索引。
 
-Leo uses NCC BTFindTree Algorithm as the method search algorithm, and uses `Precision` by default to build the index of properties and fields.
+#### 创建字典操作器
 
-#### Create Dictionary Operator
-
-Use precision minimum weight to build properties and fields index:
+使用精确最小权方法构建属性和字段索引：
 
 ```c#
 var handler = PrecisionDictOperator.CreateFromType(typeof(A));
@@ -63,7 +61,7 @@ var handler = PrecisionDictOperator.CreateFromType(typeof(A));
 var handler = PrecisionDictOperator<A>.Create();
 ```
 
-Use hash binary search to build properties and fields index:
+使用哈希二分查找方法构建属性和字段索引：
 
 ```c#
 var handler = HashDictOperator.CreateFromType(typeof(A));
@@ -71,7 +69,7 @@ var handler = HashDictOperator.CreateFromType(typeof(A));
 var handler = HashDictOperator<A>.Create();
 ```
 
-Use fuzzy pointer search to build properties and fields index:
+使用模糊指针查找方法构建属性和字段索引：
 
 ```c#
 var handler = FuzzyDictOperator.CreateFromType(typeof(A));
@@ -79,9 +77,9 @@ var handler = FuzzyDictOperator.CreateFromType(typeof(A));
 var handler = FuzzyDictOperator<A>.Create();
 ```
 
-#### How to use the dictionary operator
+#### 字典操作器的调用
 
-Suppose there are two types A and B:
+假设有两个类型 A 和 B：
 
 ```c#
 public class A
@@ -101,7 +99,7 @@ public class B
 }
 ```
 
-Then we can call the dictionary operator like this:
+则我们可以如此调用字典操作器：
 
 ```c#
 var handler = PrecisionDictOperator.CreateFromType(typeof(A));
@@ -116,9 +114,9 @@ Console.WriteLine(handler.Get<DateTime>("Time"));             // Get operation
 ((B)handler["Outter"]).Name = "NewName";                      // Link operation
 ```
 
-### Build Dynamic Type
+### 动态构建类型
 
-We first prepare a piece of text:
+我们首先准备一段文本：
 
 ```c#
 string text = @"
@@ -144,7 +142,7 @@ namespace HelloWorld
 }";
 ```
 
-Then build the runtime type through Natasha:
+然后通过 Natasha 构建运行时类型：
 
 ```c#
 var oop = new AssemblyCSharpBuilder();
@@ -152,13 +150,13 @@ oop.Add(text);
 Type type = oop.GetTypeFromShortName("Test");
 ```
 
-Finally, use Leo to manipulate instances of this runtime type:
+最后使用 Leo 来操作这个运行时类型的实例：
 
 ```c#
 var instance = PrecisionDictOperator.CreateFromType(type);
 
 var obj = Activator.CreateInstance(type);
-instance.SetObjInstance(obj); // If you use LeoVisitor in NMS.Leo.Typed, these two parts are done automatically
+instance.SetObjInstance(obj); // 如果使用 NMS.Leo.Typed 的 LeoVisitor，则这两部是自动完成的
 
 instance["Pp"] = 30L;
 instance["Rp"] = "ab";
@@ -167,17 +165,17 @@ instance.Set("Name", "222");
 
 ## Leo Visitor
 
-An easier-to-use package is provided in the `NMS.Leo.Typed` package.
+在 `NMS.Leo.Typed` 包中提供了更易使用的封装。
 
-Reference namespace:
+引用命名空间：
 
 ```c#
 using NMS.Leo.Typed;
 ```
 
-### Create Visitor Instance
+### 创建 Visitor 实例
 
-Leo Visitor supports creation through Type and Generic parameter:
+Leo Visitor 支持通过类型（Type）和泛型来创建：
 
 ```c#
 var type = typeof(YourType);
@@ -187,37 +185,37 @@ var visitor = LeoVisitorFactory.Create(type); // returns ILeoVisitor instance
 var visitor = LeoVisitorFactory.Create<YourType>(); // returns ILeoVisitor<YourType> instance
 ```
 
-### Set or get instance object
+### 设置或获取实例对象
 
-You can specify an existing object for Leo Visitor:
+你可以为 Leo Visitor 给定一个已存在的对象：
 
 ```c#
 var type = typeof(YourType);
 var instance = new YourType();
 
-// Give the instance object directly in the factory method.
+// 直接在工厂方法中给定实例对象：
 var visitor = LeoVisitorFactory.Create(type, instance); // returns ILeoVisitor instance
 
 // or
 var visitor = LeoVisitorFactory.Create<YourType>(instance); // returns ILeoVisitor<YourType> instance
 ```
 
-Then get the instance object from Leo Visitor:
+然后从 Leo Visitor 中获取实例对象：
 
 ```c#
-object instance = visitor.Instance; // Obtain the object object from ILeoVisitor.
+object instance = visitor.Instance; // 从 ILeoVisitor 中获得 object 对象。
 
 // or
-T instance = visitor.Instance; // Obtain an instance of type T from ILeoVisitor<T>.
+T instance = visitor.Instance; // 从 ILeoVisitor<T> 中获得类型 T 的实例。
 ```
 
-### Set or get value
+### 设置或获取值
 
-The value in Leo Visitor can be read and written through the `GetValue` or `SetValue` method.
+可以通过 `GetValue` 或 `SetValue` 方法读写 Leo Visitor 中的值。
 
 #### GetValue
 
-Read the value of the field or property named `Name` from Leo Visitor:
+从 Leo Visitor 中读取名为 `Name` 的字段或属性的值：
 
 ```c#
 var visitor = LeoVisitorFactory.Create(typeof(YourType)); // ILeoVisitor
@@ -237,10 +235,10 @@ object name = visitor.GetValue<YourType>(t => t.Name);
 string name = visitor.GetValue<YourType, string>(t => t.Name);
 
 // or
-string name = visitor.GetValue(t => t.Name); // only for ILeoVisitor<YourType>
+string name = visitor.GetValue(t => t.Name); // 仅支持 ILeoVisitor<YourType>
 ```
 
-Or get the values of all fields or properties at once through a dictionary:
+或者通过字典一次获得所有字段或属性的值：
 
 ```c#
 var d = visitor.ToDictionary(); // Dictionary<string, object>
@@ -248,7 +246,7 @@ var d = visitor.ToDictionary(); // Dictionary<string, object>
 
 #### SetValue
 
-Set the value `YourName` to the field or property named `Name`.
+将值 `YourName` 设置给名为 `Name` 的字段或属性：
 
 ```c#
 var visitor = LeoVisitorFactory.Create(typeof(YourType)); // ILeoVisitor
@@ -265,10 +263,10 @@ visitor.SetValue<YourType>(t => t.Name, "YourName");
 visitor.SetValue<YourType, string>(t => t.Name, "YourName");
 
 // or
-visitor.SetValue<string>(t => t.Name, "YourName"); // only for ILeoVisitor<YourType>
+visitor.SetValue<string>(t => t.Name, "YourName"); // 仅支持 ILeoVisitor<YourType>
 ```
 
-You can even batch operations directly through the dictionary:
+甚至可以通过字典直接批量操作：
 
 ```c#
 var d = new Dictionary<string, object>();
@@ -278,21 +276,21 @@ d["Age"] = 25;
 visitor.SetValue(d);
 ```
 
-## Release Notes
+## 历史
 
-- 2019-08-01: Release v1.0.0.0, a high-performance dynamic calling library.
-- 2020-10-12: Release v1.2.0.0, use the latest version of Natasha and [DynamicCache](https://github.com/night-moon-studio/DynamicCache), and use function pointers instead of system delegates.
+- 2019-08-01 ： 发布 v1.0.0.0, 高性能动态调用库。
+- 2020-10-12 ： 发布 v1.2.0.0, 使用最新版本 Natasha 与 [DynamicCache](https://github.com/night-moon-studio/DynamicCache) ，并使用函数指针代替系统委托。  
 
-### Algorithm
+### 算法
 
 NCC BTFindTree Algorithm: https://github.com/dotnet-lab/BTFindTree
 
-## Performance 
+### 性能
 
-![Performance](Image/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%951.png)  
+![Performance](Image/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%951.png)
 
-## License
+## 许可证
 
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller?ref=badge_large) 
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fnight-moon-studio%2FNCaller?ref=badge_large)
 
 [MIT](LICENSE)
