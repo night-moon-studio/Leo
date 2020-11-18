@@ -188,7 +188,7 @@ var visitor = LeoVisitorFactory.Create(type); // returns ILeoVisitor instance
 var visitor = LeoVisitorFactory.Create<YourType>(); // returns ILeoVisitor<YourType> instance
 ```
 
-### Set or get instance object
+### Initialize LeoVisitor with an Object Instance
 
 You can specify an existing object for Leo Visitor:
 
@@ -212,7 +212,32 @@ object instance = visitor.Instance; // Obtain the object object from ILeoVisitor
 T instance = visitor.Instance; // Obtain an instance of type T from ILeoVisitor<T>.
 ```
 
-### Set or get value
+### Initialize LeoVisitor with a Dictionary
+
+When creating Leo Visitor, you can also use a dictionary to directly initialize the instance:
+
+```c#
+var d = new Dictionary<string, object>();
+d["Name"] = "YourMidName";
+d["Age"] = 25;
+
+var type = typeof(YourType);
+var visitor = LeoVisitorFactory.Create(type, d); // returns ILeoVisitor
+
+// or
+var visitor = LeoVisitorFactory.Create<YourType>(d); // returns ILeoVisitor<YourType>
+```
+
+Then get the instance object from Leo Visitor:
+
+```c#
+object instance = visitor.Instance; // Obtain the object object from ILeoVisitor.
+
+// or
+T instance = visitor.Instance; // Obtain an instance of type T from ILeoVisitor<T>.
+```
+
+### Set or Get Value
 
 The value in Leo Visitor can be read and written through the `GetValue` or `SetValue` method.
 
@@ -277,6 +302,59 @@ d["Name"] = "YourMidName";
 d["Age"] = 25;
 
 visitor.SetValue(d);
+```
+
+### Select the members to be returned
+
+We can use `Select` to select and return the members we need:
+
+```c#
+var visitor = LeoVisitorFactory.Create(typeof(YourType)); // ILeoVisitor
+
+var z0 = v.Select((name, val) => name);                         // returns ILeoSelector<YourType, string>
+var z1 = v.Select((name, val, metadata) => name);               // returns ILeoSelector<YourType, string>
+var z2 = v.Select(ctx => ctx.Name);                             // returns ILeoSelector<YourType, string>
+var z3 = v.Select(ctx => (ctx.Name, ctx.Index));                // returns ILeoSelector<YourType, (Name, Index)>
+var z4 = v.Select(ctx => new {ctx.Name, ctx.Value, ctx.Index}); // returns ILeoSelector<YourType, {Name, Value, Index}>
+```
+
+At this point we will get an implementation of the ILeoSelector interface, we only need to execute the `FireAndReturn()` method to get the result we need:
+
+```c#
+var l0 = z0.FireAndReturn(); // returns IEnumerable<string>
+var l1 = z1.FireAndReturn(); // returns IEnumerable<string>
+var l2 = z2.FireAndReturn(); // returns IEnumerable<string>
+var l3 = z3.FireAndReturn(); // returns IEnumerable<(Name, Index)>
+var l4 = z4.FireAndReturn(); // returns IEnumerable<{Name, Value, Index}>
+```
+
+## Leo Metadata
+
+You can get the metadata of the field or property from the dictionary operator:
+
+```c#
+var instance = PrecisionDictOperator<YourType>.Create(); // DictBase<YourType>
+
+var members = instance.GetMembers(); // IEnumerable<LeoMember>
+
+// Or get only readable/writable members
+var members = instance.GetCanReadMembers();
+var members = instance.GetCanWriteMembers();
+
+// Or get the metadata of the property or field of the specified name
+var member = instance.GetMember("Name"); // LeoMember
+```
+
+You can get the metadata of fields or properties from Leo Visitor:
+
+```c#
+var visitor = LeoVisitorFactory.Create(typeof(YourType)); // ILeoVisitor
+
+// Use the specified name to get the metadata of the corresponding property or field
+var member = visitor.GetMember("Name"); // LeoMember
+
+// Or directly specify the member of this type to get the metadata of the property or field
+var member = visitor.GetMember( t => t.Name ); // Only for ILeoVisitor<YourType>
 ```
 
 ## Release Notes

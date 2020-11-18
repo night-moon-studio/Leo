@@ -23,6 +23,8 @@ namespace NMS.Leo.Typed
         T Instance { get; }
         
         object GetValue(string name);
+
+        TValue GetValue<TValue>(string name);
         
         object GetValue(Expression<Func<T, object>> expression);
 

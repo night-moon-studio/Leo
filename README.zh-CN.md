@@ -210,6 +210,31 @@ object instance = visitor.Instance; // 从 ILeoVisitor 中获得 object 对象�
 T instance = visitor.Instance; // 从 ILeoVisitor<T> 中获得类型 T 的实例。
 ```
 
+### 使用字典初始化 LeoVisitor
+
+在创建 Leo Visitor 时，也可以使用字典直接初始化实例：
+
+```c#
+var d = new Dictionary<string, object>();
+d["Name"] = "YourMidName";
+d["Age"] = 25;
+
+var type = typeof(YourType);
+var visitor = LeoVisitorFactory.Create(type, d); // returns ILeoVisitor
+
+// or
+var visitor = LeoVisitorFactory.Create<YourType>(d); // returns ILeoVisitor<YourType>
+```
+
+然后从 Leo Visitor 中获取实例对象：
+
+```c#
+object instance = visitor.Instance; // 从 ILeoVisitor 中获得 object 对象。
+
+// or
+T instance = visitor.Instance; // 从 ILeoVisitor<T> 中获得类型 T 的实例。
+```
+
 ### 设置或获取值
 
 可以通过 `GetValue` 或 `SetValue` 方法读写 Leo Visitor 中的值。
@@ -275,6 +300,59 @@ d["Name"] = "YourMidName";
 d["Age"] = 25;
 
 visitor.SetValue(d);
+```
+
+### 选择需要返回的成员
+
+我们可以通过 `Select` 来选择并返回我们需要的成员：
+
+```c#
+var visitor = LeoVisitorFactory.Create(typeof(YourType)); // ILeoVisitor
+
+var z0 = v.Select((name, val) => name);                         // returns ILeoSelector<YourType, string>
+var z1 = v.Select((name, val, metadata) => name);               // returns ILeoSelector<YourType, string>
+var z2 = v.Select(ctx => ctx.Name);                             // returns ILeoSelector<YourType, string>
+var z3 = v.Select(ctx => (ctx.Name, ctx.Index));                // returns ILeoSelector<YourType, (Name, Index)>
+var z4 = v.Select(ctx => new {ctx.Name, ctx.Value, ctx.Index}); // returns ILeoSelector<YourType, {Name, Value, Index}>
+```
+
+此时我们会获得一个 ILeoSelector 接口的实现，我们只需要执行 `FireAndReturn()` 方法便可获得我们所需要的结果：
+
+```c#
+var l0 = z0.FireAndReturn(); // returns IEnumerable<string>
+var l1 = z1.FireAndReturn(); // returns IEnumerable<string>
+var l2 = z2.FireAndReturn(); // returns IEnumerable<string>
+var l3 = z3.FireAndReturn(); // returns IEnumerable<(Name, Index)>
+var l4 = z4.FireAndReturn(); // returns IEnumerable<{Name, Value, Index}>
+```
+
+## Leo 元数据
+
+你可以从字典操作器中获得字段或属性的元数据：
+
+```c#
+var instance = PrecisionDictOperator<YourType>.Create(); // DictBase<YourType>
+
+var members = instance.GetMembers(); // IEnumerable<LeoMember>
+
+// 或者只获得可读 / 可写的成员
+var members = instance.GetCanReadMembers();
+var members = instance.GetCanWriteMembers();
+
+// 或者获取指定名称的属性或字段的元数据
+var member = instance.GetMember("Name"); // LeoMember
+```
+
+你可以从 Leo Visitor 中获得字段或属性的元数据：
+
+```c#
+var visitor = LeoVisitorFactory.Create(typeof(YourType)); // ILeoVisitor
+
+// 使用指定名称来获取对应的属性或字段的元数据
+var member = visitor.GetMember("Name"); // LeoMember
+
+// 或者直接指定该类型的成员来获取属性或字段的元数据
+var member = visitor.GetMember( t => t.Name ); // 仅支持 ILeoVisitor<YourType>
 ```
 
 ## 历史
