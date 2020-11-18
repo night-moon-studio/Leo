@@ -15,9 +15,9 @@ jobs:
         with:
           dotnet-version: 5.0.100
       - name: Build
-        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All/Natasha.CSharp.All.csproj' -f net5.0 --configuration Release
+        run: dotnet build './src/NMS.Leo/NMS.Leo.csproj' -f net5.0 --configuration Release
       - name: Test
-        run: dotnet test './test/NatashaUT'
+        run: dotnet test './test/NCallerUT'
      
   windows:
       runs-on: windows-latest
@@ -28,9 +28,9 @@ jobs:
          with:
           dotnet-version: 5.0.100
        - name: Build
-         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All/Natasha.CSharp.All.csproj' -f net5.0 --configuration Release
+         run: dotnet build './src/NMS.Leo/NMS.Leo.csproj' -f net5.0 --configuration Release
        - name: Test
-         run: dotnet test './test/NatashaUT'
+         run: dotnet test './test/NCallerUT'
    
   mac:
       runs-on: macos-latest
@@ -41,6 +41,6 @@ jobs:
         with:
           dotnet-version: 5.0.100
       - name: Build
-        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All/Natasha.CSharp.All.csproj' -f net5.0 --configuration Release
+        run: dotnet build './src/NMS.Leo/NMS.Leo.csproj' -f net5.0 --configuration Release
       - name: Test
-        run: dotnet test './test/NatashaUT'
+        run: dotnet test './test/NCallerUT'
