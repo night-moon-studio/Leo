@@ -45,7 +45,7 @@ PM> Install-Package NMS.Leo.Typed
  // 或者
  // 注册组件+预热组件 , 之后编译会更加快速
  await NatashaInitializer.InitializeAndPreheating();
- ```
+```
 
 ### 核心用法
 
@@ -210,7 +210,7 @@ object instance = visitor.Instance; // 从 ILeoVisitor 中获得 object 对象�
 T instance = visitor.Instance; // 从 ILeoVisitor<T> 中获得类型 T 的实例。
 ```
 
-### 使用字典初始化 LeoVisitor
+### 使用字典初始化 Leo Visitor
 
 在创建 Leo Visitor 时，也可以使用字典直接初始化实例：
 
@@ -325,6 +325,184 @@ var l2 = z2.FireAndReturn(); // returns IEnumerable<string>
 var l3 = z3.FireAndReturn(); // returns IEnumerable<(Name, Index)>
 var l4 = z4.FireAndReturn(); // returns IEnumerable<{Name, Value, Index}>
 ```
+
+## Leo Getter 与 Setter
+
+我们可以通过内置的 `LeoGetter` 和 `LeoSetter` 流畅地创建实例或值的读取器（Getter）或设置器（Setter）。
+
+### 实例读取器：`ILeoGetter`
+
+我们可以通过实例读取器（对外暴露 `ILeoGetter`）从实例中获取其成员（属性或字段）的值。
+
+```c#
+var type = typeof(YourType);
+var act = new YourType()
+{
+    Name = "YourName",
+    Age = 22,
+    Country = Country.China,
+    Birthday = DateTime.Today
+};
+
+var getter = LeoGetter.Type(type).Instance(act); // returns ILeoGetter
+
+// or
+var getter = LeoGetter.Type<YourType>().Instance(act); // return ILeoGetter<YourType>
+```
+
+在创建实例读取器时，我们可以通过字典进行初始化，此时，实例读取器将自行构建一个对象。
+
+```c#
+var d = new Dictionary<string, object>();
+d["Name"] = "YourName";
+
+var getter = LeoGetter.Type(type).InitialValues(d); // returns ILeoGetter
+```
+
+然后，我们可以读取实例内的值：
+
+```c#
+var val = getter.GetValue<string>("Name");
+```
+
+本质上讲，实例读取器是一个只读的 `ILeoVisitor`。
+
+
+
+### 实例设置器：`ILeoSetter`
+
+我们可以通过内置的实例设置器（对外暴露 `ILeoSetter`）向实例的成员（属性或字段）设置值。
+
+```c#
+var type = typeof(YourType);
+```
+
+可以将实例直接传入实例设置器：
+
+```c#
+var act = new YourType()
+{
+    Name = "YourName",
+    Age = 22,
+    Country = Country.China,
+    Birthday = DateTime.Today
+};
+
+var setter = LeoSetter.Type(type).Instance(act); // ILeoSetter
+
+// or
+var setter = LeoSetter.Type<YourType>().Instance(act); // ILeoSetter<YourType>
+```
+
+或使用字典：
+
+```c#
+var d = new Dictionary<string, object>();
+d["Name"] = "YourName";
+
+var setter = LeoSetter.Type(type).InitialValues(d); // ILeoSetter
+```
+
+或使用全新的对象：
+
+```c#
+var setter = LeoSetter.Type(type).NewInstance(); // ILeoSetter
+
+// or
+var setter = LeoSetter.Type<NiceAct>().NewInstance(); // ILeoSetter<YourType>
+```
+
+然后，我们就可以设置实例内的值：
+
+```c#
+setter.SetValue("Name", "YourMidName");
+```
+
+本质上讲，实例设置器是一个只写的 `ILeoVisitor`。
+
+
+
+### 值读取器：`ILeoValueGetter`
+
+通过值读取器，我们可以在较细的颗粒度下对实例内某个成员（属性或字段）进行读取，值读取器可以避免使用者读取到无关成员（属性或字段）的值。
+
+```c#
+var type = typeof(YourType);
+
+var fluentGetter = LeoGetter.Type(type).Value("Name"); // returns IFluentValueGetter
+
+// or
+var fluentGetter = LeoGetter.Type<YourType>().Value("Name"); // returns IFluentValueGetter<YourType>
+
+// or
+var fluentGetter = LeoGetter.Type<YourType>().Value(t => t.Name); // returns IFluentValueGetter<YourType>
+
+// or
+var fluentGetter = LeoGetter.Type<YourType>().Value<string>(t => t.Name); // returns IFluentValueGetter<YourType>
+```
+
+随后，我们为 `fluentGetter` 指定具体的实例：
+
+```c#
+var act = new YourType()
+{
+    Name = "YourName",
+    Age = 22,
+    Country = Country.China,
+    Birthday = DateTime.Today
+};
+
+var getter = fluentGetter.Instance(act); // ILeoValueGetter
+```
+
+最后，我们可以从实例里读取指定的成员（属性或字段）：
+
+```c#
+var val = getter.Value;
+```
+
+
+
+### 值设置器：`ILeoValueSetter`
+
+通过值设置器，我们可以在较细的颗粒度下对实例内某个成员（属性或字段）进行写入，值设置器可以避免使用者对无关成员（属性或字段）进行设置。
+
+```c#
+var type = typeof(YourType);
+
+var fluentSetter = LeoSetter.Type(type).Value("Name"); // return IFluentValueSetter
+
+// or
+var fluentSetter = LeoSetter.Type<NiceAct>().Value("Name"); // return IFluentValueSetter<YourType>
+
+// or
+var fluentSetter = LeoSetter.Type<NiceAct>().Value(t => t.Name); // return IFluentValueSetter<YourType>
+
+// or
+var fluentSetter = LeoSetter.Type<NiceAct>().Value<string>(t => t.Name); // return IFluentValueSetter<YourType>
+```
+
+随后，我们为 `fluentSetter` 指定具体的实例：
+
+```c#
+var act = new YourType()
+{
+    Name = "YourName",
+    Age = 22,
+    Country = Country.China,
+    Birthday = DateTime.Today
+};
+
+var setter = fluentSetter.Instance(act); // ILeoValueSetter
+```
+
+最后，我们可以向实例的指定成员（属性或字段）设置值：
+
+```c#
+setter.Value("YourLastName");
+```
+
+
 
 ## Leo 元数据
 
