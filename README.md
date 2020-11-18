@@ -188,7 +188,7 @@ var visitor = LeoVisitorFactory.Create(type); // returns ILeoVisitor instance
 var visitor = LeoVisitorFactory.Create<YourType>(); // returns ILeoVisitor<YourType> instance
 ```
 
-### Initialize LeoVisitor with an Object Instance
+### Initialize Leo Visitor with an Object Instance
 
 You can specify an existing object for Leo Visitor:
 
@@ -212,7 +212,7 @@ object instance = visitor.Instance; // Obtain the object object from ILeoVisitor
 T instance = visitor.Instance; // Obtain an instance of type T from ILeoVisitor<T>.
 ```
 
-### Initialize LeoVisitor with a Dictionary
+### Initialize Leo Visitor with a Dictionary
 
 When creating Leo Visitor, you can also use a dictionary to directly initialize the instance:
 
@@ -327,6 +327,184 @@ var l2 = z2.FireAndReturn(); // returns IEnumerable<string>
 var l3 = z3.FireAndReturn(); // returns IEnumerable<(Name, Index)>
 var l4 = z4.FireAndReturn(); // returns IEnumerable<{Name, Value, Index}>
 ```
+
+## Leo Getter and Setter
+
+We can use the built-in `LeoGetter` and `LeoSetter` to fluently create a Getter or a Setter for an instance or value.
+
+### Instance Reader: `ILeoGetter`
+
+We can get the value of its member (properties or fields) from the instance through the instance reader (exposed as `ILeoGetter`).
+
+```c#
+var type = typeof(YourType);
+var act = new YourType()
+{
+    Name = "YourName",
+    Age = 22,
+    Country = Country.China,
+    Birthday = DateTime.Today
+};
+
+var getter = LeoGetter.Type(type).Instance(act); // returns ILeoGetter
+
+// or
+var getter = LeoGetter.Type<YourType>().Instance(act); // return ILeoGetter<YourType>
+```
+
+When creating an instance reader, we can initialize it through a dictionary. At this time, the instance reader will construct an object by itself.
+
+```c#
+var d = new Dictionary<string, object>();
+d["Name"] = "YourName";
+
+var getter = LeoGetter.Type(type).InitialValues(d); // returns ILeoGetter
+```
+
+Then, we can read the value within the instance:
+
+```c#
+var val = getter.GetValue<string>("Name");
+```
+
+Essentially, the instance reader is a read-only `ILeoVisitor`.
+
+
+
+### Instance Setter: `ILeoSetter`
+
+We can set values to the members (properties or fields) of the instance through the built-in instance setter (exposed as `ILeoSetter`).
+
+```c#
+var type = typeof(YourType);
+```
+
+You can pass the instance directly into the instance setter:
+
+```c#
+var act = new YourType()
+{
+    Name = "YourName",
+    Age = 22,
+    Country = Country.China,
+    Birthday = DateTime.Today
+};
+
+var setter = LeoSetter.Type(type).Instance(act); // ILeoSetter
+
+// or
+var setter = LeoSetter.Type<YourType>().Instance(act); // ILeoSetter<YourType>
+```
+
+Or use a dictionary:
+
+```c#
+var d = new Dictionary<string, object>();
+d["Name"] = "YourName";
+
+var setter = LeoSetter.Type(type).InitialValues(d); // ILeoSetter
+```
+
+Or automatically create a new object:
+
+```c#
+var setter = LeoSetter.Type(type).NewInstance(); // ILeoSetter
+
+// or
+var setter = LeoSetter.Type<NiceAct>().NewInstance(); // ILeoSetter<YourType>
+```
+
+Then, we can set the value in the instance:
+
+```c#
+setter.SetValue("Name", "YourMidName");
+```
+
+Essentially, the instance setter is a write-only `ILeoVisitor`.
+
+
+
+### Value Reader: `ILeoValueGetter`
+
+Through the value reader, we can read a member (property or field) in the instance at a finer granularity, and the value reader can prevent users from reading the value of an unrelated member (properties or fields) .
+
+```c#
+var type = typeof(YourType);
+
+var fluentGetter = LeoGetter.Type(type).Value("Name"); // returns IFluentValueGetter
+
+// or
+var fluentGetter = LeoGetter.Type<YourType>().Value("Name"); // returns IFluentValueGetter<YourType>
+
+// or
+var fluentGetter = LeoGetter.Type<YourType>().Value(t => t.Name); // returns IFluentValueGetter<YourType>
+
+// or
+var fluentGetter = LeoGetter.Type<YourType>().Value<string>(t => t.Name); // returns IFluentValueGetter<YourType>
+```
+
+Then, we specify a specific instance for `fluentGetter`:
+
+```c#
+var act = new YourType()
+{
+    Name = "YourName",
+    Age = 22,
+    Country = Country.China,
+    Birthday = DateTime.Today
+};
+
+var getter = fluentGetter.Instance(act); // ILeoValueGetter
+```
+
+Finally, we can read the specified member (property or field) from the instance:
+
+```c#
+var val = getter.Value;
+```
+
+
+
+### Value Setter: `ILeoValueSetter`
+
+Through the value setter, we can write to a member (property or field) in the instance with finer granularity, and the value setter can prevent users from setting irrelevant members (properties or fields).
+
+```c#
+var type = typeof(YourType);
+
+var fluentSetter = LeoSetter.Type(type).Value("Name"); // return IFluentValueSetter
+
+// or
+var fluentSetter = LeoSetter.Type<NiceAct>().Value("Name"); // return IFluentValueSetter<YourType>
+
+// or
+var fluentSetter = LeoSetter.Type<NiceAct>().Value(t => t.Name); // return IFluentValueSetter<YourType>
+
+// or
+var fluentSetter = LeoSetter.Type<NiceAct>().Value<string>(t => t.Name); // return IFluentValueSetter<YourType>
+```
+
+Then, we specify a specific instance for `fluentSetter`:
+
+```c#
+var act = new YourType()
+{
+    Name = "YourName",
+    Age = 22,
+    Country = Country.China,
+    Birthday = DateTime.Today
+};
+
+var setter = fluentSetter.Instance(act); // ILeoValueSetter
+```
+
+Finally, we can set values to the specified member (property or field) of the instance:
+
+```c#
+setter.Value("YourLastName");
+```
+
+
 
 ## Leo Metadata
 

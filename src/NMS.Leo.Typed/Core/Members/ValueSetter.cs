@@ -21,8 +21,7 @@ namespace NMS.Leo.Typed.Core.Members
 
         public object HostedInstance => _visitor.Instance;
     }
-
-
+    
     internal class ValueSetter<T> : ILeoValueSetter<T>
     {
         private readonly Action<object> _setter;
