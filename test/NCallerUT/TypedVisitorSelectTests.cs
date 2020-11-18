@@ -130,7 +130,7 @@ namespace NCallerUT
             var z0 = v.Select((s, o) => s);
             var z1 = v.Select((s, o, m) => s);
             var z2 = v.Select(c => c.Name);
-            var z3 = v.Select<(string, int)>(c => (c.Name, c.Index));
+            var z3 = v.Select(c => (c.Name, c.Index));
             var z4 = v.Select(c => new {c.Name, c.Value, c.Index});
 
             Assert.NotNull(z0);
@@ -181,7 +181,7 @@ namespace NCallerUT
             var z0 = v.Select((s, o) => s);
             var z1 = v.Select((s, o, m) => s);
             var z2 = v.Select(c => c.Name);
-            var z3 = v.Select<(string, int)>(c => (c.Name, c.Index));
+            var z3 = v.Select(c => (c.Name, c.Index));
             var z4 = v.Select(c => new {c.Name, c.Value, c.Index});
 
             Assert.NotNull(z0);
