@@ -13,35 +13,34 @@ jobs:
       - name: Setup
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.100
+          dotnet-version: 5.0.100
       - name: Build
-        run: dotnet build --configuration Release
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All/Natasha.CSharp.All.csproj' -f net5.0 --configuration Release
       - name: Test
-        run: dotnet test
-        
+        run: dotnet test './test/NatashaUT'
+     
   windows:
       runs-on: windows-latest
       steps:
-      - uses: actions/checkout@v1
-      - name: Setup
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 3.1.100
-      - name: Build
-        run: dotnet build --configuration Release
-      - name: Test
-        run: dotnet test
+       - uses: actions/checkout@v1
+       - name: Setup
+         uses: actions/setup-dotnet@v1
+         with:
+          dotnet-version: 5.0.100
+       - name: Build
+         run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All/Natasha.CSharp.All.csproj' -f net5.0 --configuration Release
+       - name: Test
+         run: dotnet test './test/NatashaUT'
    
   mac:
-      runs-on: macos
+      runs-on: macos-latest
       steps:
       - uses: actions/checkout@v1
       - name: Setup
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.100
+          dotnet-version: 5.0.100
       - name: Build
-        run: dotnet build --configuration Release
+        run: dotnet build './src/Natasha.CSharp/Natasha.CSharp.All/Natasha.CSharp.All.csproj' -f net5.0 --configuration Release
       - name: Test
-        run: dotnet test
-        
+        run: dotnet test './test/NatashaUT'
