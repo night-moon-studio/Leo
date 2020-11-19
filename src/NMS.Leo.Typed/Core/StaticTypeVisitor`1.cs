@@ -14,14 +14,15 @@ namespace NMS.Leo.Typed.Core
 
         private Lazy<MemberHandler> _lazyMemberHandler;
 
-        public StaticTypeLeoVisitor(DictBase<T> handler, AlgorithmKind kind)
+        public StaticTypeLeoVisitor(DictBase<T> handler, AlgorithmKind kind, bool liteMode = false)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _algorithmKind = kind;
 
             SourceType = typeof(T);
+            LiteMode = liteMode;
 
-            _lazyMemberHandler = MemberHandler.Lazy(() => new MemberHandler(_handler, SourceType));
+            _lazyMemberHandler = MemberHandler.Lazy(() => new MemberHandler(_handler, SourceType), liteMode);
         }
 
         public Type SourceType { get; }
@@ -160,6 +161,8 @@ namespace NMS.Leo.Typed.Core
         public Lazy<MemberHandler> ExposeLazyMemberHandler() => _lazyMemberHandler;
 
         public ILeoVisitor<T> Owner => this;
+        
+        public bool LiteMode { get; }
 
         public IEnumerable<string> GetMemberNames() => _lazyMemberHandler.Value.GetNames();
 

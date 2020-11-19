@@ -19,6 +19,8 @@ namespace NMS.Leo.Typed.Core
         Lazy<MemberHandler> ExposeLazyMemberHandler();
         
         ILeoVisitor Owner { get; }
+        
+        bool LiteMode { get; }
     }
     
     internal interface ICoreVisitor<T>
@@ -36,5 +38,7 @@ namespace NMS.Leo.Typed.Core
         Lazy<MemberHandler> ExposeLazyMemberHandler();
         
         ILeoVisitor<T> Owner { get; }
+        
+        bool LiteMode { get; }
     }
 }
