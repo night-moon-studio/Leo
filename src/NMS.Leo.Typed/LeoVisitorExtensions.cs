@@ -12,18 +12,18 @@ namespace NMS.Leo.Typed
     {
         #region To Visitor
 
-        public static ILeoVisitor<T> ToVisitor<T>(this T instanceObj, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = VisitorMode.REPEATABLE)
+        public static ILeoVisitor<T> ToVisitor<T>(this T instanceObj, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = RpMode.REPEATABLE)
             where T : class
         {
             return LeoVisitorFactory.Create(instanceObj, kind, repeatable);
         }
 
-        public static ILeoVisitor ToVisitor(this Type type, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = VisitorMode.REPEATABLE)
+        public static ILeoVisitor ToVisitor(this Type type, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = RpMode.REPEATABLE)
         {
             return LeoVisitorFactory.Create(type, kind, repeatable);
         }
 
-        public static ILeoVisitor ToVisitor(this Type type, IDictionary<string, object> initialValues, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = VisitorMode.REPEATABLE)
+        public static ILeoVisitor ToVisitor(this Type type, IDictionary<string, object> initialValues, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = RpMode.REPEATABLE)
         {
             return LeoVisitorFactory.Create(type, initialValues, kind, repeatable);
         }
@@ -38,7 +38,7 @@ namespace NMS.Leo.Typed
                 throw new ArgumentNullException(nameof(visitor));
             var val = new Dictionary<string, object>();
             var rel = (ICoreVisitor) visitor;
-            if (rel.LiteMode == VisitorMode.LITE)
+            if (rel.LiteMode == LvMode.LITE)
                 throw new InvalidOperationException("Lite mode visitor has no Member handler.");
             var lazyHandler = rel.ExposeLazyMemberHandler();
             foreach (var name in lazyHandler.Value.GetNames())
@@ -52,7 +52,7 @@ namespace NMS.Leo.Typed
                 throw new ArgumentNullException(nameof(visitor));
             var val = new Dictionary<string, object>();
             var rel = (ICoreVisitor<T>) visitor;
-            if (rel.LiteMode == VisitorMode.LITE)
+            if (rel.LiteMode == LvMode.LITE)
                 throw new InvalidOperationException("Lite mode visitor has no Member handler.");
             var lazyHandler = rel.ExposeLazyMemberHandler();
             foreach (var name in lazyHandler.Value.GetNames())
@@ -69,7 +69,7 @@ namespace NMS.Leo.Typed
             if (visitor is null)
                 throw new ArgumentNullException(nameof(visitor));
             var rel = (ICoreVisitor) visitor;
-            if (rel.LiteMode == VisitorMode.LITE)
+            if (rel.LiteMode == LvMode.LITE)
                 throw new InvalidOperationException("Lite mode visitor has no Member handler.");
             return new LeoSelector<TVal>(rel.Owner, rel.ExposeLazyMemberHandler(), loopFunc);
         }
@@ -79,7 +79,7 @@ namespace NMS.Leo.Typed
             if (visitor is null)
                 throw new ArgumentNullException(nameof(visitor));
             var rel = (ICoreVisitor) visitor;
-            if (rel.LiteMode == VisitorMode.LITE)
+            if (rel.LiteMode == LvMode.LITE)
                 throw new InvalidOperationException("Lite mode visitor has no Member handler.");
             return new LeoSelector<TVal>(rel.Owner, rel.ExposeLazyMemberHandler(), loopFunc);
         }
@@ -89,7 +89,7 @@ namespace NMS.Leo.Typed
             if (visitor is null)
                 throw new ArgumentNullException(nameof(visitor));
             var rel = (ICoreVisitor) visitor;
-            if (rel.LiteMode == VisitorMode.LITE)
+            if (rel.LiteMode == LvMode.LITE)
                 throw new InvalidOperationException("Lite mode visitor has no Member handler.");
             return new LeoSelector<TVal>(rel.Owner, rel.ExposeLazyMemberHandler(), loopFunc);
         }
@@ -99,7 +99,7 @@ namespace NMS.Leo.Typed
             if (visitor is null)
                 throw new ArgumentNullException(nameof(visitor));
             var rel = (ICoreVisitor<T>) visitor;
-            if (rel.LiteMode == VisitorMode.LITE)
+            if (rel.LiteMode == LvMode.LITE)
                 throw new InvalidOperationException("Lite mode visitor has no Member handler.");
             return new LeoSelector<T, TVal>(rel.Owner, rel.ExposeLazyMemberHandler(), loopFunc);
         }
@@ -109,7 +109,7 @@ namespace NMS.Leo.Typed
             if (visitor is null)
                 throw new ArgumentNullException(nameof(visitor));
             var rel = (ICoreVisitor<T>) visitor;
-            if (rel.LiteMode == VisitorMode.LITE)
+            if (rel.LiteMode == LvMode.LITE)
                 throw new InvalidOperationException("Lite mode visitor has no Member handler.");
             return new LeoSelector<T, TVal>(rel.Owner, rel.ExposeLazyMemberHandler(), loopFunc);
         }
@@ -119,7 +119,7 @@ namespace NMS.Leo.Typed
             if (visitor is null)
                 throw new ArgumentNullException(nameof(visitor));
             var rel = (ICoreVisitor<T>) visitor;
-            if (rel.LiteMode == VisitorMode.LITE)
+            if (rel.LiteMode == LvMode.LITE)
                 throw new InvalidOperationException("Lite mode visitor has no Member handler.");
             return new LeoSelector<T, TVal>(rel.Owner, rel.ExposeLazyMemberHandler(), loopFunc);
         }
@@ -133,7 +133,7 @@ namespace NMS.Leo.Typed
             if (visitor is null)
                 throw new ArgumentNullException(nameof(visitor));
             var rel = (ICoreVisitor) visitor;
-            if (rel.LiteMode == VisitorMode.LITE)
+            if (rel.LiteMode == LvMode.LITE)
                 throw new InvalidOperationException("Lite mode visitor has no Member handler.");
             return new LeoLooper(rel.Owner, rel.ExposeLazyMemberHandler(), loopAct);
         }
@@ -143,7 +143,7 @@ namespace NMS.Leo.Typed
             if (visitor is null)
                 throw new ArgumentNullException(nameof(visitor));
             var rel = (ICoreVisitor) visitor;
-            if (rel.LiteMode == VisitorMode.LITE)
+            if (rel.LiteMode == LvMode.LITE)
                 throw new InvalidOperationException("Lite mode visitor has no Member handler.");
             return new LeoLooper(rel.Owner, rel.ExposeLazyMemberHandler(), loopAct);
         }
@@ -153,7 +153,7 @@ namespace NMS.Leo.Typed
             if (visitor is null)
                 throw new ArgumentNullException(nameof(visitor));
             var rel = (ICoreVisitor) visitor;
-            if (rel.LiteMode == VisitorMode.LITE)
+            if (rel.LiteMode == LvMode.LITE)
                 throw new InvalidOperationException("Lite mode visitor has no Member handler.");
             return new LeoLooper(rel.Owner, rel.ExposeLazyMemberHandler(), loopAct);
         }
@@ -163,7 +163,7 @@ namespace NMS.Leo.Typed
             if (visitor is null)
                 throw new ArgumentNullException(nameof(visitor));
             var rel = (ICoreVisitor<T>) visitor;
-            if (rel.LiteMode == VisitorMode.LITE)
+            if (rel.LiteMode == LvMode.LITE)
                 throw new InvalidOperationException("Lite mode visitor has no Member handler.");
             return new LeoLooper<T>(rel.Owner, rel.ExposeLazyMemberHandler(), loopAct);
         }
@@ -173,7 +173,7 @@ namespace NMS.Leo.Typed
             if (visitor is null)
                 throw new ArgumentNullException(nameof(visitor));
             var rel = (ICoreVisitor<T>) visitor;
-            if (rel.LiteMode == VisitorMode.LITE)
+            if (rel.LiteMode == LvMode.LITE)
                 throw new InvalidOperationException("Lite mode visitor has no Member handler.");
             return new LeoLooper<T>(rel.Owner, rel.ExposeLazyMemberHandler(), loopAct);
         }
@@ -183,7 +183,7 @@ namespace NMS.Leo.Typed
             if (visitor is null)
                 throw new ArgumentNullException(nameof(visitor));
             var rel = (ICoreVisitor<T>) visitor;
-            if (rel.LiteMode == VisitorMode.LITE)
+            if (rel.LiteMode == LvMode.LITE)
                 throw new InvalidOperationException("Lite mode visitor has no Member handler.");
             return new LeoLooper<T>(rel.Owner, rel.ExposeLazyMemberHandler(), loopAct);
         }
