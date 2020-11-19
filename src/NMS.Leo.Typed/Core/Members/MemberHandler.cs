@@ -30,9 +30,11 @@ namespace NMS.Leo.Typed.Core.Members
 
         public Type SourceType => _sourceType;
 
-        public static Lazy<MemberHandler> Lazy(Func<MemberHandler> valueFactory)
+        public static Lazy<MemberHandler> Lazy(Func<MemberHandler> valueFactory, bool liteMode)
         {
-            return new Lazy<MemberHandler>(valueFactory);
+            return liteMode
+                ? default
+                : new Lazy<MemberHandler>(valueFactory);
         }
     }
 }

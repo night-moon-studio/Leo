@@ -22,20 +22,20 @@ namespace NMS.Leo.Typed.Core
         ILeoGetter IFluentGetter.Instance(object instance)
         {
             if (_type.IsAbstract && _type.IsSealed)
-                return LeoVisitorFactoryCore.CreateForStaticType(_type, _kind);
-            return LeoVisitorFactoryCore.CreateForInstance(_type, instance, _kind, false);
+                return LeoVisitorFactoryCore.CreateForStaticType(_type, _kind, VisitorMode.LITE);
+            return LeoVisitorFactoryCore.CreateForInstance(_type, instance, _kind, VisitorMode.NON_REPEATABLE, VisitorMode.LITE);
         }
 
         ILeoGetter IFluentGetter.InitialValues(IDictionary<string, object> initialValues)
         {
             if (_type.IsAbstract && _type.IsSealed)
             {
-                var visitor = LeoVisitorFactoryCore.CreateForStaticType(_type, _kind);
+                var visitor = LeoVisitorFactoryCore.CreateForStaticType(_type, _kind, VisitorMode.LITE);
                 visitor.SetValue(initialValues);
                 return visitor;
             }
 
-            return LeoVisitorFactoryCore.CreateForFutureInstance(_type, _kind, false, initialValues);
+            return LeoVisitorFactoryCore.CreateForFutureInstance(_type, _kind, VisitorMode.NON_REPEATABLE, VisitorMode.LITE, initialValues);
         }
 
         #endregion
@@ -51,7 +51,7 @@ namespace NMS.Leo.Typed.Core
 
             _func1 = t =>
             {
-                var visitor = LeoVisitorFactory.Create(_type, t, _kind, false);
+                var visitor = LeoVisitorFactoryCore.CreateForInstance(_type, t, _kind, VisitorMode.NON_REPEATABLE, VisitorMode.LITE);
                 return new ValueGetter(visitor, propertyInfo.Name);
             };
 
@@ -65,7 +65,7 @@ namespace NMS.Leo.Typed.Core
 
             _func1 = t =>
             {
-                var visitor = LeoVisitorFactory.Create(_type, t, _kind, false);
+                var visitor = LeoVisitorFactoryCore.CreateForInstance(_type, t, _kind, VisitorMode.NON_REPEATABLE, VisitorMode.LITE);
                 return new ValueGetter(visitor, fieldInfo.Name);
             };
 
@@ -79,7 +79,7 @@ namespace NMS.Leo.Typed.Core
 
             _func1 = t =>
             {
-                var visitor = LeoVisitorFactory.Create(_type, t, _kind, false);
+                var visitor = LeoVisitorFactoryCore.CreateForInstance(_type, t, _kind, VisitorMode.NON_REPEATABLE, VisitorMode.LITE);
                 return new ValueGetter(visitor, name);
             };
 
@@ -110,20 +110,20 @@ namespace NMS.Leo.Typed.Core
         ILeoGetter<T> IFluentGetter<T>.Instance(T instance)
         {
             if (_type.IsAbstract && _type.IsSealed)
-                return LeoVisitorFactoryCore.CreateForStaticType<T>(_kind);
-            return LeoVisitorFactoryCore.CreateForInstance<T>(instance, _kind, false);
+                return LeoVisitorFactoryCore.CreateForStaticType<T>(_kind, VisitorMode.LITE);
+            return LeoVisitorFactoryCore.CreateForInstance<T>(instance, _kind, VisitorMode.NON_REPEATABLE, VisitorMode.LITE);
         }
 
         ILeoGetter<T> IFluentGetter<T>.InitialValues(IDictionary<string, object> initialValues)
         {
             if (_type.IsAbstract && _type.IsSealed)
             {
-                var visitor = LeoVisitorFactoryCore.CreateForStaticType<T>(_kind);
+                var visitor = LeoVisitorFactoryCore.CreateForStaticType<T>(_kind, VisitorMode.LITE);
                 visitor.SetValue(initialValues);
                 return visitor;
             }
 
-            return LeoVisitorFactoryCore.CreateForFutureInstance<T>(_kind, false, initialValues);
+            return LeoVisitorFactoryCore.CreateForFutureInstance<T>(_kind, VisitorMode.NON_REPEATABLE, VisitorMode.LITE, initialValues);
         }
 
         #endregion
@@ -139,7 +139,7 @@ namespace NMS.Leo.Typed.Core
 
             _func1 = t =>
             {
-                var visitor = LeoVisitorFactory.Create<T>(t, _kind, false);
+                var visitor = LeoVisitorFactoryCore.CreateForInstance<T>(t, _kind, VisitorMode.NON_REPEATABLE, VisitorMode.LITE);
                 return new ValueGetter<T>(visitor, propertyInfo.Name);
             };
 
@@ -153,7 +153,7 @@ namespace NMS.Leo.Typed.Core
 
             _func1 = t =>
             {
-                var visitor = LeoVisitorFactory.Create<T>(t, _kind, false);
+                var visitor = LeoVisitorFactoryCore.CreateForInstance<T>(t, _kind, VisitorMode.NON_REPEATABLE, VisitorMode.LITE);
                 return new ValueGetter<T>(visitor, fieldInfo.Name);
             };
 
@@ -167,7 +167,7 @@ namespace NMS.Leo.Typed.Core
 
             _func1 = t =>
             {
-                var visitor = LeoVisitorFactory.Create<T>(t, _kind, false);
+                var visitor = LeoVisitorFactoryCore.CreateForInstance<T>(t, _kind, VisitorMode.NON_REPEATABLE, VisitorMode.LITE);
                 return new ValueGetter<T>(visitor, name);
             };
 
@@ -181,7 +181,7 @@ namespace NMS.Leo.Typed.Core
 
             _func1 = t =>
             {
-                var visitor = LeoVisitorFactory.Create<T>(t, _kind, false);
+                var visitor = LeoVisitorFactoryCore.CreateForInstance<T>(t, _kind, VisitorMode.NON_REPEATABLE, VisitorMode.LITE);
                 return new ValueGetter<T>(visitor, expression);
             };
 
@@ -195,7 +195,7 @@ namespace NMS.Leo.Typed.Core
 
             Func<T, ValueGetter<T, TVal>> func = t =>
             {
-                var visitor = LeoVisitorFactory.Create<T>(t, _kind, false);
+                var visitor = LeoVisitorFactoryCore.CreateForInstance<T>(t, _kind, VisitorMode.NON_REPEATABLE, VisitorMode.LITE);
                 return new ValueGetter<T, TVal>(visitor, expression);
             };
 

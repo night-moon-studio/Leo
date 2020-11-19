@@ -18,7 +18,7 @@ namespace NMS.Leo.Typed.Core
         protected HistoricalContext<T> GenericHistoricalContext { get; set; }
 
         public FutureInstanceVisitor(DictBase<T> handler, AlgorithmKind kind, bool repeatable,
-            IDictionary<string, object> initialValues = null)
+            IDictionary<string, object> initialValues = null, bool liteMode = false)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _sourceType = typeof(T);
@@ -29,8 +29,9 @@ namespace NMS.Leo.Typed.Core
             GenericHistoricalContext = repeatable
                 ? new HistoricalContext<T>(kind)
                 : null;
+            LiteMode = liteMode;
 
-            _lazyMemberHandler = MemberHandler.Lazy(() => new MemberHandler(_handler, _sourceType));
+            _lazyMemberHandler = MemberHandler.Lazy(() => new MemberHandler(_handler, _sourceType), liteMode);
 
             if (initialValues != null)
                 SetValue(initialValues);
@@ -177,6 +178,8 @@ namespace NMS.Leo.Typed.Core
         public Lazy<MemberHandler> ExposeLazyMemberHandler() => _lazyMemberHandler;
 
         public ILeoVisitor<T> Owner => this;
+        
+        public bool LiteMode { get; }
 
         public IEnumerable<string> GetMemberNames() => _lazyMemberHandler.Value.GetNames();
 
