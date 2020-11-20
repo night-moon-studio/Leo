@@ -7,7 +7,7 @@ namespace BenchmarkTest
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<TestProxy>();
+            BenchmarkRunner.Run<TestCaller>();
             Console.ReadKey();
         }
     }

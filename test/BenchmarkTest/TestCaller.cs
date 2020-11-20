@@ -20,9 +20,9 @@ namespace BenchmarkTest
     [CategoriesColumn]
     public class TestCaller
     {
-        public DictBase DictHandler;
-        public DictBase FuzzyDictHandler;
-        public DictBase HashDictHandler;
+        public DictBase PrecisionDict;
+        public DictBase FuzzyDict;
+        public DictBase HashDict;
 
         //public LinkBase LinkHandler;
         //public LinkBase FuzzyLinkHandler;
@@ -38,22 +38,26 @@ namespace BenchmarkTest
             string temp = "Hello";
             Dict = new Dictionary<string, Action<CallModel, object>>();
             Type type = typeof(CallModel);
-            DictHandler = PrecisionDictOperator.CreateFromType(type);
-            FuzzyDictHandler = FuzzyDictOperator.CreateFromType(type);
-            HashDictHandler = HashDictOperator.CreateFromType(type);
+            PrecisionDict = PrecisionDictOperator.CreateFromType(type);
+            FuzzyDict = FuzzyDictOperator.CreateFromType(type);
+            HashDict = HashDictOperator.CreateFromType(type);
             //LinkHandler = LinkOperator.CreateFromType(type);
             //FuzzyLinkHandler = FuzzyLinkOperator.CreateFromType(type);
             //HashLinkHandler = HashLinkOperator.CreateFromType(type);
             Model = new CallModel();
             Dynamic = new CallModel();
             DictModel = new CallModel();
-            DictHandler.New();
-            FuzzyDictHandler.New();
-            HashDictHandler.New();
-            //LinkHandler.New();
-            //FuzzyLinkHandler.New();
-            //HashLinkHandler.New();
+            PrecisionDict.New();
+            FuzzyDict.New();
+            HashDict.New();
             Dict["Name"] = NDelegate.DefaultDomain().Action<CallModel, object>("arg1.Name=(string)arg2;");
+            for (int i = 0; i < 3000; i++)
+            {
+                Model.Name = "Hello";
+                Dynamic.Name = "Hello";
+                Dict["Name"](DictModel, "Hello");
+                PrecisionDict.Set("Name", "Hello");
+            }
         }
 
 
@@ -87,21 +91,21 @@ namespace BenchmarkTest
         //{
         //    FuzzyDictHandler.Set("Name", "Hello");
         //}
-        [BenchmarkCategory("Write", "String"), Benchmark(Description = "Dict")]
+        [BenchmarkCategory("Write", "String"), Benchmark(Description = "PrecisionDict")]
         public void DictSetStringTest()
         {
-            DictHandler["Name"] = "Hello";
+            PrecisionDict.Set("Name" , "Hello");
         }
-        [BenchmarkCategory("Write", "String"), Benchmark(Description = "HashDict")]
-        public void HashDictSetStringTest()
-        {
-            HashDictHandler["Name"] = "Hello";
-        }
-        [BenchmarkCategory("Write", "String"), Benchmark(Description = "FuzzyDict")]
-        public void FuzzyDictSetStringTest()
-        {
-            FuzzyDictHandler["Name"] = "Hello";
-        }
+        //[BenchmarkCategory("Write", "String"), Benchmark(Description = "HashDict")]
+        //public void HashDictSetStringTest()
+        //{
+        //    HashDict.Set("Name", "Hello");
+        //}
+        //[BenchmarkCategory("Write", "String"), Benchmark(Description = "FuzzyDict")]
+        //public void FuzzyDictSetStringTest()
+        //{
+        //    FuzzyDict.Set("Name", "Hello");
+        //}
         //[BenchmarkCategory("Write", "String"), Benchmark(Description = "Link")]
         //public void LinkSetStringTest()
         //{

@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using NMS.Leo.Core;
 using NMS.Leo.Metadata;
 
 namespace NMS.Leo
 {
+#if NET5_0
+[SkipLocalsInit]
+#endif
     public abstract class DictBase<T> : DictBase
     {
         public T Instance;
