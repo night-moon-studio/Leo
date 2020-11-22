@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NCallerUT.Model;
 using NMS.Leo.Typed;
 using Xunit;
 

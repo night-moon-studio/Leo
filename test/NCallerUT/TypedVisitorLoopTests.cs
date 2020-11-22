@@ -1,4 +1,5 @@
 ﻿using System;
+using NCallerUT.Model;
 using NMS.Leo.Typed;
 using Xunit;
 
