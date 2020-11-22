@@ -154,12 +154,16 @@ namespace NMS.Leo.Builder
             body.AppendLine(setObjectBody);
             body.Append('}');
 
-
+#if NET5_0
+            body.AppendLine("[SkipLocalsInit]");
+#endif
             body.AppendLine("public unsafe override T Get<T>(string name){");
             body.AppendLine(getStrongTypeBody);
             body.Append("return default;}");
 
-
+#if NET5_0
+            body.AppendLine("[SkipLocalsInit]");
+#endif
             body.AppendLine("public unsafe override object GetObject(string name){");
             body.AppendLine(getObjectBody);
             body.Append("return default;}");
