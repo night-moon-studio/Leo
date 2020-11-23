@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using NMS.Leo.Metadata;
+using NMS.Leo.Typed.Validation;
 
 namespace NMS.Leo.Typed
 {
@@ -12,8 +13,14 @@ namespace NMS.Leo.Typed
         bool IsStatic { get; }
 
         AlgorithmKind AlgorithmKind { get; }
-        
+
         object Instance { get; }
+
+        ILeoValidationContext ValidationEntry { get; }
+
+        LeoVerifyResult Verify();
+
+        void VerifyAndThrow();
 
         void SetValue(string name, object value);
 
@@ -43,6 +50,8 @@ namespace NMS.Leo.Typed
     public interface ILeoVisitor<T> : ILeoVisitor
     {
         new T Instance { get; }
+
+        new ILeoValidationContext<T> ValidationEntry { get; }
 
         void SetValue(Expression<Func<T, object>> expression, object value);
 

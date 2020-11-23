@@ -12,20 +12,29 @@ namespace NMS.Leo.Typed
     {
         #region To Visitor
 
-        public static ILeoVisitor<T> ToVisitor<T>(this T instanceObj, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = RpMode.REPEATABLE)
+        public static ILeoVisitor<T> ToVisitor<T>(this T instanceObj,
+            AlgorithmKind kind = AlgorithmKind.Precision,
+            bool repeatable = RpMode.REPEATABLE,
+            bool strictMode = StMode.NORMALE)
             where T : class
         {
-            return LeoVisitorFactory.Create(instanceObj, kind, repeatable);
+            return LeoVisitorFactory.Create(instanceObj, kind, repeatable, strictMode);
         }
 
-        public static ILeoVisitor ToVisitor(this Type type, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = RpMode.REPEATABLE)
+        public static ILeoVisitor ToVisitor(this Type type,
+            AlgorithmKind kind = AlgorithmKind.Precision,
+            bool repeatable = RpMode.REPEATABLE,
+            bool strictMode = StMode.NORMALE)
         {
-            return LeoVisitorFactory.Create(type, kind, repeatable);
+            return LeoVisitorFactory.Create(type, kind, repeatable, strictMode);
         }
 
-        public static ILeoVisitor ToVisitor(this Type type, IDictionary<string, object> initialValues, AlgorithmKind kind = AlgorithmKind.Precision, bool repeatable = RpMode.REPEATABLE)
+        public static ILeoVisitor ToVisitor(this Type type, IDictionary<string, object> initialValues,
+            AlgorithmKind kind = AlgorithmKind.Precision,
+            bool repeatable = RpMode.REPEATABLE,
+            bool strictMode = StMode.NORMALE)
         {
-            return LeoVisitorFactory.Create(type, initialValues, kind, repeatable);
+            return LeoVisitorFactory.Create(type, initialValues, kind, repeatable, strictMode);
         }
 
         #endregion

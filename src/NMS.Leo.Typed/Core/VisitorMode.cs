@@ -13,4 +13,10 @@ namespace NMS.Leo.Typed.Core
         public const bool REPEATABLE = true;
         public const bool NON_REPEATABLE = false;
     }
+
+    internal static class StMode
+    {
+        public const bool STRICT = true;
+        public const bool NORMALE = false;
+    }
 }

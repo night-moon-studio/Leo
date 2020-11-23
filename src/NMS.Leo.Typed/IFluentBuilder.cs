@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using NMS.Leo.Typed.Core;
 
 namespace NMS.Leo.Typed
 {
@@ -52,11 +53,11 @@ namespace NMS.Leo.Typed
 
     public interface IFluentSetter
     {
-        ILeoSetter NewInstance();
+        ILeoSetter NewInstance(bool strictMode = StMode.NORMALE);
 
-        ILeoSetter Instance(object instance);
+        ILeoSetter Instance(object instance, bool strictMode = StMode.NORMALE);
 
-        ILeoSetter InitialValues(IDictionary<string, object> initialValues);
+        ILeoSetter InitialValues(IDictionary<string, object> initialValues, bool strictMode = StMode.NORMALE);
 
         IFluentValueSetter Value(PropertyInfo propertyInfo);
 
@@ -67,11 +68,11 @@ namespace NMS.Leo.Typed
 
     public interface IFluentSetter<T>
     {
-        ILeoSetter<T> NewInstance();
+        ILeoSetter<T> NewInstance(bool strictMode = StMode.NORMALE);
 
-        ILeoSetter<T> Instance(T instance);
+        ILeoSetter<T> Instance(T instance, bool strictMode = StMode.NORMALE);
 
-        ILeoSetter<T> InitialValues(IDictionary<string, object> initialValues);
+        ILeoSetter<T> InitialValues(IDictionary<string, object> initialValues, bool strictMode = StMode.NORMALE);
 
         IFluentValueSetter<T> Value(PropertyInfo propertyInfo);
 
@@ -86,16 +87,16 @@ namespace NMS.Leo.Typed
 
     public interface IFluentValueSetter
     {
-        ILeoValueSetter Instance(object instance);
+        ILeoValueSetter Instance(object instance, bool strictMode = StMode.NORMALE);
     }
 
     public interface IFluentValueSetter<T>
     {
-        ILeoValueSetter<T> Instance(T instance);
+        ILeoValueSetter<T> Instance(T instance, bool strictMode = StMode.NORMALE);
     }
 
     public interface IFluentValueSetter<T, TVal>
     {
-        ILeoValueSetter<T, TVal> Instance(T instance);
+        ILeoValueSetter<T, TVal> Instance(T instance, bool strictMode = StMode.NORMALE);
     }
 }
