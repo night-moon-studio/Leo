@@ -36,5 +36,7 @@ namespace NMS.Leo.Typed.Core.Members
                 ? default
                 : new Lazy<MemberHandler>(valueFactory);
         }
+
+        internal object GetValueObject(string name) => _handler[name];
     }
 }
