@@ -8,5 +8,6 @@
         StrMaxLen,
         StrMinLen,
         StrMaxMinLen,
+        Func
     }
 }

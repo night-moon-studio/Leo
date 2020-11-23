@@ -1,4 +1,6 @@
-﻿namespace NMS.Leo.Typed.Validation
+﻿using System;
+
+namespace NMS.Leo.Typed.Validation
 {
     public interface ILeoValueRuleBuilder
     {
@@ -15,8 +17,12 @@
         ILeoValueRuleBuilder MinLength(int min);
 
         ILeoValueRuleBuilder MaxLength(int max);
-        
+
         ILeoValueRuleBuilder NotEqual(object value);
+
+        ILeoValueRuleBuilder Must(Func<object, CustomVerifyResult> func);
+
+        ILeoWaitForMessageValueRuleBuilder Must(Func<object, bool> func);
     }
 
     public interface ILeoValueRuleBuilder<T>
@@ -34,8 +40,12 @@
         ILeoValueRuleBuilder<T> MinLength(int min);
 
         ILeoValueRuleBuilder<T> MaxLength(int max);
-        
+
         ILeoValueRuleBuilder<T> NotEqual(object value);
+
+        ILeoValueRuleBuilder<T> Must(Func<object, CustomVerifyResult> func);
+
+        ILeoWaitForMessageValueRuleBuilder<T> Must(Func<object, bool> func);
     }
 
     public interface ILeoValueRuleBuilder<T, TVal> : ILeoValueRuleBuilder<T>
@@ -53,7 +63,11 @@
         new ILeoValueRuleBuilder<T, TVal> MinLength(int min);
 
         new ILeoValueRuleBuilder<T, TVal> MaxLength(int max);
-        
+
         new ILeoValueRuleBuilder<T, TVal> NotEqual(object value);
+
+        new ILeoValueRuleBuilder<T, TVal> Must(Func<object, CustomVerifyResult> func);
+
+        new ILeoWaitForMessageValueRuleBuilder<T, TVal> Must(Func<object, bool> func);
     }
 }

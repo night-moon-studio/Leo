@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NMS.Leo.Metadata;
 using NMS.Leo.Typed.Core.Correct.Token;
 using NMS.Leo.Typed.Validation;
@@ -37,7 +38,7 @@ namespace NMS.Leo.Typed.Core.Correct
             _valueTokens.Add(new ValueRequiredToken(_member));
             return this;
         }
-        
+
         public ILeoValueRuleBuilder RequiredNull()
         {
             _valueTokens.Add(new ValueRequiredNullToken(_member));
@@ -61,11 +62,22 @@ namespace NMS.Leo.Typed.Core.Correct
             _valueTokens.Add(new ValueMaxLengthLimitedToken(_member, max));
             return this;
         }
-        
+
         public ILeoValueRuleBuilder NotEqual(object value)
         {
             _valueTokens.Add(new ValueNotEqualToken(_member, value));
             return this;
+        }
+
+        public ILeoValueRuleBuilder Must(Func<object, CustomVerifyResult> func)
+        {
+            _valueTokens.Add(new ValueFuncToken(_member, func));
+            return this;
+        }
+
+        public ILeoWaitForMessageValueRuleBuilder Must(Func<object, bool> func)
+        {
+            return new CorrectWaitForMessageValueRuleBuilder(this, func);
         }
 
         public CorrectValueRule Build()
@@ -111,7 +123,7 @@ namespace NMS.Leo.Typed.Core.Correct
             _valueTokens.Add(new ValueRequiredToken(_member));
             return this;
         }
-        
+
         public ILeoValueRuleBuilder<T> RequiredNull()
         {
             _valueTokens.Add(new ValueRequiredNullToken(_member));
@@ -135,11 +147,22 @@ namespace NMS.Leo.Typed.Core.Correct
             _valueTokens.Add(new ValueMaxLengthLimitedToken(_member, max));
             return this;
         }
-        
+
         public ILeoValueRuleBuilder<T> NotEqual(object value)
         {
             _valueTokens.Add(new ValueNotEqualToken(_member, value));
             return this;
+        }
+
+        public ILeoValueRuleBuilder<T> Must(Func<object, CustomVerifyResult> func)
+        {
+            _valueTokens.Add(new ValueFuncToken(_member, func));
+            return this;
+        }
+
+        public ILeoWaitForMessageValueRuleBuilder<T> Must(Func<object, bool> func)
+        {
+            return new CorrectWaitForMessageValueRuleBuilder<T>(this, func);
         }
 
         public CorrectValueRule Build()
@@ -174,7 +197,7 @@ namespace NMS.Leo.Typed.Core.Correct
             _valueTokens.Add(new ValueRequiredToken(_member));
             return this;
         }
-        
+
         public new ILeoValueRuleBuilder<T, TVal> RequiredNull()
         {
             _valueTokens.Add(new ValueRequiredNullToken(_member));
@@ -198,11 +221,22 @@ namespace NMS.Leo.Typed.Core.Correct
             _valueTokens.Add(new ValueMaxLengthLimitedToken(_member, max));
             return this;
         }
-        
+
         public new ILeoValueRuleBuilder<T, TVal> NotEqual(object value)
         {
             _valueTokens.Add(new ValueNotEqualToken(_member, value));
             return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> Must(Func<object, CustomVerifyResult> func)
+        {
+            _valueTokens.Add(new ValueFuncToken(_member, func));
+            return this;
+        }
+
+        public new ILeoWaitForMessageValueRuleBuilder<T, TVal> Must(Func<object, bool> func)
+        {
+            return new CorrectWaitForMessageValueRuleBuilder<T, TVal>(this, func);
         }
 
         public new CorrectValueRule<TVal> Build()
