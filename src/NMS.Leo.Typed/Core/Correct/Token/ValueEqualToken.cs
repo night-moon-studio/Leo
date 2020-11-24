@@ -4,23 +4,23 @@ using NMS.Leo.Metadata;
 
 namespace NMS.Leo.Typed.Core.Correct.Token
 {
-    internal class ValueNotEqualToken : ValueToken
+    internal class ValueEqualToken : ValueToken
     {
         // ReSharper disable once InconsistentNaming
-        public const string NAME = "ValueNotEqualToken";
+        public const string NAME = "ValueEqualToken";
 
         private readonly object _valueToCompare;
         private readonly Type _typeOfValueToCompare;
         private readonly IEqualityComparer _comparer;
 
-        public ValueNotEqualToken(LeoMember member, object valueToCompare,IEqualityComparer comparer) : base(member)
+        public ValueEqualToken(LeoMember member, object valueToCompare, IEqualityComparer comparer) : base(member)
         {
             _valueToCompare = valueToCompare;
             _typeOfValueToCompare = _valueToCompare.GetType();
             _comparer = comparer;
         }
 
-        public override CorrectValueOps Ops => CorrectValueOps.NotEqual;
+        public override CorrectValueOps Ops => CorrectValueOps.Equal;
 
         public override string TokenName => NAME;
 
@@ -32,13 +32,13 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         {
             var val = new CorrectVerifyVal {NameOfExecutedRule = NAME};
 
-            var success = !ValidCore(value);
-            
+            var success = ValidCore(value);
+
             if (!success)
             {
                 UpdateVal(val, value);
             }
-
+            
             // if (value is null && _valueToCompare is null)
             // {
             //     UpdateVal(val, null);
@@ -77,7 +77,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
             {
                 return _comparer.Equals(_valueToCompare, value);
             }
-
+            
             if (Member.MemberType.IsValueType && _typeOfValueToCompare.IsValueType)
             {
                 if (ValueTypeEqualCalculator.Valid(Member.MemberType, value, _typeOfValueToCompare, _valueToCompare))
@@ -91,7 +91,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         {
             val.IsSuccess = false;
             val.VerifiedValue = obj;
-            val.ErrorMessage = $"The values must not be equal. The current value type is: {Member.MemberType}.";
+            val.ErrorMessage = $"The two values given must be equal. The current value is: {obj} and the value being compared is {_valueToCompare}.";
         }
 
         public override string ToString() => NAME;

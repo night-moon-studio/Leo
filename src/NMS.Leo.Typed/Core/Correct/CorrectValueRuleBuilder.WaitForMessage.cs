@@ -52,9 +52,9 @@ namespace NMS.Leo.Typed.Core.Correct
     internal class CorrectWaitForMessageValueRuleBuilder<T, TVal> : ILeoWaitForMessageValueRuleBuilder<T, TVal>
     {
         private readonly CorrectValueRuleBuilder<T, TVal> _builder;
-        private readonly Func<object, bool> _func;
+        private readonly Func<TVal, bool> _func;
 
-        public CorrectWaitForMessageValueRuleBuilder(CorrectValueRuleBuilder<T, TVal> builder, Func<object,bool> func)
+        public CorrectWaitForMessageValueRuleBuilder(CorrectValueRuleBuilder<T, TVal> builder, Func<TVal,bool> func)
         {
             _builder = builder;
             _func = func ?? throw new ArgumentNullException(nameof(func));
@@ -62,7 +62,7 @@ namespace NMS.Leo.Typed.Core.Correct
 
         public ILeoValueRuleBuilder<T, TVal> WithMessage(string message)
         {
-            Func<object, CustomVerifyResult> realFunc = o => _func.Invoke(o) 
+            Func<TVal, CustomVerifyResult> realFunc = o => _func.Invoke(o) 
                 ? new CustomVerifyResult {VerifyResult = true} 
                 : new CustomVerifyResult {VerifyResult = false, ErrorMessage = message};
 

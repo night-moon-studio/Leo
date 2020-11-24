@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace NMS.Leo.Typed.Validation
 {
@@ -8,9 +10,15 @@ namespace NMS.Leo.Typed.Validation
 
         ILeoValueRuleBuilder OverwriteRule();
 
-        ILeoValueRuleBuilder Required();
+        ILeoValueRuleBuilder Empty();
 
-        ILeoValueRuleBuilder RequiredNull();
+        ILeoValueRuleBuilder NotEmpty();
+
+        ILeoValueRuleBuilder Null();
+
+        ILeoValueRuleBuilder NotNull();
+
+        ILeoValueRuleBuilder Range(object from, object to);
 
         ILeoValueRuleBuilder Length(int min, int max);
 
@@ -18,7 +26,13 @@ namespace NMS.Leo.Typed.Validation
 
         ILeoValueRuleBuilder MaxLength(int max);
 
+        ILeoValueRuleBuilder Equal(object value);
+
+        ILeoValueRuleBuilder Equal(object value, IEqualityComparer comparer);
+
         ILeoValueRuleBuilder NotEqual(object value);
+
+        ILeoValueRuleBuilder NotEqual(object value, IEqualityComparer comparer);
 
         ILeoValueRuleBuilder Must(Func<object, CustomVerifyResult> func);
 
@@ -31,9 +45,15 @@ namespace NMS.Leo.Typed.Validation
 
         ILeoValueRuleBuilder<T> OverwriteRule();
 
-        ILeoValueRuleBuilder<T> Required();
+        ILeoValueRuleBuilder<T> Empty();
 
-        ILeoValueRuleBuilder<T> RequiredNull();
+        ILeoValueRuleBuilder<T> NotEmpty();
+
+        ILeoValueRuleBuilder<T> Null();
+
+        ILeoValueRuleBuilder<T> NotNull();
+
+        ILeoValueRuleBuilder<T> Range(object from, object to);
 
         ILeoValueRuleBuilder<T> Length(int min, int max);
 
@@ -41,7 +61,13 @@ namespace NMS.Leo.Typed.Validation
 
         ILeoValueRuleBuilder<T> MaxLength(int max);
 
+        ILeoValueRuleBuilder<T> Equal(object value);
+
+        ILeoValueRuleBuilder<T> Equal(object value, IEqualityComparer comparer);
+
         ILeoValueRuleBuilder<T> NotEqual(object value);
+
+        ILeoValueRuleBuilder<T> NotEqual(object value, IEqualityComparer comparer);
 
         ILeoValueRuleBuilder<T> Must(Func<object, CustomVerifyResult> func);
 
@@ -54,9 +80,15 @@ namespace NMS.Leo.Typed.Validation
 
         new ILeoValueRuleBuilder<T, TVal> OverwriteRule();
 
-        new ILeoValueRuleBuilder<T, TVal> Required();
+        new ILeoValueRuleBuilder<T, TVal> Empty();
 
-        new ILeoValueRuleBuilder<T, TVal> RequiredNull();
+        new ILeoValueRuleBuilder<T, TVal> NotEmpty();
+
+        new ILeoValueRuleBuilder<T, TVal> Null();
+
+        new ILeoValueRuleBuilder<T, TVal> NotNull();
+
+        ILeoValueRuleBuilder<T, TVal> Range(TVal from, TVal to);
 
         new ILeoValueRuleBuilder<T, TVal> Length(int min, int max);
 
@@ -64,10 +96,16 @@ namespace NMS.Leo.Typed.Validation
 
         new ILeoValueRuleBuilder<T, TVal> MaxLength(int max);
 
-        new ILeoValueRuleBuilder<T, TVal> NotEqual(object value);
+        new ILeoValueRuleBuilder<T, TVal> Equal(TVal value);
 
-        new ILeoValueRuleBuilder<T, TVal> Must(Func<object, CustomVerifyResult> func);
+        ILeoValueRuleBuilder<T, TVal> Equal(TVal value, IEqualityComparer<TVal> comparer);
 
-        new ILeoWaitForMessageValueRuleBuilder<T, TVal> Must(Func<object, bool> func);
+        new ILeoValueRuleBuilder<T, TVal> NotEqual(TVal value);
+
+        ILeoValueRuleBuilder<T, TVal> NotEqual(TVal value, IEqualityComparer<TVal> comparer);
+
+        ILeoValueRuleBuilder<T, TVal> Must(Func<TVal, CustomVerifyResult> func);
+
+        ILeoWaitForMessageValueRuleBuilder<T, TVal> Must(Func<TVal, bool> func);
     }
 }

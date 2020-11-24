@@ -7,7 +7,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
     {
         // ReSharper disable once InconsistentNaming
         public const string NAME = "The minimum array length restriction rule";
-        public static int[] _mutuallyExclusiveFlags = {90117, 90119};
+        public static int[] _mutuallyExclusiveFlags = {90113,90117, 90119};
 
         private readonly int _minLength;
 

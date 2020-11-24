@@ -6,7 +6,7 @@ namespace NCallerUT.Model
     {
         public NormalNiceActValidationStrategy() : base(typeof(NiceAct))
         {
-            RuleFor("Name").Required().MinLength(4).MaxLength(15);
+            RuleFor("Name").NotEmpty().MinLength(4).MaxLength(15);
         }
     }
 
@@ -14,7 +14,7 @@ namespace NCallerUT.Model
     {
         public GenericNiceActValidationStrategy()
         {
-            RuleFor(x => x.Name).Required().MinLength(4).MaxLength(15);
+            RuleFor(x => x.Name).NotEmpty().MinLength(4).MaxLength(15);
         }
     }
 }

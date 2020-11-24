@@ -28,4 +28,21 @@ namespace NMS.Leo.Typed.Core.Correct.Token
 
         protected LeoMember Member => __metadata_LeoMember;
     }
+
+    internal abstract class ValueToken<TVal> : ValueToken, IValueToken<TVal>
+    {
+        protected ValueToken(LeoMember member) : base(member) { }
+
+        public abstract CorrectVerifyVal ValidValue(TVal value);
+
+        public override CorrectVerifyVal ValidValue(object value)
+        {
+            if (value is TVal t)
+            {
+                return ValidValue(t);
+            }
+
+            return CorrectVerifyVal.Success;
+        }
+    }
 }

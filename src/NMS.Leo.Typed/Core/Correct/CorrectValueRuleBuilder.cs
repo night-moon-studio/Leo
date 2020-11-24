@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using NMS.Leo.Metadata;
 using NMS.Leo.Typed.Core.Correct.Token;
@@ -33,21 +34,39 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
-        public ILeoValueRuleBuilder Required()
+        public ILeoValueRuleBuilder Empty()
         {
-            _valueTokens.Add(new ValueRequiredToken(_member));
+            _valueTokens.Add(new ValueEmptyToken(_member));
             return this;
         }
 
-        public ILeoValueRuleBuilder RequiredNull()
+        public ILeoValueRuleBuilder NotEmpty()
         {
-            _valueTokens.Add(new ValueRequiredNullToken(_member));
+            _valueTokens.Add(new ValueNotEmptyToken(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder Null()
+        {
+            _valueTokens.Add(new ValueNullToken(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder NotNull()
+        {
+            _valueTokens.Add(new ValueNotNullToken(_member));
             return this;
         }
 
         public ILeoValueRuleBuilder Length(int min, int max)
         {
             _valueTokens.Add(new ValueMaxAndMinLengthLimitedToken(_member, min, max));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder Range(object from, object to)
+        {
+            _valueTokens.Add(new ValueRangeToken(_member, from, to));
             return this;
         }
 
@@ -63,9 +82,27 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
+        public ILeoValueRuleBuilder Equal(object value)
+        {
+            _valueTokens.Add(new ValueEqualToken(_member, value, null));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder Equal(object value, IEqualityComparer comparer)
+        {
+            _valueTokens.Add(new ValueEqualToken(_member, value, comparer));
+            return this;
+        }
+
         public ILeoValueRuleBuilder NotEqual(object value)
         {
-            _valueTokens.Add(new ValueNotEqualToken(_member, value));
+            _valueTokens.Add(new ValueNotEqualToken(_member, value, null));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder NotEqual(object value, IEqualityComparer comparer)
+        {
+            _valueTokens.Add(new ValueNotEqualToken(_member, value, comparer));
             return this;
         }
 
@@ -118,15 +155,33 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
-        public ILeoValueRuleBuilder<T> Required()
+        public ILeoValueRuleBuilder<T> Empty()
         {
-            _valueTokens.Add(new ValueRequiredToken(_member));
+            _valueTokens.Add(new ValueEmptyToken(_member));
             return this;
         }
 
-        public ILeoValueRuleBuilder<T> RequiredNull()
+        public ILeoValueRuleBuilder<T> NotEmpty()
         {
-            _valueTokens.Add(new ValueRequiredNullToken(_member));
+            _valueTokens.Add(new ValueNotEmptyToken(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> Null()
+        {
+            _valueTokens.Add(new ValueNullToken(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> NotNull()
+        {
+            _valueTokens.Add(new ValueNotNullToken(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> Range(object from, object to)
+        {
+            _valueTokens.Add(new ValueRangeToken(_member, from, to));
             return this;
         }
 
@@ -148,9 +203,27 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
+        public ILeoValueRuleBuilder<T> Equal(object value)
+        {
+            _valueTokens.Add(new ValueEqualToken(_member, value, null));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> Equal(object value, IEqualityComparer comparer)
+        {
+            _valueTokens.Add(new ValueEqualToken(_member, value, comparer));
+            return this;
+        }
+
         public ILeoValueRuleBuilder<T> NotEqual(object value)
         {
-            _valueTokens.Add(new ValueNotEqualToken(_member, value));
+            _valueTokens.Add(new ValueNotEqualToken(_member, value, null));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> NotEqual(object value, IEqualityComparer comparer)
+        {
+            _valueTokens.Add(new ValueNotEqualToken(_member, value, comparer));
             return this;
         }
 
@@ -192,15 +265,33 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
-        public new ILeoValueRuleBuilder<T, TVal> Required()
+        public new ILeoValueRuleBuilder<T, TVal> Empty()
         {
-            _valueTokens.Add(new ValueRequiredToken(_member));
+            _valueTokens.Add(new ValueEmptyToken(_member));
             return this;
         }
 
-        public new ILeoValueRuleBuilder<T, TVal> RequiredNull()
+        public new ILeoValueRuleBuilder<T, TVal> NotEmpty()
         {
-            _valueTokens.Add(new ValueRequiredNullToken(_member));
+            _valueTokens.Add(new ValueNotEmptyToken(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> Null()
+        {
+            _valueTokens.Add(new ValueNullToken(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> NotNull()
+        {
+            _valueTokens.Add(new ValueNotNullToken(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T, TVal> Range(TVal from, TVal to)
+        {
+            _valueTokens.Add(new ValueRangeToken<TVal>(_member, from, to));
             return this;
         }
 
@@ -222,19 +313,37 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
-        public new ILeoValueRuleBuilder<T, TVal> NotEqual(object value)
+        public ILeoValueRuleBuilder<T, TVal> Equal(TVal value)
         {
-            _valueTokens.Add(new ValueNotEqualToken(_member, value));
+            _valueTokens.Add(new ValueEqualToken<TVal>(_member, value, null));
             return this;
         }
 
-        public new ILeoValueRuleBuilder<T, TVal> Must(Func<object, CustomVerifyResult> func)
+        public ILeoValueRuleBuilder<T, TVal> Equal(TVal value, IEqualityComparer<TVal> comparer)
         {
-            _valueTokens.Add(new ValueFuncToken(_member, func));
+            _valueTokens.Add(new ValueEqualToken<TVal>(_member, value, comparer));
             return this;
         }
 
-        public new ILeoWaitForMessageValueRuleBuilder<T, TVal> Must(Func<object, bool> func)
+        public ILeoValueRuleBuilder<T, TVal> NotEqual(TVal value)
+        {
+            _valueTokens.Add(new ValueNotEqualToken<TVal>(_member, value, null));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T, TVal> NotEqual(TVal value, IEqualityComparer<TVal> comparer)
+        {
+            _valueTokens.Add(new ValueNotEqualToken<TVal>(_member, value, comparer));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T, TVal> Must(Func<TVal, CustomVerifyResult> func)
+        {
+            _valueTokens.Add(new ValueFuncToken<TVal>(_member, func));
+            return this;
+        }
+
+        public ILeoWaitForMessageValueRuleBuilder<T, TVal> Must(Func<TVal, bool> func)
         {
             return new CorrectWaitForMessageValueRuleBuilder<T, TVal>(this, func);
         }

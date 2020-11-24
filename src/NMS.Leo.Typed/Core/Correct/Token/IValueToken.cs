@@ -14,4 +14,9 @@
 
         CorrectVerifyVal ValidValue(object value);
     }
+
+    internal interface IValueToken<in TVal> : IValueToken
+    {
+        CorrectVerifyVal ValidValue(TVal value);
+    }
 }

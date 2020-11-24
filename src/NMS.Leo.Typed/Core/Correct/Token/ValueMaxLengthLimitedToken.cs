@@ -7,7 +7,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
     {
         // ReSharper disable once InconsistentNaming
         public const string NAME = "The maximum array length restriction rule";
-        public static int[] _mutuallyExclusiveFlags = {90116, 90120};
+        public static int[] _mutuallyExclusiveFlags = {90112,90116, 90120};
 
         private readonly int _maxLength;
 

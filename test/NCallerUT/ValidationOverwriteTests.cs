@@ -23,13 +23,13 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(type, act);
 
             v.ValidationEntry
-             .ForMember("Name", c => c.Required().MinLength(4).MaxLength(15));
+             .ForMember("Name", c => c.NotEmpty().MinLength(4).MaxLength(15));
 
             var r1 = v.Verify();
             Assert.True(r1.IsValid);
 
             v.ValidationEntry
-             .ForMember("Name", c => c.RequiredNull().OverwriteRule());
+             .ForMember("Name", c => c.Empty().OverwriteRule());
             
             var r2 = v.Verify();
             Assert.False(r2.IsValid);
@@ -60,13 +60,13 @@ namespace NCallerUT
             Assert.NotNull(context);
 
             context.ForMember("Name",
-                c => c.Required().MinLength(4).MaxLength(15));
+                c => c.NotEmpty().MinLength(4).MaxLength(15));
 
             var r1 = v.Verify();
             Assert.True(r1.IsValid);
 
             v.ValidationEntry
-             .ForMember("Name", c => c.RequiredNull().OverwriteRule());
+             .ForMember("Name", c => c.Empty().OverwriteRule());
             
             var r2 = v.Verify();
             Assert.False(r2.IsValid);
@@ -102,13 +102,13 @@ namespace NCallerUT
             Assert.NotNull(context);
 
             context.ForMember(x => x.Name,
-                c => c.Required().MinLength(4).MaxLength(15));
+                c => c.NotEmpty().MinLength(4).MaxLength(15));
 
             var r1 = v.Verify();
             Assert.True(r1.IsValid);
 
             v.ValidationEntry
-             .ForMember("Name", c => c.RequiredNull().OverwriteRule());
+             .ForMember("Name", c => c.Empty().OverwriteRule());
             
             var r2 = v.Verify();
             Assert.False(r2.IsValid);
@@ -138,13 +138,13 @@ namespace NCallerUT
             Assert.NotNull(context);
 
             context.ForMember(x => x.Name,
-                c => c.Required().MinLength(4).MaxLength(15));
+                c => c.NotEmpty().MinLength(4).MaxLength(15));
 
             var r1 = v.Verify();
             Assert.True(r1.IsValid);
 
             v.ValidationEntry
-             .ForMember("Name", c => c.RequiredNull().OverwriteRule());
+             .ForMember("Name", c => c.Empty().OverwriteRule());
             
             var r2 = v.Verify();
             Assert.False(r2.IsValid);

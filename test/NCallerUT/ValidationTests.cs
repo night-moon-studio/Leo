@@ -217,7 +217,7 @@ namespace NCallerUT
             Assert.NotNull(context);
 
             context.ForMember("Name",
-                c => c.Required().MinLength(4).MaxLength(15));
+                c => c.NotEmpty().MinLength(4).MaxLength(15));
 
             var r1 = v.Verify();
             Assert.False(r1.IsValid);
@@ -262,7 +262,7 @@ namespace NCallerUT
             Assert.NotNull(context);
 
             context.ForMember("Name",
-                c => c.Required().MinLength(4).MaxLength(15));
+                c => c.NotEmpty().MinLength(4).MaxLength(15));
 
             var r1 = v.Verify();
             Assert.False(r1.IsValid);
@@ -314,7 +314,7 @@ namespace NCallerUT
             Assert.NotNull(context);
 
             context.ForMember(x => x.Name,
-                c => c.Required().MinLength(4).MaxLength(15));
+                c => c.NotEmpty().MinLength(4).MaxLength(15));
 
             var r1 = v.Verify();
             Assert.False(r1.IsValid);
@@ -358,7 +358,7 @@ namespace NCallerUT
             Assert.NotNull(context);
 
             context.ForMember(x => x.Name,
-                c => c.Required().MinLength(4).MaxLength(15));
+                c => c.NotEmpty().MinLength(4).MaxLength(15));
 
             var r1 = v.Verify();
             Assert.False(r1.IsValid);
