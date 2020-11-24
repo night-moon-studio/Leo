@@ -14,17 +14,25 @@ namespace NMS.Leo.Typed.Validation
 
         ILeoValueRuleBuilder NotEmpty();
 
+        ILeoValueRuleBuilder Required();
+
         ILeoValueRuleBuilder Null();
 
         ILeoValueRuleBuilder NotNull();
 
-        ILeoValueRuleBuilder Range(object from, object to);
+        ILeoValueRuleBuilder Range(object from, object to, RangeOptions options = RangeOptions.OpenInterval);
+
+        ILeoValueRuleBuilder RangeWithOpenInterval(object from, object to);
+
+        ILeoValueRuleBuilder RangeWithCloseInterval(object from, object to);
 
         ILeoValueRuleBuilder Length(int min, int max);
 
         ILeoValueRuleBuilder MinLength(int min);
 
         ILeoValueRuleBuilder MaxLength(int max);
+
+        ILeoValueRuleBuilder AtLeast(int count);
 
         ILeoValueRuleBuilder Equal(object value);
 
@@ -49,17 +57,25 @@ namespace NMS.Leo.Typed.Validation
 
         ILeoValueRuleBuilder<T> NotEmpty();
 
+        ILeoValueRuleBuilder<T> Required();
+
         ILeoValueRuleBuilder<T> Null();
 
         ILeoValueRuleBuilder<T> NotNull();
 
-        ILeoValueRuleBuilder<T> Range(object from, object to);
+        ILeoValueRuleBuilder<T> Range(object from, object to, RangeOptions options = RangeOptions.OpenInterval);
+
+        ILeoValueRuleBuilder<T> RangeWithOpenInterval(object from, object to);
+
+        ILeoValueRuleBuilder<T> RangeWithCloseInterval(object from, object to);
 
         ILeoValueRuleBuilder<T> Length(int min, int max);
 
         ILeoValueRuleBuilder<T> MinLength(int min);
 
         ILeoValueRuleBuilder<T> MaxLength(int max);
+
+        ILeoValueRuleBuilder<T> AtLeast(int count);
 
         ILeoValueRuleBuilder<T> Equal(object value);
 
@@ -84,23 +100,31 @@ namespace NMS.Leo.Typed.Validation
 
         new ILeoValueRuleBuilder<T, TVal> NotEmpty();
 
+        new ILeoValueRuleBuilder<T, TVal> Required();
+
         new ILeoValueRuleBuilder<T, TVal> Null();
 
         new ILeoValueRuleBuilder<T, TVal> NotNull();
 
-        ILeoValueRuleBuilder<T, TVal> Range(TVal from, TVal to);
+        ILeoValueRuleBuilder<T, TVal> Range(TVal from, TVal to, RangeOptions options = RangeOptions.OpenInterval);
+        
+        ILeoValueRuleBuilder<T, TVal> RangeWithOpenInterval(TVal from, TVal to);
 
+        ILeoValueRuleBuilder<T, TVal> RangeWithCloseInterval(TVal from, TVal to);
+        
         new ILeoValueRuleBuilder<T, TVal> Length(int min, int max);
 
         new ILeoValueRuleBuilder<T, TVal> MinLength(int min);
 
         new ILeoValueRuleBuilder<T, TVal> MaxLength(int max);
 
-        new ILeoValueRuleBuilder<T, TVal> Equal(TVal value);
+        new ILeoValueRuleBuilder<T, TVal> AtLeast(int count);
+
+        ILeoValueRuleBuilder<T, TVal> Equal(TVal value);
 
         ILeoValueRuleBuilder<T, TVal> Equal(TVal value, IEqualityComparer<TVal> comparer);
 
-        new ILeoValueRuleBuilder<T, TVal> NotEqual(TVal value);
+        ILeoValueRuleBuilder<T, TVal> NotEqual(TVal value);
 
         ILeoValueRuleBuilder<T, TVal> NotEqual(TVal value, IEqualityComparer<TVal> comparer);
 

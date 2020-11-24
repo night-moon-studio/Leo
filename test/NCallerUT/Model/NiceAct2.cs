@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NCallerUT.Model
 {
@@ -8,6 +9,8 @@ namespace NCallerUT.Model
 
         public NiceAct2(bool init)
         {
+            NiceAct act = new NiceAct();
+            
             Str = "StrStr";
             Int16 = 16;
             Int32 = 32;
@@ -17,7 +20,9 @@ namespace NCallerUT.Model
             DateTime = DateTime.Today;
             DateTimeOffset = DateTime;
             MustByNullObj = null;
-            SomeObj = new NiceAct();
+            SomeObj = act;
+            SomeNiceActArray = new []{act, act, act, act, act};
+            SomeNiceActList = new List<NiceAct> {act, act, act, act, act};
         }
 
         public string Str { get; set; }
@@ -39,6 +44,10 @@ namespace NCallerUT.Model
         public object MustByNullObj { get; set; }
         
         public object SomeObj { get; set; }
+        
+        public NiceAct[] SomeNiceActArray { get; set; }
+        
+        public List<NiceAct> SomeNiceActList{ get; set; }
 
         public override int GetHashCode()
         {

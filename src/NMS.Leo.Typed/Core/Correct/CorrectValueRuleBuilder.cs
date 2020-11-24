@@ -46,6 +46,12 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
+        public ILeoValueRuleBuilder Required()
+        {
+            _valueTokens.Add(new ValueNotEmptyToken(_member));
+            return this;
+        }
+
         public ILeoValueRuleBuilder Null()
         {
             _valueTokens.Add(new ValueNullToken(_member));
@@ -60,13 +66,25 @@ namespace NMS.Leo.Typed.Core.Correct
 
         public ILeoValueRuleBuilder Length(int min, int max)
         {
-            _valueTokens.Add(new ValueMaxAndMinLengthLimitedToken(_member, min, max));
+            _valueTokens.Add(new ValueLengthLimitedToken(_member, min, max));
             return this;
         }
 
-        public ILeoValueRuleBuilder Range(object from, object to)
+        public ILeoValueRuleBuilder Range(object from, object to, RangeOptions options = RangeOptions.OpenInterval)
         {
-            _valueTokens.Add(new ValueRangeToken(_member, from, to));
+            _valueTokens.Add(new ValueRangeToken(_member, from, to, options));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RangeWithOpenInterval(object from, object to)
+        {
+            _valueTokens.Add(new ValueRangeToken(_member, from, to, RangeOptions.OpenInterval));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RangeWithCloseInterval(object from, object to)
+        {
+            _valueTokens.Add(new ValueRangeToken(_member, from, to, RangeOptions.CloseInterval));
             return this;
         }
 
@@ -79,6 +97,12 @@ namespace NMS.Leo.Typed.Core.Correct
         public ILeoValueRuleBuilder MaxLength(int max)
         {
             _valueTokens.Add(new ValueMaxLengthLimitedToken(_member, max));
+            return this;
+        }
+        
+        public ILeoValueRuleBuilder AtLeast(int count)
+        {
+            _valueTokens.Add(new ValueMinLengthLimitedToken(_member, count));
             return this;
         }
 
@@ -167,6 +191,12 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
+        public ILeoValueRuleBuilder<T> Required()
+        {
+            _valueTokens.Add(new ValueNotEmptyToken(_member));
+            return this;
+        }
+
         public ILeoValueRuleBuilder<T> Null()
         {
             _valueTokens.Add(new ValueNullToken(_member));
@@ -179,15 +209,27 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
-        public ILeoValueRuleBuilder<T> Range(object from, object to)
+        public ILeoValueRuleBuilder<T> Range(object from, object to, RangeOptions options = RangeOptions.OpenInterval)
         {
-            _valueTokens.Add(new ValueRangeToken(_member, from, to));
+            _valueTokens.Add(new ValueRangeToken(_member, from, to, options));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RangeWithOpenInterval(object from, object to)
+        {
+            _valueTokens.Add(new ValueRangeToken(_member, from, to, RangeOptions.OpenInterval));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RangeWithCloseInterval(object from, object to)
+        {
+            _valueTokens.Add(new ValueRangeToken(_member, from, to, RangeOptions.CloseInterval));
             return this;
         }
 
         public ILeoValueRuleBuilder<T> Length(int min, int max)
         {
-            _valueTokens.Add(new ValueMaxAndMinLengthLimitedToken(_member, min, max));
+            _valueTokens.Add(new ValueLengthLimitedToken(_member, min, max));
             return this;
         }
 
@@ -200,6 +242,12 @@ namespace NMS.Leo.Typed.Core.Correct
         public ILeoValueRuleBuilder<T> MaxLength(int max)
         {
             _valueTokens.Add(new ValueMaxLengthLimitedToken(_member, max));
+            return this;
+        }
+        
+        public ILeoValueRuleBuilder<T> AtLeast(int count)
+        {
+            _valueTokens.Add(new ValueMinLengthLimitedToken(_member, count));
             return this;
         }
 
@@ -277,6 +325,12 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
+        public new ILeoValueRuleBuilder<T, TVal> Required()
+        {
+            _valueTokens.Add(new ValueNotEmptyToken(_member));
+            return this;
+        }
+
         public new ILeoValueRuleBuilder<T, TVal> Null()
         {
             _valueTokens.Add(new ValueNullToken(_member));
@@ -289,15 +343,27 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
-        public ILeoValueRuleBuilder<T, TVal> Range(TVal from, TVal to)
+        public ILeoValueRuleBuilder<T, TVal> Range(TVal from, TVal to, RangeOptions options = RangeOptions.OpenInterval)
         {
-            _valueTokens.Add(new ValueRangeToken<TVal>(_member, from, to));
+            _valueTokens.Add(new ValueRangeToken<TVal>(_member, from, to, options));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T, TVal> RangeWithOpenInterval(TVal from, TVal to)
+        {
+            _valueTokens.Add(new ValueRangeToken<TVal>(_member, from, to, RangeOptions.OpenInterval));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T, TVal> RangeWithCloseInterval(TVal from, TVal to)
+        {
+            _valueTokens.Add(new ValueRangeToken<TVal>(_member, from, to, RangeOptions.CloseInterval));
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> Length(int min, int max)
         {
-            _valueTokens.Add(new ValueMaxAndMinLengthLimitedToken(_member, min, max));
+            _valueTokens.Add(new ValueLengthLimitedToken(_member, min, max));
             return this;
         }
 
@@ -310,6 +376,12 @@ namespace NMS.Leo.Typed.Core.Correct
         public new ILeoValueRuleBuilder<T, TVal> MaxLength(int max)
         {
             _valueTokens.Add(new ValueMaxLengthLimitedToken(_member, max));
+            return this;
+        }
+        
+        public new ILeoValueRuleBuilder<T, TVal> AtLeast(int count)
+        {
+            _valueTokens.Add(new ValueMinLengthLimitedToken(_member, count));
             return this;
         }
 

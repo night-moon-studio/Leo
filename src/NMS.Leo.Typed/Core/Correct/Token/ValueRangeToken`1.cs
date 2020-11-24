@@ -1,5 +1,6 @@
 ﻿using System;
 using NMS.Leo.Metadata;
+using NMS.Leo.Typed.Validation;
 
 namespace NMS.Leo.Typed.Core.Correct.Token
 {
@@ -9,11 +10,14 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         public const string NAME = "Generic Value range rule";
         private readonly TVal _from;
         private readonly TVal _to;
+        private readonly RangeOptions _options;
 
-        public ValueRangeToken(LeoMember member, TVal from, TVal to) : base(member)
+        public ValueRangeToken(LeoMember member, TVal from, TVal to, RangeOptions options) : base(member)
         {
             _from = from;
             _to = to;
+
+            _options = options;
         }
 
         public override CorrectValueOps Ops => CorrectValueOps.Range_T1;
@@ -35,9 +39,21 @@ namespace NMS.Leo.Typed.Core.Correct.Token
 
             if (value is IComparable<TVal> comparable)
             {
-                if (comparable.CompareTo(_from) < 0 || comparable.CompareTo(_to) > 0)
+                if (_options == RangeOptions.OpenInterval)
                 {
-                    UpdateVal(val, value);
+                    // Open Interval
+                    if (comparable.CompareTo(_from) <= 0 || comparable.CompareTo(_to) >= 0)
+                    {
+                        UpdateVal(val, value);
+                    }
+                }
+                else
+                {
+                    // Close Interval
+                    if (comparable.CompareTo(_from) < 0 || comparable.CompareTo(_to) > 0)
+                    {
+                        UpdateVal(val, value);
+                    }
                 }
             }
 

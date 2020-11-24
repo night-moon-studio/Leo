@@ -1,5 +1,6 @@
 ﻿using System;
 using NMS.Leo.Metadata;
+using NMS.Leo.Typed.Validation;
 
 namespace NMS.Leo.Typed.Core.Correct.Token
 {
@@ -9,10 +10,11 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         public const string NAME = "Value range rule";
         private readonly IComparable _from;
         private readonly IComparable _to;
+        private readonly RangeOptions _options;
 
         private bool _returnFalseDirectly;
 
-        public ValueRangeToken(LeoMember member, object from, object to) : base(member)
+        public ValueRangeToken(LeoMember member, object from, object to, RangeOptions options) : base(member)
         {
             if (from is null || to is null)
             {
@@ -45,6 +47,8 @@ namespace NMS.Leo.Typed.Core.Correct.Token
             {
                 _returnFalseDirectly = true;
             }
+
+            _options = options;
         }
 
         public override CorrectValueOps Ops => CorrectValueOps.Range;
@@ -74,9 +78,21 @@ namespace NMS.Leo.Typed.Core.Correct.Token
                 var fromC = Convert.ToChar(_from);
                 var toC = Convert.ToChar(_to);
 
-                if (c < fromC || c > toC)
+                if (_options == RangeOptions.OpenInterval)
                 {
-                    UpdateVal(val, c);
+                    // Open Interval
+                    if (c <= fromC || c >= toC)
+                    {
+                        UpdateVal(val, c);
+                    }
+                }
+                else
+                {
+                    // Close Interval
+                    if (c < fromC || c > toC)
+                    {
+                        UpdateVal(val, c);
+                    }
                 }
             }
 
@@ -86,17 +102,65 @@ namespace NMS.Leo.Typed.Core.Correct.Token
                 var fromD = Convert.ToDecimal(_from);
                 var toD = Convert.ToDecimal(_to);
 
-                if (d < fromD || d > toD)
+                if (_options == RangeOptions.OpenInterval)
                 {
-                    UpdateVal(val, d);
+                    // Open Interval
+                    if (d <= fromD || d >= toD)
+                    {
+                        UpdateVal(val, d);
+                    }
+                }
+                else
+                {
+                    // Close Interval
+                    if (d < fromD || d > toD)
+                    {
+                        UpdateVal(val, d);
+                    }
+                }
+            }
+
+            else if (value is DateTime || value is DateTimeOffset)
+            {
+                var t = ValueTypeEqualCalculator.ToLongTimeTicks(value);
+                var fromT = ValueTypeEqualCalculator.ToLongTimeTicks(_from);
+                var toT = ValueTypeEqualCalculator.ToLongTimeTicks(_to);
+
+                if (_options == RangeOptions.OpenInterval)
+                {
+                    // Open Interval
+                    if (t <= fromT || t >= toT)
+                    {
+                        UpdateVal(val, value);
+                    }
+                }
+                else
+                {
+                    // Close Interval
+                    if (t < fromT || t > toT)
+                    {
+                        UpdateVal(val, value);
+                    }
                 }
             }
 
             else if (value is IComparable comparable)
             {
-                if (comparable.CompareTo(_from) < 0 || comparable.CompareTo(_to) > 0)
+                if (_options == RangeOptions.OpenInterval)
                 {
-                    UpdateVal(val, comparable);
+                    // Open Interval
+                    if (comparable.CompareTo(_from) <= 0 || comparable.CompareTo(_to) >= 0)
+                    {
+                        UpdateVal(val, comparable);
+                    }
+                }
+                else
+                {
+                    // Close Interval
+                    if (comparable.CompareTo(_from) < 0 || comparable.CompareTo(_to) > 0)
+                    {
+                        UpdateVal(val, comparable);
+                    }
                 }
             }
 

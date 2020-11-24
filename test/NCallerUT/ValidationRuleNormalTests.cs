@@ -141,8 +141,38 @@ namespace NCallerUT
             r = v.Verify();
             Assert.False(r.IsValid);
         }
-        
-         [Fact(DisplayName = "Equal Token with Str")]
+
+        [Fact(DisplayName = "Max and Min Length Token with Obj Array")]
+        public void ObjArrayMaxMinLengthTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+            v.ValidationEntry.ForMember("SomeNiceActArray", c => c.Length(5, 12));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeNiceActArray", c => c.Length(12, 16).OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "Max and Min Length Token with Obj List")]
+        public void ObjListMaxMinLengthTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+            v.ValidationEntry.ForMember("SomeNiceActList", c => c.Length(5, 12));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeNiceActList", c => c.Length(12, 16).OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "Equal Token with Str")]
         public void StringEqualTest()
         {
             var v = LeoVisitorFactory.Create(Type, Data);
@@ -231,7 +261,7 @@ namespace NCallerUT
             r = v.Verify();
             Assert.False(r.IsValid);
         }
-        
+
         [Fact(DisplayName = "Not Equal Token with Str")]
         public void StringNotEqualTest()
         {
@@ -335,6 +365,16 @@ namespace NCallerUT
 
             r = v.Verify();
             Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("Int16", c => c.RangeWithCloseInterval(16, 17).OverwriteRule());
+            
+            r = v.Verify();
+            Assert.True(r.IsValid);
+            
+            v.ValidationEntry.ForMember("Int16", c => c.RangeWithOpenInterval(16, 17).OverwriteRule());
+            
+            r = v.Verify();
+            Assert.False(r.IsValid);
         }
 
         [Fact(DisplayName = "Range Token with int32")]
@@ -348,6 +388,16 @@ namespace NCallerUT
 
             v.ValidationEntry.ForMember("Int32", c => c.Range(88, 100));
 
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("Int32", c => c.RangeWithCloseInterval(32, 33).OverwriteRule());
+            
+            r = v.Verify();
+            Assert.True(r.IsValid);
+            
+            v.ValidationEntry.ForMember("Int32", c => c.RangeWithOpenInterval(32, 33).OverwriteRule());
+            
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -365,6 +415,16 @@ namespace NCallerUT
 
             r = v.Verify();
             Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("Int64", c => c.RangeWithCloseInterval(64, 65).OverwriteRule());
+            
+            r = v.Verify();
+            Assert.True(r.IsValid);
+            
+            v.ValidationEntry.ForMember("Int64", c => c.RangeWithOpenInterval(64, 65).OverwriteRule());
+            
+            r = v.Verify();
+            Assert.False(r.IsValid);
         }
 
         [Fact(DisplayName = "Range Token with Char")]
@@ -378,6 +438,16 @@ namespace NCallerUT
 
             v.ValidationEntry.ForMember("Char", c => c.Range('x', 'z'));
 
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("Char", c => c.RangeWithCloseInterval('c', 'd').OverwriteRule());
+            
+            r = v.Verify();
+            Assert.True(r.IsValid);
+            
+            v.ValidationEntry.ForMember("Char", c => c.RangeWithOpenInterval('c', 'd').OverwriteRule());
+            
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -395,19 +465,39 @@ namespace NCallerUT
 
             r = v.Verify();
             Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("DateTime", c => c.RangeWithCloseInterval(DateTime.Today, DateTime.Today.AddDays(1)).OverwriteRule());
+            
+            r = v.Verify();
+            Assert.True(r.IsValid);
+            
+            v.ValidationEntry.ForMember("DateTime", c => c.RangeWithOpenInterval(DateTime.Today, DateTime.Today.AddDays(1)).OverwriteRule());
+            
+            r = v.Verify();
+            Assert.False(r.IsValid);
         }
 
         [Fact(DisplayName = "Range Token with DateTimeOffset")]
         public void DateTimeOffsetRangeTest()
         {
             var v = LeoVisitorFactory.Create(Type, Data);
-            v.ValidationEntry.ForMember("DateTimeOffset", c => c.Range((DateTimeOffset) DateTime.Today.AddDays(-1), (DateTimeOffset) DateTime.Today.AddDays(1)));
+            v.ValidationEntry.ForMember("DateTimeOffset", c => c.Range( DateTime.Today.AddDays(-1),  DateTime.Today.AddDays(1)));
 
             var r = v.Verify();
             Assert.True(r.IsValid);
 
-            v.ValidationEntry.ForMember("DateTimeOffset", c => c.Range((DateTimeOffset) DateTime.Today.AddDays(1), (DateTimeOffset) DateTime.Today.AddDays(2)));
+            v.ValidationEntry.ForMember("DateTimeOffset", c => c.Range( DateTime.Today.AddDays(1),  DateTime.Today.AddDays(2)));
 
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("DateTimeOffset", c => c.RangeWithCloseInterval(DateTime.Today, DateTime.Today.AddDays(1)).OverwriteRule());
+            
+            r = v.Verify();
+            Assert.True(r.IsValid);
+            
+            v.ValidationEntry.ForMember("DateTimeOffset", c => c.RangeWithOpenInterval(DateTime.Today, DateTime.Today.AddDays(1)).OverwriteRule());
+            
             r = v.Verify();
             Assert.False(r.IsValid);
         }
