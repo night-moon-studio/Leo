@@ -23,13 +23,13 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(type, act);
 
             v.ValidationEntry
-             .ForMember("Name", c => c.Required().MinLength(4).MaxLength(15));
+             .ForMember("Name", c => c.NotEmpty().MinLength(4).MaxLength(15));
 
             var r1 = v.Verify();
             Assert.True(r1.IsValid);
 
             v.ValidationEntry
-             .ForMember("Name", c => c.RequiredNull().OverwriteRule());
+             .ForMember("Name", c => c.Empty().OverwriteRule());
 
             var r2 = v.Verify();
             Assert.False(r2.IsValid);
@@ -79,11 +79,11 @@ namespace NCallerUT
 
             // Revert to RequiredNull token to test the mutual exclusion under AppendRule
             v.ValidationEntry
-             .ForMember("Name", c => c.RequiredNull().OverwriteRule());
+             .ForMember("Name", c => c.Empty().OverwriteRule());
 
             // Due to mutual exclusion, these conditions will all fail to take effect (because of the AppendRule mode).
             v.ValidationEntry
-             .ForMember("Name", c => c.Required().MinLength(4).MaxLength(15).AppendRule());
+             .ForMember("Name", c => c.NotEmpty().MinLength(4).MaxLength(15).AppendRule());
 
             v["Name"] = "";
 
