@@ -42,6 +42,12 @@ namespace NMS.Leo.Typed.Validation
 
         ILeoValueRuleBuilder NotEqual(object value, IEqualityComparer comparer);
 
+        ILeoValueRuleBuilder Func(Func<object, CustomVerifyResult> func);
+
+        ILeoWaitForMessageValueRuleBuilder Func(Func<object, bool> func);
+
+        ILeoWaitForMessageValueRuleBuilder Predicate(Predicate<object> predicate);
+
         ILeoValueRuleBuilder Must(Func<object, CustomVerifyResult> func);
 
         ILeoWaitForMessageValueRuleBuilder Must(Func<object, bool> func);
@@ -84,6 +90,12 @@ namespace NMS.Leo.Typed.Validation
         ILeoValueRuleBuilder<T> NotEqual(object value);
 
         ILeoValueRuleBuilder<T> NotEqual(object value, IEqualityComparer comparer);
+
+        ILeoValueRuleBuilder<T> Func(Func<object, CustomVerifyResult> func);
+
+        ILeoWaitForMessageValueRuleBuilder<T> Func(Func<object, bool> func);
+
+        ILeoWaitForMessageValueRuleBuilder<T> Predicate(Predicate<object> predicate);
 
         ILeoValueRuleBuilder<T> Must(Func<object, CustomVerifyResult> func);
 
@@ -128,8 +140,14 @@ namespace NMS.Leo.Typed.Validation
 
         ILeoValueRuleBuilder<T, TVal> NotEqual(TVal value, IEqualityComparer<TVal> comparer);
 
-        ILeoValueRuleBuilder<T, TVal> Must(Func<TVal, CustomVerifyResult> func);
+        ILeoValueRuleBuilder<T, TVal> Func(Func<TVal, CustomVerifyResult> func);
+        
+        ILeoWaitForMessageValueRuleBuilder<T, TVal> Func(Func<TVal, bool> func);
+        
+        ILeoWaitForMessageValueRuleBuilder<T, TVal> Predicate(Predicate<TVal> predicate);
 
+        ILeoValueRuleBuilder<T, TVal> Must(Func<TVal, CustomVerifyResult> func);
+        
         ILeoWaitForMessageValueRuleBuilder<T, TVal> Must(Func<TVal, bool> func);
     }
 }

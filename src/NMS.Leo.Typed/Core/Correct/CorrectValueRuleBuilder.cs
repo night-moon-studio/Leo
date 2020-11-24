@@ -130,6 +130,22 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
+        public ILeoValueRuleBuilder Func(Func<object, CustomVerifyResult> func)
+        {
+            _valueTokens.Add(new ValueFuncToken(_member, func));
+            return this;
+        }
+
+        public ILeoWaitForMessageValueRuleBuilder Func(Func<object, bool> func)
+        {
+            return new CorrectWaitForMessageValueRuleBuilder(this, func);
+        }
+
+        public ILeoWaitForMessageValueRuleBuilder Predicate(Predicate<object> predicate)
+        {
+            return new CorrectWaitForMessageValueRuleBuilder(this, predicate);
+        }
+
         public ILeoValueRuleBuilder Must(Func<object, CustomVerifyResult> func)
         {
             _valueTokens.Add(new ValueFuncToken(_member, func));
@@ -275,6 +291,22 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
+        public ILeoValueRuleBuilder<T> Func(Func<object, CustomVerifyResult> func)
+        {
+            _valueTokens.Add(new ValueFuncToken(_member, func));
+            return this;
+        }
+
+        public ILeoWaitForMessageValueRuleBuilder<T> Func(Func<object, bool> func)
+        {
+            return new CorrectWaitForMessageValueRuleBuilder<T>(this, func);
+        }
+
+        public ILeoWaitForMessageValueRuleBuilder<T> Predicate(Predicate<object> predicate)
+        {
+            return new CorrectWaitForMessageValueRuleBuilder<T>(this, predicate);
+        }
+
         public ILeoValueRuleBuilder<T> Must(Func<object, CustomVerifyResult> func)
         {
             _valueTokens.Add(new ValueFuncToken(_member, func));
@@ -407,6 +439,22 @@ namespace NMS.Leo.Typed.Core.Correct
         {
             _valueTokens.Add(new ValueNotEqualToken<TVal>(_member, value, comparer));
             return this;
+        }
+
+        public ILeoValueRuleBuilder<T, TVal> Func(Func<TVal, CustomVerifyResult> func)
+        {
+            _valueTokens.Add(new ValueFuncToken<TVal>(_member, func));
+            return this;
+        }
+
+        public ILeoWaitForMessageValueRuleBuilder<T, TVal> Func(Func<TVal, bool> func)
+        {
+            return new CorrectWaitForMessageValueRuleBuilder<T, TVal>(this, func);
+        }
+
+        public ILeoWaitForMessageValueRuleBuilder<T, TVal> Predicate(Predicate<TVal> predicate)
+        {
+            return new CorrectWaitForMessageValueRuleBuilder<T, TVal>(this, predicate);
         }
 
         public ILeoValueRuleBuilder<T, TVal> Must(Func<TVal, CustomVerifyResult> func)
