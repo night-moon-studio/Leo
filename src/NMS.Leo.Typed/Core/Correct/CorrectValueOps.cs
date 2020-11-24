@@ -14,9 +14,9 @@ namespace NMS.Leo.Typed.Core.Correct
         NotEqual_T1,
         Range,
         Range_T1,
-        StrMaxLen,
-        StrMinLen,
-        StrMaxMinLen,
+        MaxLen,
+        MinLen,
+        Length,
         Func,
         Func_T1,
     }

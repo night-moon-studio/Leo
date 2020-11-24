@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using NMS.Leo.Metadata;
 
 namespace NMS.Leo.Typed.Core.Correct.Token
@@ -6,8 +7,8 @@ namespace NMS.Leo.Typed.Core.Correct.Token
     internal class ValueMinLengthLimitedToken : ValueToken
     {
         // ReSharper disable once InconsistentNaming
-        public const string NAME = "The minimum array length restriction rule";
-        public static int[] _mutuallyExclusiveFlags = {90113,90117, 90119};
+        public const string NAME = "ArrayMinLengthToken";
+        public static int[] _mutuallyExclusiveFlags = {90113, 90117, 90119};
 
         private readonly int _minLength;
 
@@ -18,7 +19,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
             _minLength = min;
         }
 
-        public override CorrectValueOps Ops => CorrectValueOps.StrMinLen;
+        public override CorrectValueOps Ops => CorrectValueOps.MinLen;
 
         public override string TokenName => NAME;
 
@@ -43,11 +44,12 @@ namespace NMS.Leo.Typed.Core.Correct.Token
                 UpdateVal(val, value, 0);
             }
 
-            else if (value is Array array)
+            else if (value is ICollection collection)
             {
-                if (array.Length < _minLength)
+                var len = collection.Count;
+                if (len < _minLength)
                 {
-                    UpdateVal(val, value, array.Length);
+                    UpdateVal(val, value, len);
                 }
             }
 

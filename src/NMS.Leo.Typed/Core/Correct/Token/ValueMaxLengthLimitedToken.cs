@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using NMS.Leo.Metadata;
 
 namespace NMS.Leo.Typed.Core.Correct.Token
@@ -6,8 +7,8 @@ namespace NMS.Leo.Typed.Core.Correct.Token
     internal class ValueMaxLengthLimitedToken : ValueToken
     {
         // ReSharper disable once InconsistentNaming
-        public const string NAME = "The maximum array length restriction rule";
-        public static int[] _mutuallyExclusiveFlags = {90112,90116, 90120};
+        public const string NAME = "ArrayMaxLengthToken";
+        public static int[] _mutuallyExclusiveFlags = {90112, 90116, 90120};
 
         private readonly int _maxLength;
 
@@ -18,7 +19,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
             _maxLength = max;
         }
 
-        public override CorrectValueOps Ops => CorrectValueOps.StrMaxLen;
+        public override CorrectValueOps Ops => CorrectValueOps.MaxLen;
 
         public override string TokenName => NAME;
 
@@ -38,11 +39,12 @@ namespace NMS.Leo.Typed.Core.Correct.Token
                 }
             }
 
-            else if (value is Array array)
+            else if (value is ICollection collection)
             {
-                if (array.Length > _maxLength)
+                var len = collection.Count;
+                if (len > _maxLength)
                 {
-                    UpdateVal(val, value, array.Length);
+                    UpdateVal(val, value, len);
                 }
             }
 
