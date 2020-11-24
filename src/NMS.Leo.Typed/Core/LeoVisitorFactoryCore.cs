@@ -4,7 +4,7 @@ using NMS.Leo.Typed.Core.Extensions;
 
 namespace NMS.Leo.Typed.Core
 {
-    internal static class LeoVisitorFactoryCore
+    internal static partial class LeoVisitorFactoryCore
     {
         public static InstanceVisitor CreateForInstance(Type type, object instance, AlgorithmKind kind, bool repeatable, bool liteMode, bool strictMode)
         {
