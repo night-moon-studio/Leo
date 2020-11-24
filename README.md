@@ -8,10 +8,10 @@
 A high-performance type dynamic operation library.
 
 [![Member project of Night Moon Studio](https://img.shields.io/badge/member%20project%20of-NMS-9e20c9.svg)](https://github.com/night-moon-studio)
-[![NuGet Badge](https://buildstats.info/nuget/NMS.NCaller?includePreReleases=true)](https://www.nuget.org/packages/NMS.NCaller)
- ![GitHub repo size](https://img.shields.io/github/repo-size/night-moon-studio/ncaller.svg)
+[![NuGet Badge](https://buildstats.info/nuget/NMS.Leo?includePreReleases=true)](https://www.nuget.org/packages/NMS.Leo)
+ ![GitHub repo size](https://img.shields.io/github/repo-size/night-moon-studio/leo.svg)
 [![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
-[![GitHub license](https://img.shields.io/github/license/night-moon-studio/ncaller.svg)](https://github.com/night-moon-studio/NCaller/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/night-moon-studio/leo.svg)](https://github.com/night-moon-studio/Leo/blob/master/LICENSE)
 
 
 This project is based on [NCC Natasha](https://github.com/dotnetcore/natasha) and .NET.
