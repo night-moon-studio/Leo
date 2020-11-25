@@ -12,8 +12,6 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         // ReSharper disable once InconsistentNaming
         public const string NAME = "GenericValueAllToken";
 
-        public static int[] _mutuallyExclusiveFlags = {90121};
-
         private readonly Func<TItem, bool> _func;
 
         public ValueAllToken(LeoMember member, Func<TItem, bool> func) : base(member)
@@ -25,9 +23,9 @@ namespace NMS.Leo.Typed.Core.Correct.Token
 
         public override string TokenName => NAME;
 
-        public override bool MutuallyExclusive => true;
+        public override bool MutuallyExclusive => false;
 
-        public override int[] MutuallyExclusiveFlags => _mutuallyExclusiveFlags;
+        public override int[] MutuallyExclusiveFlags => NoMutuallyExclusiveFlags;
 
         public override CorrectVerifyVal ValidValue(TVal value)
         {
