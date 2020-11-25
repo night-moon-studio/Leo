@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using NMS.Leo.Typed.Core.Correct;
+using NMS.Leo.Typed.Core.Correct.Token;
 
 namespace NMS.Leo.Typed.Validation
 {
@@ -51,6 +53,22 @@ namespace NMS.Leo.Typed.Validation
         ILeoValueRuleBuilder Must(Func<object, CustomVerifyResult> func);
 
         ILeoWaitForMessageValueRuleBuilder Must(Func<object, bool> func);
+
+        ILeoValueRuleBuilder Any(Func<object, bool> func);
+
+        ILeoValueRuleBuilder All(Func<object, bool> func);
+
+        ILeoValueRuleBuilder NotAny(Func<object, bool> func);
+
+        ILeoValueRuleBuilder NotAll(Func<object, bool> func);
+
+        ILeoValueRuleBuilder In(ICollection<object> collection);
+
+        ILeoValueRuleBuilder In(params object[] objects);
+
+        ILeoValueRuleBuilder NotIn(ICollection<object> collection);
+
+        ILeoValueRuleBuilder NotIn(params object[] objects);
     }
 
     public interface ILeoValueRuleBuilder<T>
@@ -100,6 +118,22 @@ namespace NMS.Leo.Typed.Validation
         ILeoValueRuleBuilder<T> Must(Func<object, CustomVerifyResult> func);
 
         ILeoWaitForMessageValueRuleBuilder<T> Must(Func<object, bool> func);
+
+        // ILeoValueRuleBuilder<T> Any(Func<object, bool> func);
+        //
+        // ILeoValueRuleBuilder<T> All(Func<object, bool> func);
+        //
+        // ILeoValueRuleBuilder<T> NotAny(Func<object, bool> func);
+        //
+        // ILeoValueRuleBuilder<T> NotAll(Func<object, bool> func);
+
+        ILeoValueRuleBuilder<T> In(ICollection<object> collection);
+
+        ILeoValueRuleBuilder<T> In(params object[] objects);
+
+        ILeoValueRuleBuilder<T> NotIn(ICollection<object> collection);
+
+        ILeoValueRuleBuilder<T> NotIn(params object[] objects);
     }
 
     public interface ILeoValueRuleBuilder<T, TVal> : ILeoValueRuleBuilder<T>
@@ -119,11 +153,11 @@ namespace NMS.Leo.Typed.Validation
         new ILeoValueRuleBuilder<T, TVal> NotNull();
 
         ILeoValueRuleBuilder<T, TVal> Range(TVal from, TVal to, RangeOptions options = RangeOptions.OpenInterval);
-        
+
         ILeoValueRuleBuilder<T, TVal> RangeWithOpenInterval(TVal from, TVal to);
 
         ILeoValueRuleBuilder<T, TVal> RangeWithCloseInterval(TVal from, TVal to);
-        
+
         new ILeoValueRuleBuilder<T, TVal> Length(int min, int max);
 
         new ILeoValueRuleBuilder<T, TVal> MinLength(int min);
@@ -141,13 +175,21 @@ namespace NMS.Leo.Typed.Validation
         ILeoValueRuleBuilder<T, TVal> NotEqual(TVal value, IEqualityComparer<TVal> comparer);
 
         ILeoValueRuleBuilder<T, TVal> Func(Func<TVal, CustomVerifyResult> func);
-        
+
         ILeoWaitForMessageValueRuleBuilder<T, TVal> Func(Func<TVal, bool> func);
-        
+
         ILeoWaitForMessageValueRuleBuilder<T, TVal> Predicate(Predicate<TVal> predicate);
 
         ILeoValueRuleBuilder<T, TVal> Must(Func<TVal, CustomVerifyResult> func);
-        
+
         ILeoWaitForMessageValueRuleBuilder<T, TVal> Must(Func<TVal, bool> func);
+
+        ILeoValueRuleBuilder<T, TVal> In(ICollection<TVal> collection);
+
+        ILeoValueRuleBuilder<T, TVal> In(params TVal[] objects);
+
+        ILeoValueRuleBuilder<T, TVal> NotIn(ICollection<TVal> collection);
+
+        ILeoValueRuleBuilder<T, TVal> NotIn(params TVal[] objects);
     }
 }

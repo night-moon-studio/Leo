@@ -99,7 +99,7 @@ namespace NMS.Leo.Typed.Core.Correct
             _valueTokens.Add(new ValueMaxLengthLimitedToken(_member, max));
             return this;
         }
-        
+
         public ILeoValueRuleBuilder AtLeast(int count)
         {
             _valueTokens.Add(new ValueMinLengthLimitedToken(_member, count));
@@ -157,6 +157,54 @@ namespace NMS.Leo.Typed.Core.Correct
             return new CorrectWaitForMessageValueRuleBuilder(this, func);
         }
 
+        public ILeoValueRuleBuilder Any(Func<object, bool> func)
+        {
+            _valueTokens.Add(new ValueAnyToken(_member, func));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder All(Func<object, bool> func)
+        {
+            _valueTokens.Add(new ValueAllToken(_member, func));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder NotAny(Func<object, bool> func)
+        {
+            _valueTokens.Add(new ValueAllToken(_member, func));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder NotAll(Func<object, bool> func)
+        {
+            _valueTokens.Add(new ValueAnyToken(_member, func));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder In(ICollection<object> collection)
+        {
+            _valueTokens.Add(new ValueInToken(_member, collection));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder In(params object[] objects)
+        {
+            _valueTokens.Add(new ValueInToken(_member, objects));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder NotIn(ICollection<object> collection)
+        {
+            _valueTokens.Add(new ValueNotInToken(_member, collection));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder NotIn(params object[] objects)
+        {
+            _valueTokens.Add(new ValueNotInToken(_member, objects));
+            return this;
+        }
+
         public CorrectValueRule Build()
         {
             return new CorrectValueRule
@@ -170,8 +218,8 @@ namespace NMS.Leo.Typed.Core.Correct
 
     internal class CorrectValueRuleBuilder<T> : ILeoValueRuleBuilder<T>
     {
-        protected readonly LeoMember _member;
-        protected readonly List<IValueToken> _valueTokens;
+        internal readonly LeoMember _member;
+        internal readonly List<IValueToken> _valueTokens;
 
         public CorrectValueRuleBuilder(LeoMember member)
         {
@@ -260,7 +308,7 @@ namespace NMS.Leo.Typed.Core.Correct
             _valueTokens.Add(new ValueMaxLengthLimitedToken(_member, max));
             return this;
         }
-        
+
         public ILeoValueRuleBuilder<T> AtLeast(int count)
         {
             _valueTokens.Add(new ValueMinLengthLimitedToken(_member, count));
@@ -316,6 +364,54 @@ namespace NMS.Leo.Typed.Core.Correct
         public ILeoWaitForMessageValueRuleBuilder<T> Must(Func<object, bool> func)
         {
             return new CorrectWaitForMessageValueRuleBuilder<T>(this, func);
+        }
+
+        public ILeoValueRuleBuilder<T> Any(Func<object, bool> func)
+        {
+            _valueTokens.Add(new ValueAnyToken(_member, func));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> All(Func<object, bool> func)
+        {
+            _valueTokens.Add(new ValueAllToken(_member, func));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> NotAny(Func<object, bool> func)
+        {
+            _valueTokens.Add(new ValueAllToken(_member, func));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> NotAll(Func<object, bool> func)
+        {
+            _valueTokens.Add(new ValueAnyToken(_member, func));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> In(ICollection<object> collection)
+        {
+            _valueTokens.Add(new ValueInToken(_member, collection));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> In(params object[] objects)
+        {
+            _valueTokens.Add(new ValueInToken(_member, objects));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> NotIn(ICollection<object> collection)
+        {
+            _valueTokens.Add(new ValueNotInToken(_member, collection));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> NotIn(params object[] objects)
+        {
+            _valueTokens.Add(new ValueNotInToken(_member, objects));
+            return this;
         }
 
         public CorrectValueRule Build()
@@ -410,7 +506,7 @@ namespace NMS.Leo.Typed.Core.Correct
             _valueTokens.Add(new ValueMaxLengthLimitedToken(_member, max));
             return this;
         }
-        
+
         public new ILeoValueRuleBuilder<T, TVal> AtLeast(int count)
         {
             _valueTokens.Add(new ValueMinLengthLimitedToken(_member, count));
@@ -466,6 +562,30 @@ namespace NMS.Leo.Typed.Core.Correct
         public ILeoWaitForMessageValueRuleBuilder<T, TVal> Must(Func<TVal, bool> func)
         {
             return new CorrectWaitForMessageValueRuleBuilder<T, TVal>(this, func);
+        }
+
+        public ILeoValueRuleBuilder<T, TVal> In(ICollection<TVal> collection)
+        {
+            _valueTokens.Add(new ValueInToken<TVal>(_member, collection));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T, TVal> In(params TVal[] objects)
+        {
+            _valueTokens.Add(new ValueInToken<TVal>(_member, objects));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T, TVal> NotIn(ICollection<TVal> collection)
+        {
+            _valueTokens.Add(new ValueNotInToken<TVal>(_member, collection));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T, TVal> NotIn(params TVal[] objects)
+        {
+            _valueTokens.Add(new ValueInToken<TVal>(_member, objects));
+            return this;
         }
 
         public new CorrectValueRule<TVal> Build()

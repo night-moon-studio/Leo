@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NCallerUT.Model;
 using NMS.Leo.Typed;
 using Xunit;
@@ -367,12 +368,12 @@ namespace NCallerUT
             Assert.False(r.IsValid);
 
             v.ValidationEntry.ForMember("Int16", c => c.RangeWithCloseInterval(16, 17).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int16", c => c.RangeWithOpenInterval(16, 17).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -392,12 +393,12 @@ namespace NCallerUT
             Assert.False(r.IsValid);
 
             v.ValidationEntry.ForMember("Int32", c => c.RangeWithCloseInterval(32, 33).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int32", c => c.RangeWithOpenInterval(32, 33).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -417,12 +418,12 @@ namespace NCallerUT
             Assert.False(r.IsValid);
 
             v.ValidationEntry.ForMember("Int64", c => c.RangeWithCloseInterval(64, 65).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int64", c => c.RangeWithOpenInterval(64, 65).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -442,12 +443,12 @@ namespace NCallerUT
             Assert.False(r.IsValid);
 
             v.ValidationEntry.ForMember("Char", c => c.RangeWithCloseInterval('c', 'd').OverwriteRule());
-            
+
             r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Char", c => c.RangeWithOpenInterval('c', 'd').OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -467,12 +468,12 @@ namespace NCallerUT
             Assert.False(r.IsValid);
 
             v.ValidationEntry.ForMember("DateTime", c => c.RangeWithCloseInterval(DateTime.Today, DateTime.Today.AddDays(1)).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("DateTime", c => c.RangeWithOpenInterval(DateTime.Today, DateTime.Today.AddDays(1)).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -481,23 +482,195 @@ namespace NCallerUT
         public void DateTimeOffsetRangeTest()
         {
             var v = LeoVisitorFactory.Create(Type, Data);
-            v.ValidationEntry.ForMember("DateTimeOffset", c => c.Range( DateTime.Today.AddDays(-1),  DateTime.Today.AddDays(1)));
+            v.ValidationEntry.ForMember("DateTimeOffset", c => c.Range(DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)));
 
             var r = v.Verify();
             Assert.True(r.IsValid);
 
-            v.ValidationEntry.ForMember("DateTimeOffset", c => c.Range( DateTime.Today.AddDays(1),  DateTime.Today.AddDays(2)));
+            v.ValidationEntry.ForMember("DateTimeOffset", c => c.Range(DateTime.Today.AddDays(1), DateTime.Today.AddDays(2)));
 
             r = v.Verify();
             Assert.False(r.IsValid);
 
             v.ValidationEntry.ForMember("DateTimeOffset", c => c.RangeWithCloseInterval(DateTime.Today, DateTime.Today.AddDays(1)).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("DateTimeOffset", c => c.RangeWithOpenInterval(DateTime.Today, DateTime.Today.AddDays(1)).OverwriteRule());
-            
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "Any Token with Bytes")]
+        public void BytesAnyTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("Bytes", c => c.Any(b => (byte) b == 0));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+        }
+
+        [Fact(DisplayName = "Any Token with Array")]
+        public void ObjArrayAnyTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+            var o = v.GetValue("SomeObj");
+
+            v.ValidationEntry.ForMember("SomeNiceActArray", c => c.Any(s => s == o));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+        }
+
+        [Fact(DisplayName = "Any Token with List")]
+        public void ObjListAnyTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+            var o = v.GetValue("SomeObj");
+
+            v.ValidationEntry.ForMember("SomeNiceActList", c => c.Any(s => s == o));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+        }
+
+        [Fact(DisplayName = "All Token with Bytes")]
+        public void BytesAllTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("Bytes", c => c.All(b => (byte) b == 0));
+
+            var r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "All Token with Array")]
+        public void ObjArrayAllTest()
+        {
+            var n = new NiceAct();
+            var d = new NiceAct2(true);
+            var o = (NiceAct) d.SomeObj;
+            d.SomeNiceActArray = new[] {o, n, o, n, o, n};
+
+            var v = LeoVisitorFactory.Create(Type, d);
+
+            v.ValidationEntry.ForMember("SomeNiceActArray", c => c.All(s => s == o));
+
+            var r = v.Verify();
+            Assert.False(r.IsValid);
+
+            var v2 = LeoVisitorFactory.Create(Type, Data);
+            var o2 = v2.GetValue("SomeObj");
+            v.ValidationEntry.ForMember("SomeNiceActArray", c => c.All(s => s == o2));
+
+            var r2 = v2.Verify();
+            Assert.True(r2.IsValid);
+        }
+
+        [Fact(DisplayName = "All Token with List")]
+        public void ObjListAllTest()
+        {
+            var n = new NiceAct();
+            var d = new NiceAct2(true);
+            var o = (NiceAct) d.SomeObj;
+            d.SomeNiceActList = new List<NiceAct> {o, n, o, n, o, n};
+
+            var v = LeoVisitorFactory.Create(Type, d);
+
+            v.ValidationEntry.ForMember("SomeNiceActList", c => c.All(s => s == o));
+
+            var r = v.Verify();
+            Assert.False(r.IsValid);
+
+            var v2 = LeoVisitorFactory.Create(Type, Data);
+            var o2 = v2.GetValue("SomeObj");
+            v.ValidationEntry.ForMember("SomeNiceActList", c => c.All(s => s == o2));
+
+            var r2 = v2.Verify();
+            Assert.True(r2.IsValid);
+        }
+
+        [Fact(DisplayName = "In/NotIn Token with Str")]
+        public void StrInTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("Str", c => c.In(new List<object> {"Str", "StrStr"}));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Str", c => c.NotIn(new List<object> {"Str", "StrStr"}).OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "In/NotIn Token with Int16")]
+        public void Int16InTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("Int16", c => c.In(new List<object> {(short) 16, (short) 17}));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Int16", c => c.NotIn(new List<object> {(short) 16, (short) 17}).OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "In/NotIn Token with Int32")]
+        public void Int32InTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("Int32", c => c.In(new List<object> {32, 33}));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Int32", c => c.NotIn(new List<object> {32, 33}).OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "In/NotIn Token with Int64")]
+        public void Int64InTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("Int64", c => c.In(new List<object> {64L, 65L}));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Int64", c => c.NotIn(new List<object> {64L, 65L}).OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "In/NotIn Token with Char")]
+        public void CharInTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("Char", c => c.In(new List<object> {'c', 'd'}));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Char", c => c.NotIn(new List<object> {'c', 'd'}).OverwriteRule());
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
