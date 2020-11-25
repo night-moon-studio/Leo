@@ -41,7 +41,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         {
             if (string.IsNullOrWhiteSpace(message))
                 message = "The value does not satisfy the given Func condition.";
-            
+
             val.IsSuccess = false;
             val.VerifiedValue = obj;
             val.ErrorMessage = message;

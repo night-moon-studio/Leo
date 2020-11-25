@@ -12,10 +12,10 @@ namespace NMS.Leo.Typed.Core.Correct.Token
 
         public ValueNotInToken(LeoMember member, ICollection<TVal> objects) : base(member)
         {
-            _objects = objects??System.Array.Empty<TVal>();
+            _objects = objects ?? System.Array.Empty<TVal>();
         }
 
-        public override CorrectValueOps Ops => CorrectValueOps.In_T1;
+        public override CorrectValueOps Ops => CorrectValueOps.NotIn_T1;
 
         public override string TokenName => NAME;
 

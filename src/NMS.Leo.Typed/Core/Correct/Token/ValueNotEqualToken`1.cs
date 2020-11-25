@@ -11,7 +11,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         private readonly TVal _valueToCompare;
         private readonly IEqualityComparer<TVal> _comparer;
 
-        public ValueNotEqualToken(LeoMember member, TVal valueToCompare,IEqualityComparer<TVal> comparer) : base(member)
+        public ValueNotEqualToken(LeoMember member, TVal valueToCompare, IEqualityComparer<TVal> comparer) : base(member)
         {
             _valueToCompare = valueToCompare;
             _comparer = comparer;
@@ -28,9 +28,9 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         public override CorrectVerifyVal ValidValue(TVal value)
         {
             var val = new CorrectVerifyVal {NameOfExecutedRule = NAME};
-            
+
             var success = !ValidCore(value);
-            
+
             if (!success)
             {
                 UpdateVal(val, value);

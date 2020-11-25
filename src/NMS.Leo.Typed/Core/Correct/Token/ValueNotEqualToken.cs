@@ -13,7 +13,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         private readonly Type _typeOfValueToCompare;
         private readonly IEqualityComparer _comparer;
 
-        public ValueNotEqualToken(LeoMember member, object valueToCompare,IEqualityComparer comparer) : base(member)
+        public ValueNotEqualToken(LeoMember member, object valueToCompare, IEqualityComparer comparer) : base(member)
         {
             _valueToCompare = valueToCompare;
             _typeOfValueToCompare = _valueToCompare.GetType();
@@ -33,40 +33,11 @@ namespace NMS.Leo.Typed.Core.Correct.Token
             var val = new CorrectVerifyVal {NameOfExecutedRule = NAME};
 
             var success = !ValidCore(value);
-            
+
             if (!success)
             {
                 UpdateVal(val, value);
             }
-
-            // if (value is null && _valueToCompare is null)
-            // {
-            //     UpdateVal(val, null);
-            // }
-            //
-            // else if (value is char charLeft && _valueToCompare is char charRight)
-            // {
-            //     if (charLeft == charRight)
-            //     {
-            //         UpdateVal(val, charLeft);
-            //     }
-            // }
-            //
-            // else if (Member.MemberType.IsPrimitive && Member.MemberType.IsValueType)
-            // {
-            //     var left = Convert.ToDecimal(value);
-            //     var right = Convert.ToDecimal(_valueToCompare);
-            //
-            //     if (left == right)
-            //     {
-            //         UpdateVal(val, left);
-            //     }
-            // }
-            //
-            // else if (value != null && _valueToCompare != null && value.Equals(_valueToCompare))
-            // {
-            //     UpdateVal(val, null);
-            // }
 
             return val;
         }

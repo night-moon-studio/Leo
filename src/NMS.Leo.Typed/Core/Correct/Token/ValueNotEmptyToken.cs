@@ -33,7 +33,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
 
             return val;
         }
-        
+
         private bool ValidCore(object value)
         {
             switch (value)

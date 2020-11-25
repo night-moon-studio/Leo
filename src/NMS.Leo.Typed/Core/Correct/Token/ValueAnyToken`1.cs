@@ -19,7 +19,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
             _func = func;
         }
 
-        public override CorrectValueOps Ops => CorrectValueOps.Any;
+        public override CorrectValueOps Ops => CorrectValueOps.Any_T1;
 
         public override string TokenName => NAME;
 

@@ -52,7 +52,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
                 // for ""
                 UpdateVal(val, value, 0);
             }
-            
+
             else if (value is ICollection collection)
             {
                 var len = collection.Count;

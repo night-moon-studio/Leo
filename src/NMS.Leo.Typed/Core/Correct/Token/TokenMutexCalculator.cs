@@ -13,7 +13,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
 
             if (token.MutuallyExclusive)
                 return false;
-            
+
             return !tokens.Any(x => x.MutuallyExclusive && x.MutuallyExclusiveFlags.ContainsAny(token.MutuallyExclusiveFlags));
         }
     }
