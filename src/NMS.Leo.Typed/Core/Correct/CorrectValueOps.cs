@@ -37,5 +37,6 @@ namespace NMS.Leo.Typed.Core.Correct
         Func_T1,
         Type,
         Types,
+        ScalePrecision,
     }
 }

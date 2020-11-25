@@ -1130,5 +1130,135 @@ namespace NCallerUT
             r = v.Verify();
             Assert.False(r.IsValid);
         }
+
+        [Fact(DisplayName = "ScalePrecision Token with Decimal and should be valid")]
+        public void DecimalScalePrecisionShouldBeValidTest()
+        {
+            var v = LeoVisitorFactory.Create<NiceAct2>();
+            v.ValidationEntry.ForMember(x=>x.Discount, c => c.ScalePrecision(2, 4));
+
+            v.SetValue(x=>x.Discount, 12.34M);
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.SetValue(x=>x.Discount, 2.34M);
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.SetValue(x=>x.Discount, -2.34M);
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.SetValue(x=>x.Discount, 0.34M);
+            r = v.Verify();
+            Assert.True(r.IsValid);
+        }
+
+        [Fact(DisplayName = "ScalePrecision Token with Decimal and should not be valid")]
+        public void DecimalScalePrecisionShouldNotBeValidTest()
+        {
+            var v = LeoVisitorFactory.Create<NiceAct2>();
+            v.ValidationEntry.ForMember(x=>x.Discount, c => c.ScalePrecision(2, 4));
+
+            v.SetValue(x=>x.Discount, 123.456778M);
+            var r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.SetValue(x=>x.Discount, 12.341M);
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.SetValue(x=>x.Discount, 1.341M);
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.SetValue(x=>x.Discount, 134.1M);
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.SetValue(x=>x.Discount, 13.401M);
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "ScalePrecision Token with Decimal and should be valid when equal")]
+        public void DecimalScalePrecisionShouldBeValidWhenEqualTest()
+        {
+            var v = LeoVisitorFactory.Create<NiceAct2>();
+            v.ValidationEntry.ForMember(x=>x.Discount, c => c.ScalePrecision(2, 2));
+
+            v.SetValue(x=>x.Discount, 0.34M);
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.SetValue(x=>x.Discount, 0.3M);
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.SetValue(x=>x.Discount, 0M);
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.SetValue(x=>x.Discount, -0.34M);
+            r = v.Verify();
+            Assert.True(r.IsValid);
+        }
+
+        [Fact(DisplayName = "ScalePrecision Token with Decimal and should not be valid when equal")]
+        public void DecimalScalePrecisionShouldNotBeValidWhenEqualTest()
+        {
+            var v = LeoVisitorFactory.Create<NiceAct2>();
+            v.ValidationEntry.ForMember(x=>x.Discount, c => c.ScalePrecision(2, 2));
+
+            v.SetValue(x=>x.Discount, 123.456778M);
+            var r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.SetValue(x=>x.Discount, 0.331M);
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.SetValue(x=>x.Discount, 1.34M);
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.SetValue(x=>x.Discount, 1M);
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "ScalePrecision Token with Decimal and should be valid when ignore trailing zeroes")]
+        public void DecimalScalePrecisionShouldBeValidWhenIgnoreTrailingZeroesTest()
+        {
+            var v = LeoVisitorFactory.Create<NiceAct2>();
+            v.ValidationEntry.ForMember(x=>x.Discount, c => c.ScalePrecision(2, 4, true));
+
+            v.SetValue(x=>x.Discount, 15.0000000000000000000000000M);
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.SetValue(x=>x.Discount, 0000000000000000000015.0000000000000000000000000M);
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.SetValue(x=>x.Discount, 65.430M);
+            r = v.Verify();
+            Assert.True(r.IsValid);
+        }
+
+        [Fact(DisplayName = "ScalePrecision Token with Decimal and should not be valid when ignore trailing zeroes")]
+        public void DecimalScalePrecisionShouldNotBeValidWhenIgnoreTrailingZeroesTest()
+        {
+            var v = LeoVisitorFactory.Create<NiceAct2>();
+            v.ValidationEntry.ForMember(x=>x.Discount, c => c.ScalePrecision(2, 4, true));
+
+            v.SetValue(x=>x.Discount, 1565.0M);
+            var r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.SetValue(x=>x.Discount, 15.0000000000000000000000001M);
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
     }
 }

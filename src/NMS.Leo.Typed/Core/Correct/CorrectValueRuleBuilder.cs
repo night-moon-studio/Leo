@@ -229,6 +229,12 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
+        public ILeoValueRuleBuilder ScalePrecision(int scale, int precision, bool ignoreTrailingZeros = false)
+        {
+            _valueTokens.Add(new ValueScalePrecisionToken(_member, scale, precision, ignoreTrailingZeros));
+            return this;
+        }
+
         public ILeoValueRuleBuilder RequiredType(Type type)
         {
             _valueTokens.Add(new ValueRequiredTypeToken(_member, type));
@@ -570,6 +576,12 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
+        public ILeoValueRuleBuilder<T> ScalePrecision(int scale, int precision, bool ignoreTrailingZeros = false)
+        {
+            _valueTokens.Add(new ValueScalePrecisionToken(_member, scale, precision, ignoreTrailingZeros));
+            return this;
+        }
+
         public ILeoValueRuleBuilder<T> RequiredType(Type type)
         {
             _valueTokens.Add(new ValueRequiredTypeToken(_member, type));
@@ -873,6 +885,12 @@ namespace NMS.Leo.Typed.Core.Correct
         public ILeoValueRuleBuilder<T, TVal> NotIn(params TVal[] objects)
         {
             _valueTokens.Add(new ValueInToken<TVal>(_member, objects));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> ScalePrecision(int scale, int precision, bool ignoreTrailingZeros = false)
+        {
+            _valueTokens.Add(new ValueScalePrecisionToken(_member, scale, precision, ignoreTrailingZeros));
             return this;
         }
 

@@ -76,6 +76,8 @@ namespace NMS.Leo.Typed.Validation
 
         ILeoValueRuleBuilder NotIn(params object[] objects);
 
+        ILeoValueRuleBuilder ScalePrecision(int scale, int precision, bool ignoreTrailingZeros = false);
+
         ILeoValueRuleBuilder RequiredType(Type type);
         
         ILeoValueRuleBuilder RequiredTypes(params Type[] types);
@@ -185,6 +187,8 @@ namespace NMS.Leo.Typed.Validation
 
         ILeoValueRuleBuilder<T> NotIn(params object[] objects);
 
+        ILeoValueRuleBuilder<T> ScalePrecision(int scale, int precision, bool ignoreTrailingZeros = false);
+
         ILeoValueRuleBuilder<T> RequiredType(Type type);
         
         ILeoValueRuleBuilder<T> RequiredTypes(params Type[] types);
@@ -285,6 +289,8 @@ namespace NMS.Leo.Typed.Validation
         ILeoValueRuleBuilder<T, TVal> NotIn(ICollection<TVal> collection);
 
         ILeoValueRuleBuilder<T, TVal> NotIn(params TVal[] objects);
+
+        new ILeoValueRuleBuilder<T, TVal> ScalePrecision(int scale, int precision, bool ignoreTrailingZeros = false);
 
         new ILeoValueRuleBuilder<T, TVal> RequiredType(Type type);
         

@@ -48,6 +48,8 @@ namespace NCallerUT.Model
         public NiceAct[] SomeNiceActArray { get; set; }
         
         public List<NiceAct> SomeNiceActList{ get; set; }
+        
+        public decimal Discount { get; set; }
 
         public override int GetHashCode()
         {
