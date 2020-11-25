@@ -9,8 +9,8 @@ namespace NMS.Leo.Typed.Core.Correct
 {
     internal class CorrectValueRuleBuilder : ILeoValueRuleBuilder
     {
-        private readonly LeoMember _member;
-        private readonly List<IValueToken> _valueTokens;
+        internal readonly LeoMember _member;
+        internal readonly List<IValueToken> _valueTokens;
 
         public CorrectValueRuleBuilder(LeoMember member)
         {
@@ -226,6 +226,114 @@ namespace NMS.Leo.Typed.Core.Correct
         public ILeoValueRuleBuilder NotIn(params object[] objects)
         {
             _valueTokens.Add(new ValueNotInToken(_member, objects));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredType(Type type)
+        {
+            _valueTokens.Add(new ValueRequiredTypeToken(_member, type));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes(params Type[] types)
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken(_member, types));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1>()
+        {
+            _valueTokens.Add(new ValueRequiredTypeToken<T1>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(_member));
             return this;
         }
 
@@ -462,6 +570,114 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
+        public ILeoValueRuleBuilder<T> RequiredType(Type type)
+        {
+            _valueTokens.Add(new ValueRequiredTypeToken(_member, type));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes(params Type[] types)
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken(_member, types));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1>()
+        {
+            _valueTokens.Add(new ValueRequiredTypeToken<T1>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(_member));
+            return this;
+        }
+
         public CorrectValueRule Build()
         {
             return new CorrectValueRule
@@ -657,6 +873,114 @@ namespace NMS.Leo.Typed.Core.Correct
         public ILeoValueRuleBuilder<T, TVal> NotIn(params TVal[] objects)
         {
             _valueTokens.Add(new ValueInToken<TVal>(_member, objects));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredType(Type type)
+        {
+            _valueTokens.Add(new ValueRequiredTypeToken(_member, type));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes(params Type[] types)
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken(_member, types));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1>()
+        {
+            _valueTokens.Add(new ValueRequiredTypeToken<T1>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>()
+        {
+            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(_member));
             return this;
         }
 

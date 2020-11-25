@@ -681,12 +681,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Char", c => c.LessThan('d'));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Char", c => c.LessThan('c').OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -697,12 +697,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Int16", c => c.LessThan(17));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int16", c => c.LessThan(16).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -713,12 +713,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Int32", c => c.LessThan(33));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int32", c => c.LessThan(32).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -729,12 +729,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Int64", c => c.LessThan(65));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int64", c => c.LessThan(64).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -745,28 +745,28 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("DateTime", c => c.LessThan(DateTime.Today.AddDays(1)));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("DateTime", c => c.LessThan(DateTime.Today).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
-        
+
         [Fact(DisplayName = "LessThanOrEqual Token with Char")]
         public void CharLessThanOrEqualTest()
         {
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Char", c => c.LessThanOrEqual('c'));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Char", c => c.LessThanOrEqual('b').OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -777,12 +777,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Int16", c => c.LessThanOrEqual(16));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int16", c => c.LessThanOrEqual(15).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -793,12 +793,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Int32", c => c.LessThanOrEqual(32));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int32", c => c.LessThanOrEqual(31).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -809,12 +809,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Int64", c => c.LessThanOrEqual(64));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int64", c => c.LessThanOrEqual(63).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -825,12 +825,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("DateTime", c => c.LessThanOrEqual(DateTime.Today));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("DateTime", c => c.LessThanOrEqual(DateTime.Today.AddDays(-1)).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -841,12 +841,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Char", c => c.GreaterThan('b'));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Char", c => c.GreaterThan('c').OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -857,12 +857,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Int16", c => c.GreaterThan(15));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int16", c => c.GreaterThan(16).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -873,12 +873,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Int32", c => c.GreaterThan(31));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int32", c => c.GreaterThan(32).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -889,12 +889,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Int64", c => c.GreaterThan(63));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int64", c => c.GreaterThan(64).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -905,28 +905,28 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("DateTime", c => c.GreaterThan(DateTime.Today.AddDays(-1)));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("DateTime", c => c.GreaterThan(DateTime.Today).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
-        
+
         [Fact(DisplayName = "GreaterThanOrEqual Token with Char")]
         public void CharGreaterThanOrEqualTest()
         {
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Char", c => c.GreaterThanOrEqual('c'));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Char", c => c.GreaterThanOrEqual('d').OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -937,12 +937,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Int16", c => c.GreaterThanOrEqual(16));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int16", c => c.GreaterThanOrEqual(17).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -953,12 +953,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Int32", c => c.GreaterThanOrEqual(32));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int32", c => c.GreaterThanOrEqual(33).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -969,12 +969,12 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("Int64", c => c.GreaterThanOrEqual(64));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("Int64", c => c.GreaterThanOrEqual(65).OverwriteRule());
-            
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }
@@ -985,12 +985,300 @@ namespace NCallerUT
             var v = LeoVisitorFactory.Create(Type, Data);
 
             v.ValidationEntry.ForMember("DateTime", c => c.GreaterThanOrEqual(DateTime.Today));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v.ValidationEntry.ForMember("DateTime", c => c.GreaterThanOrEqual(DateTime.Today.AddDays(1)).OverwriteRule());
-            
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "RequireType(s) Token with String")]
+        public void StringTypeRequireTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("Str", c => c.RequiredType(typeof(string)));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Str", c => c.RequiredTypes<string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Str", c => c.RequiredTypes<char, string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Str", c => c.RequiredType(typeof(char)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("Str", c => c.RequiredTypes(typeof(string), typeof(char)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Str", c => c.RequiredTypes<DateTime, int>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "RequireType(s) Token with Char")]
+        public void CharTypeRequireTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("Char", c => c.RequiredType(typeof(char)));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Char", c => c.RequiredTypes<char>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Char", c => c.RequiredTypes<char, string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Char", c => c.RequiredType(typeof(string)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("Char", c => c.RequiredTypes(typeof(string), typeof(char)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Char", c => c.RequiredTypes<DateTime, string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "RequireType(s) Token with Int32")]
+        public void Int32TypeRequireTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("Int32", c => c.RequiredType(typeof(Int32)));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Int32", c => c.RequiredTypes<Int32>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Int32", c => c.RequiredTypes<Int32, string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Int32", c => c.RequiredType(typeof(string)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("Int32", c => c.RequiredTypes(typeof(string), typeof(Int32)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Int32", c => c.RequiredTypes<DateTime, string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "RequireType(s) Token with DateTime")]
+        public void DateTimeTypeRequireTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("DateTime", c => c.RequiredType(typeof(DateTime)));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("DateTime", c => c.RequiredTypes<DateTime>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("DateTime", c => c.RequiredTypes<DateTime, string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("DateTime", c => c.RequiredType(typeof(string)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("DateTime", c => c.RequiredTypes(typeof(string), typeof(DateTime)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("DateTime", c => c.RequiredTypes<DateTimeOffset, string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "RequireType(s) Token with Obj")]
+        public void ObjTypeRequireTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("SomeObj", c => c.RequiredType(typeof(NiceAct)));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeObj", c => c.RequiredTypes<NiceAct>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeObj", c => c.RequiredTypes<NiceAct, string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeObj", c => c.RequiredType(typeof(string)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeObj", c => c.RequiredTypes(typeof(string), typeof(NiceAct)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeObj", c => c.RequiredTypes<long, int, string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "RequireType(s) Token with NullObj")]
+        public void NullObjTypeRequireTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("MustByNullObj", c => c.RequiredType(typeof(object)));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("MustByNullObj", c => c.RequiredTypes<object>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("MustByNullObj", c => c.RequiredTypes<object, string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("MustByNullObj", c => c.RequiredType(typeof(string)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("MustByNullObj", c => c.RequiredTypes(typeof(object), typeof(NiceAct)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("MustByNullObj", c => c.RequiredTypes<long, int, string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "RequireType(s) Token with ObjArray")]
+        public void ObjArrayTypeRequireTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("SomeNiceActArray", c => c.RequiredType(typeof(NiceAct[])));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeNiceActArray", c => c.RequiredTypes<NiceAct[]>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeNiceActArray", c => c.RequiredTypes<NiceAct[], string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeNiceActArray", c => c.RequiredType(typeof(string)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeNiceActArray", c => c.RequiredTypes(typeof(string), typeof(NiceAct[])).OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeNiceActArray", c => c.RequiredTypes<long, NiceAct, string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "RequireType(s) Token with ObjList")]
+        public void ObjListTypeRequireTest()
+        {
+            var v = LeoVisitorFactory.Create(Type, Data);
+
+            v.ValidationEntry.ForMember("SomeNiceActList", c => c.RequiredType(typeof(List<NiceAct>)));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeNiceActList", c => c.RequiredTypes<List<NiceAct>>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeNiceActList", c => c.RequiredTypes<List<NiceAct>, string>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeNiceActList", c => c.RequiredType(typeof(string)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeNiceActList", c => c.RequiredTypes(typeof(string), typeof(List<NiceAct>)).OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("SomeNiceActList", c => c.RequiredTypes<long, NiceAct[], string>().OverwriteRule());
+
             r = v.Verify();
             Assert.False(r.IsValid);
         }

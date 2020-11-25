@@ -35,5 +35,7 @@ namespace NMS.Leo.Typed.Core.Correct
         Length,
         Func,
         Func_T1,
+        Type,
+        Types,
     }
 }
