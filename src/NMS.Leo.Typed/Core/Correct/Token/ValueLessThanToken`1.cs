@@ -57,7 +57,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
                     return true;
             }
 
-            message = $"Neither the given value nor the value being compared can be converted to IComparable<{_typeOfValueToCompare.GetRuntimeName()}>.";
+            message = $"Neither the given value nor the value being compared can be converted to IComparable<{_typeOfValueToCompare.GetDevelopName()}>.";
             return false;
         }
 
