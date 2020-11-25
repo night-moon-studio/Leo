@@ -7,7 +7,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
     internal class ValueRangeToken : ValueToken
     {
         // ReSharper disable once InconsistentNaming
-        public const string NAME = "Value range rule";
+        public const string NAME = "ValueRangeToken";
         private readonly IComparable _from;
         private readonly IComparable _to;
         private readonly RangeOptions _options;

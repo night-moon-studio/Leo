@@ -7,7 +7,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
     internal class ValueRangeToken<TVal> : ValueToken<TVal>
     {
         // ReSharper disable once InconsistentNaming
-        public const string NAME = "Generic Value range rule";
+        public const string NAME = "GenericValueRangeToken";
         private readonly TVal _from;
         private readonly TVal _to;
         private readonly RangeOptions _options;
