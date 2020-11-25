@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using NMS.Leo.Typed.Core.Correct;
-using NMS.Leo.Typed.Core.Correct.Token;
 
 namespace NMS.Leo.Typed.Validation
 {
@@ -43,6 +41,14 @@ namespace NMS.Leo.Typed.Validation
         ILeoValueRuleBuilder NotEqual(object value);
 
         ILeoValueRuleBuilder NotEqual(object value, IEqualityComparer comparer);
+
+        ILeoValueRuleBuilder LessThan(object value);
+
+        ILeoValueRuleBuilder LessThanOrEqual(object value);
+
+        ILeoValueRuleBuilder GreaterThan(object value);
+
+        ILeoValueRuleBuilder GreaterThanOrEqual(object value);
 
         ILeoValueRuleBuilder Func(Func<object, CustomVerifyResult> func);
 
@@ -109,6 +115,14 @@ namespace NMS.Leo.Typed.Validation
 
         ILeoValueRuleBuilder<T> NotEqual(object value, IEqualityComparer comparer);
 
+        ILeoValueRuleBuilder<T> LessThan(object value);
+
+        ILeoValueRuleBuilder<T> LessThanOrEqual(object value);
+
+        ILeoValueRuleBuilder<T> GreaterThan(object value);
+
+        ILeoValueRuleBuilder<T> GreaterThanOrEqual(object value);
+
         ILeoValueRuleBuilder<T> Func(Func<object, CustomVerifyResult> func);
 
         ILeoWaitForMessageValueRuleBuilder<T> Func(Func<object, bool> func);
@@ -173,6 +187,14 @@ namespace NMS.Leo.Typed.Validation
         ILeoValueRuleBuilder<T, TVal> NotEqual(TVal value);
 
         ILeoValueRuleBuilder<T, TVal> NotEqual(TVal value, IEqualityComparer<TVal> comparer);
+
+        ILeoValueRuleBuilder<T, TVal> LessThan(TVal value);
+
+        ILeoValueRuleBuilder<T, TVal> LessThanOrEqual(TVal value);
+
+        ILeoValueRuleBuilder<T, TVal> GreaterThan(TVal value);
+
+        ILeoValueRuleBuilder<T, TVal> GreaterThanOrEqual(TVal value);
 
         ILeoValueRuleBuilder<T, TVal> Func(Func<TVal, CustomVerifyResult> func);
 

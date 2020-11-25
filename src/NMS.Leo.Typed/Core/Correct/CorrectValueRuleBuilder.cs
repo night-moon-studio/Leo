@@ -130,6 +130,30 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
+        public ILeoValueRuleBuilder LessThan(object value)
+        {
+            _valueTokens.Add(new ValueLessThanToken(_member, value));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder LessThanOrEqual(object value)
+        {
+            _valueTokens.Add(new ValueLessThanOrEqualToken(_member, value));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder GreaterThan(object value)
+        {
+            _valueTokens.Add(new ValueGreaterThanToken(_member, value));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder GreaterThanOrEqual(object value)
+        {
+            _valueTokens.Add(new ValueGreaterThanOrEqualToken(_member, value));
+            return this;
+        }
+
         public ILeoValueRuleBuilder Func(Func<object, CustomVerifyResult> func)
         {
             _valueTokens.Add(new ValueFuncToken(_member, func));
@@ -339,6 +363,30 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
+        public ILeoValueRuleBuilder<T> LessThan(object value)
+        {
+            _valueTokens.Add(new ValueLessThanToken(_member, value));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> LessThanOrEqual(object value)
+        {
+            _valueTokens.Add(new ValueLessThanOrEqualToken(_member, value));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> GreaterThan(object value)
+        {
+            _valueTokens.Add(new ValueGreaterThanToken(_member, value));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> GreaterThanOrEqual(object value)
+        {
+            _valueTokens.Add(new ValueGreaterThanOrEqualToken(_member, value));
+            return this;
+        }
+
         public ILeoValueRuleBuilder<T> Func(Func<object, CustomVerifyResult> func)
         {
             _valueTokens.Add(new ValueFuncToken(_member, func));
@@ -534,6 +582,30 @@ namespace NMS.Leo.Typed.Core.Correct
         public ILeoValueRuleBuilder<T, TVal> NotEqual(TVal value, IEqualityComparer<TVal> comparer)
         {
             _valueTokens.Add(new ValueNotEqualToken<TVal>(_member, value, comparer));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T, TVal> LessThan(TVal value)
+        {
+            _valueTokens.Add(new ValueLessThanToken<TVal>(_member, value));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T, TVal> LessThanOrEqual(TVal value)
+        {
+            _valueTokens.Add(new ValueLessThanOrEqualToken<TVal>(_member, value));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T, TVal> GreaterThan(TVal value)
+        {
+            _valueTokens.Add(new ValueGreaterThanToken<TVal>(_member, value));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T, TVal> GreaterThanOrEqual(TVal value)
+        {
+            _valueTokens.Add(new ValueGreaterThanOrEqualToken<TVal>(_member, value));
             return this;
         }
 
