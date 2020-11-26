@@ -30,11 +30,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Core\Builder\CallerManagement.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="NMS.DynamicCache" Version="1.4.4.1" />
+    <PackageReference Include="NMS.DynamicDictionary" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
