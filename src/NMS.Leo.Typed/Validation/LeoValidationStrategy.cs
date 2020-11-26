@@ -40,7 +40,7 @@ namespace NMS.Leo.Typed.Validation
                 var builder = _memberValueRuleBuilders.FirstOrDefault(b => b.Name == name);
                 if (builder is null)
                 {
-                    builder = new CorrectValueRuleBuilder(_handler.GetMember(name),_handler.GetInstanceObject() ,() => _handler.GetValueObject(name));
+                    builder = new CorrectValueRuleBuilder(_handler.GetMember(name), () => _handler.GetInstanceObject(), () => _handler.GetValueObject(name));
                     _memberValueRuleBuilders.Add(builder);
                 }
 
@@ -94,7 +94,7 @@ namespace NMS.Leo.Typed.Validation
                 var builder = _memberValueRuleBuilders.FirstOrDefault(b => b.Name == name);
                 if (builder is null)
                 {
-                    builder = new CorrectValueRuleBuilder<T>(_handler.GetMember(name),_handler.GetInstanceObject().As<T>(), () => _handler.GetValueObject(name));
+                    builder = new CorrectValueRuleBuilder<T>(_handler.GetMember(name), () => _handler.GetInstanceObject().As<T>(), () => _handler.GetValueObject(name));
                     _memberValueRuleBuilders.Add(builder);
                 }
 
@@ -127,7 +127,7 @@ namespace NMS.Leo.Typed.Validation
                 var builder = _memberValueRuleBuilders.FirstOrDefault(b => b.Name == name);
                 if (builder is null)
                 {
-                    builder = new CorrectValueRuleBuilder<T, TVal>(_handler.GetMember(name),_handler.GetInstanceObject().As<T>(), () => _handler.GetValue<TVal>(name));
+                    builder = new CorrectValueRuleBuilder<T, TVal>(_handler.GetMember(name), () => _handler.GetInstanceObject().As<T>(), () => _handler.GetValue<TVal>(name));
                     _memberValueRuleBuilders.Add(builder);
                 }
 

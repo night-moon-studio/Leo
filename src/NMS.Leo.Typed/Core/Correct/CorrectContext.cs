@@ -53,7 +53,7 @@ namespace NMS.Leo.Typed.Core.Correct
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
             var handler = _visitor.ExposeLazyMemberHandler().Value;
-            var builder = new CorrectValueRuleBuilder(handler.GetMember(name), handler.GetInstanceObject(), () => handler.GetValueObject(name));
+            var builder = new CorrectValueRuleBuilder(handler.GetMember(name), () => handler.GetInstanceObject(), () => handler.GetValueObject(name));
             var rule = ((CorrectValueRuleBuilder) func(builder)).Build();
             AddOrUpdateValueRule(rule);
             return this;
@@ -190,7 +190,7 @@ namespace NMS.Leo.Typed.Core.Correct
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
             var handler = _visitor.ExposeLazyMemberHandler().Value;
-            var builder = new CorrectValueRuleBuilder<T>(handler.GetMember(name), handler.GetInstanceObject().As<T>(), () => handler.GetValueObject(name));
+            var builder = new CorrectValueRuleBuilder<T>(handler.GetMember(name), () => handler.GetInstanceObject().As<T>(), () => handler.GetValueObject(name));
             var rule = ((CorrectValueRuleBuilder<T>) func(builder)).Build();
             AddOrUpdateValueRule(rule);
             return this;
@@ -216,7 +216,7 @@ namespace NMS.Leo.Typed.Core.Correct
                 throw new ArgumentNullException(nameof(expression));
             var name = PropertySelector.GetPropertyName(expression);
             var handler = _visitor.ExposeLazyMemberHandler().Value;
-            var builder = new CorrectValueRuleBuilder<T, TVal>(handler.GetMember(name), handler.GetInstanceObject().As<T>(), () => handler.GetValue<TVal>(name));
+            var builder = new CorrectValueRuleBuilder<T, TVal>(handler.GetMember(name), () => handler.GetInstanceObject().As<T>(), () => handler.GetValue<TVal>(name));
             var rule = ((CorrectValueRuleBuilder<T, TVal>) func(builder)).Build();
             AddOrUpdateValueRule(rule);
             return this;

@@ -36,9 +36,11 @@ namespace NMS.Leo.Typed.Core.Correct
 
         #region Corresponding Metadata
 
-        private readonly object _correspondingInstance;
+        private readonly Func<object> _correspondingInstanceFunc;
         private readonly Func<object> _correspondingValueFunc;
 
+        private object _correspondingInstanceCache;
+        private bool _correspondingInstanceCached;
         private object _correspondingValueCache;
         private bool _correspondingValueCached;
 
@@ -56,15 +58,27 @@ namespace NMS.Leo.Typed.Core.Correct
             }
         }
 
-        internal object CorrespondingInstance => _correspondingInstance;
+        internal object CorrespondingInstance
+        {
+            get
+            {
+                if (!_correspondingInstanceCached)
+                {
+                    _correspondingInstanceCache = _correspondingInstanceFunc();
+                    _correspondingInstanceCached = true;
+                }
+
+                return _correspondingInstanceCache;
+            }
+        }
 
         #endregion
 
-        public CorrectValueRuleBuilder(LeoMember member, object correspondingInstance, Func<object> correspondingValueFunc)
+        public CorrectValueRuleBuilder(LeoMember member, Func<object> correspondingInstanceFunc, Func<object> correspondingValueFunc)
         {
             _member = member;
             _valueTokens = new List<IValueToken>();
-            _correspondingInstance = correspondingInstance;
+            _correspondingInstanceFunc = correspondingInstanceFunc;
             _correspondingValueFunc = correspondingValueFunc;
         }
 
@@ -493,9 +507,11 @@ namespace NMS.Leo.Typed.Core.Correct
 
         #region Corresponding Metadata
 
-        private readonly T _correspondingInstance;
+        private readonly Func<T> _correspondingInstanceFunc;
         private readonly Func<object> _correspondingValueFunc;
 
+        private T _correspondingInstanceCache;
+        private bool _correspondingInstanceCached;
         private object _correspondingValueCache;
         private bool _correspondingValueCached;
 
@@ -513,15 +529,27 @@ namespace NMS.Leo.Typed.Core.Correct
             }
         }
 
-        internal virtual T CorrespondingInstance => _correspondingInstance;
+        internal virtual T CorrespondingInstance
+        {
+            get
+            {
+                if (!_correspondingInstanceCached)
+                {
+                    _correspondingInstanceCache = _correspondingInstanceFunc();
+                    _correspondingInstanceCached = true;
+                }
+
+                return _correspondingInstanceCache;
+            }
+        }
 
         #endregion
 
-        public CorrectValueRuleBuilder(LeoMember member, T correspondingInstance, Func<object> correspondingValueFunc)
+        public CorrectValueRuleBuilder(LeoMember member, Func<T> correspondingInstanceFunc, Func<object> correspondingValueFunc)
         {
             _member = member;
             _valueTokens = new List<IValueToken>();
-            _correspondingInstance = correspondingInstance;
+            _correspondingInstanceFunc = correspondingInstanceFunc;
             _correspondingValueFunc = correspondingValueFunc;
         }
 
@@ -948,8 +976,8 @@ namespace NMS.Leo.Typed.Core.Correct
 
         #endregion
 
-        public CorrectValueRuleBuilder(LeoMember member, T correspondingInstance, Func<TVal> correspondingValueFunc)
-            : base(member, correspondingInstance, () => correspondingValueFunc())
+        public CorrectValueRuleBuilder(LeoMember member, Func<T> correspondingInstanceFunc, Func<TVal> correspondingValueFunc)
+            : base(member, correspondingInstanceFunc, () => correspondingValueFunc())
         {
             _correspondingValueFunc = correspondingValueFunc;
         }
