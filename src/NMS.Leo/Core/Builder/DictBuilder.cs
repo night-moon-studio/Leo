@@ -126,10 +126,10 @@ namespace NMS.Leo.Builder
             switch (kind)
             {
                 case AlgorithmKind.Fuzzy:
-                    setObjectBody = BTFTemplate.GetFuzzyPointBTFScript(setByObjectCache, "name");
-                    getObjectBody = BTFTemplate.GetFuzzyPointBTFScript(getByObjectCache, "name");
-                    getStrongTypeBody = BTFTemplate.GetFuzzyPointBTFScript(getByStrongTypeCache, "name");
-                    getLeoMemberBody = BTFTemplate.GetFuzzyPointBTFScript(getByLeoMembersScriptCache, "name");
+                    setObjectBody = BTFTemplate.GetGroupFuzzyPointBTFScript(setByObjectCache, "name");
+                    getObjectBody = BTFTemplate.GetGroupFuzzyPointBTFScript(getByObjectCache, "name");
+                    getStrongTypeBody = BTFTemplate.GetGroupFuzzyPointBTFScript(getByStrongTypeCache, "name");
+                    getLeoMemberBody = BTFTemplate.GetGroupFuzzyPointBTFScript(getByLeoMembersScriptCache, "name");
                     break;
                 case AlgorithmKind.Hash:
                     setObjectBody = BTFTemplate.GetHashBTFScript(setByObjectCache, "name");

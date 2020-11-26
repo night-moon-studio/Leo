@@ -101,11 +101,11 @@ namespace BenchmarkTest
         //{
         //    HashDict.Set("Name", "Hello");
         //}
-        //[BenchmarkCategory("Write", "String"), Benchmark(Description = "FuzzyDict")]
-        //public void FuzzyDictSetStringTest()
-        //{
-        //    FuzzyDict.Set("Name", "Hello");
-        //}
+        [BenchmarkCategory("Write", "String"), Benchmark(Description = "FuzzyDict")]
+        public void FuzzyDictSetStringTest()
+        {
+            FuzzyDict.Set("Name", "Hello");
+        }
         //[BenchmarkCategory("Write", "String"), Benchmark(Description = "Link")]
         //public void LinkSetStringTest()
         //{
