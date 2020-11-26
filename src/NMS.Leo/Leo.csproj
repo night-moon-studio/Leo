@@ -30,6 +30,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!--<PackageReference Include="NMS.DynamicCache" Version="1.4.4.2" />-->
     <PackageReference Include="NMS.DynamicDictionary" Version="1.0.0" />
   </ItemGroup>
 
