@@ -50,6 +50,8 @@ namespace NCallerUT.Model
         public List<NiceAct> SomeNiceActList{ get; set; }
         
         public decimal Discount { get; set; }
+        
+        public Country Country { get; set; }
 
         public override int GetHashCode()
         {

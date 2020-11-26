@@ -38,5 +38,7 @@ namespace NMS.Leo.Typed.Core.Correct
         Type,
         Types,
         ScalePrecision,
+        Enum,
+        StringEnum,
     }
 }

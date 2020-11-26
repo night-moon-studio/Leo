@@ -229,6 +229,30 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
+        public ILeoValueRuleBuilder InEnum(Type enumType)
+        {
+            _valueTokens.Add(new ValueEnumToken(_member, enumType));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder InEnum<TEnum>()
+        {
+            _valueTokens.Add(new ValueEnumToken<TEnum>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder IsEnumName(Type enumType, bool caseSensitive)
+        {
+            _valueTokens.Add(new ValueStringEnumToken(_member, enumType, caseSensitive));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder IsEnumName<TEnum>(bool caseSensitive)
+        {
+            _valueTokens.Add(new ValueStringEnumToken<TEnum>(_member, caseSensitive));
+            return this;
+        }
+
         public ILeoValueRuleBuilder ScalePrecision(int scale, int precision, bool ignoreTrailingZeros = false)
         {
             _valueTokens.Add(new ValueScalePrecisionToken(_member, scale, precision, ignoreTrailingZeros));
@@ -576,6 +600,30 @@ namespace NMS.Leo.Typed.Core.Correct
             return this;
         }
 
+        public ILeoValueRuleBuilder<T> InEnum(Type enumType)
+        {
+            _valueTokens.Add(new ValueEnumToken(_member, enumType));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> InEnum<TEnum>()
+        {
+            _valueTokens.Add(new ValueEnumToken<TEnum>(_member));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> IsEnumName(Type enumType, bool caseSensitive)
+        {
+            _valueTokens.Add(new ValueStringEnumToken(_member, enumType, caseSensitive));
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> IsEnumName<TEnum>(bool caseSensitive)
+        {
+            _valueTokens.Add(new ValueStringEnumToken<TEnum>(_member, caseSensitive));
+            return this;
+        }
+
         public ILeoValueRuleBuilder<T> ScalePrecision(int scale, int precision, bool ignoreTrailingZeros = false)
         {
             _valueTokens.Add(new ValueScalePrecisionToken(_member, scale, precision, ignoreTrailingZeros));
@@ -885,6 +933,30 @@ namespace NMS.Leo.Typed.Core.Correct
         public ILeoValueRuleBuilder<T, TVal> NotIn(params TVal[] objects)
         {
             _valueTokens.Add(new ValueInToken<TVal>(_member, objects));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> InEnum(Type enumType)
+        {
+            _valueTokens.Add(new ValueEnumToken(_member, enumType));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> InEnum<TEnum>()
+        {
+            _valueTokens.Add(new ValueEnumToken<TEnum>(_member));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> IsEnumName(Type enumType, bool caseSensitive)
+        {
+            _valueTokens.Add(new ValueStringEnumToken(_member, enumType, caseSensitive));
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> IsEnumName<TEnum>(bool caseSensitive)
+        {
+            _valueTokens.Add(new ValueStringEnumToken<TEnum>(_member, caseSensitive));
             return this;
         }
 

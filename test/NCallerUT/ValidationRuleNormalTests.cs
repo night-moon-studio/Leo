@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NCallerUT.Model;
 using NMS.Leo.Typed;
+using NMS.Leo.Typed.Validation;
 using Xunit;
 
 namespace NCallerUT
@@ -1411,6 +1413,381 @@ namespace NCallerUT
             v.SetValue("Discount", 15.0000000000000000000000001M);
             r = v.Verify();
             Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "Enum Token basic test")]
+        public void EnumValidTest()
+        {
+            var n1 = new NiceAct2() {Country = Country.China};
+            var n2 = new NiceAct2() {Country = (Country) 1};
+
+            var v1 = LeoVisitorFactory.Create(Type, n1);
+            var v2 = LeoVisitorFactory.Create(Type, n2);
+
+            v1.ValidationEntry.ForMember("Country", x => x.InEnum(typeof(Country)));
+            v2.ValidationEntry.ForMember("Country", x => x.InEnum(typeof(Country)));
+
+            var r1 = v1.Verify();
+            var r2 = v2.Verify();
+            Assert.True(r1.IsValid);
+            Assert.True(r2.IsValid);
+
+            v1.ValidationEntry.ForMember("Country", c => c.InEnum<Country>().OverwriteRule());
+            v2.ValidationEntry.ForMember("Country", c => c.InEnum<Country>().OverwriteRule());
+
+            r1 = v1.Verify();
+            r2 = v2.Verify();
+            Assert.True(r1.IsValid);
+            Assert.True(r2.IsValid);
+        }
+
+        [Fact(DisplayName = "Enum Token with non-init enum value should not be valid")]
+        public void EnumWithValidValueAndWithoutInitThenShouldBeFailTest()
+        {
+            var v = LeoVisitorFactory.Create(typeof(NiceAct2));
+
+            v.ValidationEntry.ForMember("Country", x => x.InEnum(typeof(Country)));
+
+            var r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("Country", c => c.InEnum<Country>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "Enum Token with invalid value should not be valid")]
+        public void EnumWithInvalidValueThenShouldBeFailTest()
+        {
+            var v = LeoVisitorFactory.Create(typeof(NiceAct2));
+            v["Country"] = (Country) 100;
+
+            v.ValidationEntry.ForMember("Country", x => x.InEnum(typeof(Country)));
+
+            var r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("Country", c => c.InEnum<Country>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "Enum Token with nullable value without init should not valid")]
+        public void EnumWithNullableTypeAndWithoutInitTest()
+        {
+            var v = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3());
+            v.ValidationEntry.ForMember("Country", c => c.InEnum(typeof(Country)));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.ValidationEntry.ForMember("Country", c => c.InEnum<Country>().OverwriteRule());
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+        }
+
+        [Fact(DisplayName = "Enum Token with nullable value with init should not valid")]
+        public void EnumWithNullableTypeAndWithInitTest()
+        {
+            var v1 = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3() {Country = Country.China});
+            var v2 = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3() {Country = (Country) 1});
+
+            v1.ValidationEntry.ForMember("Country", c => c.InEnum(typeof(Country)));
+            v2.ValidationEntry.ForMember("Country", c => c.InEnum(typeof(Country)));
+
+            var r1 = v1.Verify();
+            var r2 = v2.Verify();
+            Assert.True(r1.IsValid);
+            Assert.True(r2.IsValid);
+
+            v1.ValidationEntry.ForMember("Country", c => c.InEnum<Country>().OverwriteRule());
+            v2.ValidationEntry.ForMember("Country", c => c.InEnum<Country>().OverwriteRule());
+
+            r1 = v1.Verify();
+            r2 = v2.Verify();
+            Assert.True(r1.IsValid);
+            Assert.True(r2.IsValid);
+        }
+
+        [Fact(DisplayName = "Enum Token with flag value when using bitwise value should valid")]
+        public void FlagEnumWhenUsingBitwiseValueTest()
+        {
+            var m = new FlagsEnumModel();
+            m.PopulateWithValidValues();
+
+            var v = LeoVisitorFactory.Create(typeof(FlagsEnumModel), m);
+
+            v.ValidationEntry
+             .ForMember("SByteValue", c => c.InEnum(typeof(SByteEnum)))
+             .ForMember("ByteValue", c => c.InEnum(typeof(ByteEnum)))
+             .ForMember("Int16Value", c => c.InEnum(typeof(Int16Enum)))
+             .ForMember("Int32Value", c => c.InEnum(typeof(Int32Enum)))
+             .ForMember("Int64Value", c => c.InEnum(typeof(Int64Enum)))
+             .ForMember("UInt16Value", c => c.InEnum(typeof(UInt16Enum)))
+             .ForMember("UInt32Value", c => c.InEnum(typeof(UInt32Enum)))
+             .ForMember("UInt64Value", c => c.InEnum(typeof(UInt64Enum)))
+             .ForMember("EnumWithNegativesValue", c => c.InEnum(typeof(EnumWithNegatives)))
+             .ForMember("EnumWithOverlappingFlagsValue", c => c.InEnum(typeof(EnumWithOverlappingFlags)));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v.SetValue("EnumWithNegativesValue", EnumWithNegatives.All);
+
+            r = v.Verify();
+            Assert.True(r.IsValid);
+        }
+
+        [Fact(DisplayName = "Enum Token with flag value and OverlappingFlags when using bitwise value should valid")]
+        public void FlagEnumWhenUsingBitwiseValueWithOverlappingFlagsTest()
+        {
+            var m = new FlagsEnumModel();
+            var v = LeoVisitorFactory.Create(typeof(FlagsEnumModel), m);
+            v.ValidationEntry.ForMember("EnumWithOverlappingFlagsValue", c => c.InEnum(typeof(EnumWithOverlappingFlags)));
+
+            LeoVerifyResult r = null;
+
+            v["EnumWithOverlappingFlagsValue"] = EnumWithOverlappingFlags.A | EnumWithOverlappingFlags.B;
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v["EnumWithOverlappingFlagsValue"] = EnumWithOverlappingFlags.B | EnumWithOverlappingFlags.C;
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v["EnumWithOverlappingFlagsValue"] = EnumWithOverlappingFlags.A | EnumWithOverlappingFlags.C;
+            r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v["EnumWithOverlappingFlagsValue"] = EnumWithOverlappingFlags.A | EnumWithOverlappingFlags.B | EnumWithOverlappingFlags.C;
+            r = v.Verify();
+            Assert.True(r.IsValid);
+        }
+
+        [Fact(DisplayName = "Enum Token with flag value when using zero value")]
+        public void FlagEnumWhenUsingZeroValueTest()
+        {
+            var m = new FlagsEnumModel();
+            var v = LeoVisitorFactory.Create(typeof(FlagsEnumModel), m);
+
+            v.ValidationEntry
+             .ForMember("SByteValue", c => c.InEnum(typeof(SByteEnum)))
+             .ForMember("ByteValue", c => c.InEnum(typeof(ByteEnum)))
+             .ForMember("Int16Value", c => c.InEnum(typeof(Int16Enum)))
+             .ForMember("Int32Value", c => c.InEnum(typeof(Int32Enum)))
+             .ForMember("Int64Value", c => c.InEnum(typeof(Int64Enum)))
+             .ForMember("UInt16Value", c => c.InEnum(typeof(UInt16Enum)))
+             .ForMember("UInt32Value", c => c.InEnum(typeof(UInt32Enum)))
+             .ForMember("UInt64Value", c => c.InEnum(typeof(UInt64Enum)))
+             .ForMember("EnumWithNegativesValue", c => c.InEnum(typeof(EnumWithNegatives)))
+             .ForMember("EnumWithOverlappingFlagsValue", c => c.InEnum(typeof(EnumWithOverlappingFlags)));
+
+            var r = v.Verify();
+            Assert.False(r.IsValid);
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "EnumWithNegativesValue"));
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "EnumWithOverlappingFlagsValue"));
+            Assert.Equal(2, r.Errors.Count);
+        }
+
+        [Fact(DisplayName = "Enum Token with flag value when using positive value")]
+        public void FlagEnumWhenUsingOutOfRangePositiveValueTest()
+        {
+            var m = new FlagsEnumModel();
+            m.PopulateWithInvalidPositiveValues();
+            var v = LeoVisitorFactory.Create(typeof(FlagsEnumModel), m);
+
+            v.ValidationEntry
+             .ForMember("SByteValue", c => c.InEnum(typeof(SByteEnum)))
+             .ForMember("ByteValue", c => c.InEnum(typeof(ByteEnum)))
+             .ForMember("Int16Value", c => c.InEnum(typeof(Int16Enum)))
+             .ForMember("Int32Value", c => c.InEnum(typeof(Int32Enum)))
+             .ForMember("Int64Value", c => c.InEnum(typeof(Int64Enum)))
+             .ForMember("UInt16Value", c => c.InEnum(typeof(UInt16Enum)))
+             .ForMember("UInt32Value", c => c.InEnum(typeof(UInt32Enum)))
+             .ForMember("UInt64Value", c => c.InEnum(typeof(UInt64Enum)))
+             .ForMember("EnumWithNegativesValue", c => c.InEnum(typeof(EnumWithNegatives)))
+             .ForMember("EnumWithOverlappingFlagsValue", c => c.InEnum(typeof(EnumWithOverlappingFlags)));
+
+            var r = v.Verify();
+            Assert.False(r.IsValid);
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "SByteValue"));
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "ByteValue"));
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "Int16Value"));
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "Int32Value"));
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "Int64Value"));
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "UInt16Value"));
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "UInt32Value"));
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "UInt64Value"));
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "EnumWithNegativesValue"));
+        }
+
+        [Fact(DisplayName = "Enum Token with flag value when using negative value")]
+        public void FlagEnumWhenUsingOutOfRangeNegativeValueTest()
+        {
+            var m = new FlagsEnumModel();
+            m.PopulateWithInvalidNegativeValues();
+            var v = LeoVisitorFactory.Create(typeof(FlagsEnumModel), m);
+
+            v.ValidationEntry
+             .ForMember("SByteValue", c => c.InEnum(typeof(SByteEnum)))
+             .ForMember("ByteValue", c => c.InEnum(typeof(ByteEnum)))
+             .ForMember("Int16Value", c => c.InEnum(typeof(Int16Enum)))
+             .ForMember("Int32Value", c => c.InEnum(typeof(Int32Enum)))
+             .ForMember("Int64Value", c => c.InEnum(typeof(Int64Enum)))
+             .ForMember("UInt16Value", c => c.InEnum(typeof(UInt16Enum)))
+             .ForMember("UInt32Value", c => c.InEnum(typeof(UInt32Enum)))
+             .ForMember("UInt64Value", c => c.InEnum(typeof(UInt64Enum)))
+             .ForMember("EnumWithNegativesValue", c => c.InEnum(typeof(EnumWithNegatives)))
+             .ForMember("EnumWithOverlappingFlagsValue", c => c.InEnum(typeof(EnumWithOverlappingFlags)));
+
+            var r = v.Verify();
+            Assert.False(r.IsValid);
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "SByteValue"));
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "Int16Value"));
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "Int32Value"));
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "Int64Value"));
+        }
+
+        [Fact(DisplayName = "StringEnum Token with CaseInsensitive and CaseCorrect")]
+        public void StringEnumCaseInsensitiveAndCaseCorrectTest()
+        {
+            var v1 = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3() {CountryString = "China"});
+            var v2 = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3() {CountryString = "USA"});
+
+            v1.ValidationEntry.ForMember("CountryString", c => c.IsEnumName(typeof(Country), false));
+            v2.ValidationEntry.ForMember("CountryString", c => c.IsEnumName(typeof(Country), false));
+
+            var r1 = v1.Verify();
+            var r2 = v2.Verify();
+
+            Assert.True(r1.IsValid);
+            Assert.True(r2.IsValid);
+
+            v1.ValidationEntry.ForMember("CountryString", c => c.IsEnumName<Country>(false).OverwriteRule());
+            v2.ValidationEntry.ForMember("CountryString", c => c.IsEnumName<Country>(false).OverwriteRule());
+
+            r1 = v1.Verify();
+            r2 = v2.Verify();
+
+            Assert.True(r1.IsValid);
+            Assert.True(r2.IsValid);
+        }
+
+        [Fact(DisplayName = "StringEnum Token with CaseInsensitive and CaseIncorrect")]
+        public void StringEnumCaseInsensitiveAndCaseIncorrectTest()
+        {
+            var v1 = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3() {CountryString = "chinA"});
+            var v2 = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3() {CountryString = "usa"});
+
+            v1.ValidationEntry.ForMember("CountryString", c => c.IsEnumName(typeof(Country), false));
+            v2.ValidationEntry.ForMember("CountryString", c => c.IsEnumName(typeof(Country), false));
+
+            var r1 = v1.Verify();
+            var r2 = v2.Verify();
+
+            Assert.True(r1.IsValid);
+            Assert.True(r2.IsValid);
+
+            v1.ValidationEntry.ForMember("CountryString", c => c.IsEnumName<Country>(false).OverwriteRule());
+            v2.ValidationEntry.ForMember("CountryString", c => c.IsEnumName<Country>(false).OverwriteRule());
+
+            r1 = v1.Verify();
+            r2 = v2.Verify();
+
+            Assert.True(r1.IsValid);
+            Assert.True(r2.IsValid);
+        }
+
+        [Fact(DisplayName = "StringEnum Token with CaseSensitive and CaseCorrect")]
+        public void StringEnumCaseSensitiveAndCaseCorrectTest()
+        {
+            var v1 = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3() {CountryString = "China"});
+            var v2 = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3() {CountryString = "USA"});
+
+            v1.ValidationEntry.ForMember("CountryString", c => c.IsEnumName(typeof(Country), true));
+            v2.ValidationEntry.ForMember("CountryString", c => c.IsEnumName(typeof(Country), true));
+
+            var r1 = v1.Verify();
+            var r2 = v2.Verify();
+
+            Assert.True(r1.IsValid);
+            Assert.True(r2.IsValid);
+
+            v1.ValidationEntry.ForMember("CountryString", c => c.IsEnumName<Country>(true).OverwriteRule());
+            v2.ValidationEntry.ForMember("CountryString", c => c.IsEnumName<Country>(true).OverwriteRule());
+
+            r1 = v1.Verify();
+            r2 = v2.Verify();
+
+            Assert.True(r1.IsValid);
+            Assert.True(r2.IsValid);
+        }
+
+        [Fact(DisplayName = "StringEnum Token with CaseSensitive and CaseIncorrect")]
+        public void StringEnumCaseSensitiveAndCaseIncorrectTest()
+        {
+            var v1 = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3() {CountryString = "chinA"});
+            var v2 = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3() {CountryString = "uSA"});
+
+            v1.ValidationEntry.ForMember("CountryString", c => c.IsEnumName(typeof(Country), true));
+            v2.ValidationEntry.ForMember("CountryString", c => c.IsEnumName(typeof(Country), true));
+
+            var r1 = v1.Verify();
+            var r2 = v2.Verify();
+
+            Assert.False(r1.IsValid);
+            Assert.False(r2.IsValid);
+
+            v1.ValidationEntry.ForMember("CountryString", c => c.IsEnumName<Country>(true).OverwriteRule());
+            v2.ValidationEntry.ForMember("CountryString", c => c.IsEnumName<Country>(true).OverwriteRule());
+
+            r1 = v1.Verify();
+            r2 = v2.Verify();
+
+            Assert.False(r1.IsValid);
+            Assert.False(r2.IsValid);
+        }
+
+        [Fact(DisplayName = "StringEnum Token with wrong value")]
+        public void StringEnumWithWrongValueTest()
+        {
+            var v = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3() {CountryString = "VVVV"});
+            v.ValidationEntry.ForMember("CountryString", c => c.IsEnumName(typeof(Country), true));
+            var r = v.Verify();
+            Assert.False(r.IsValid);
+        }
+
+        [Fact(DisplayName = "StringEnum Token with empty value")]
+        public void StringEnumWithEmptyValueTest()
+        {
+            var v = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3() {CountryString = string.Empty});
+            v.ValidationEntry.ForMember("CountryString", c => c.IsEnumName(typeof(Country), true));
+            var r = v.Verify();
+            Assert.False(r.IsValid);
+            Assert.Throws<LeoValidationException>(() => r.Raise());
+        }
+
+        [Fact(DisplayName = "StringEnum Token with null value")]
+        public void StringEnumWithNullValueTest()
+        {
+            var v = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3() {CountryString = null});
+            v.ValidationEntry.ForMember("CountryString", c => c.IsEnumName(typeof(Country), true));
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+        }
+
+        [Fact(DisplayName = "StringEnum Token with null strategy")]
+        public void StringEnumWithNullStrategyTest()
+        {
+            var v = LeoVisitorFactory.Create(typeof(NiceAct3), new NiceAct3() {CountryString = null});
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                v.ValidationEntry.ForMember("CountryString", c => c.IsEnumName(null, true));
+                v.VerifyAndThrow();
+            });
         }
     }
 }
