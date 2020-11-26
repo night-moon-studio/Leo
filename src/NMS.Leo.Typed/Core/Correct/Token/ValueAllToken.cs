@@ -54,7 +54,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         {
             val.IsSuccess = false;
             val.VerifiedValue = obj;
-            val.ErrorMessage = message ?? "There is at least one unsatisfied member in the array or collection.";
+            val.ErrorMessage = MergeMessage(message ?? "There is at least one unsatisfied member in the array or collection.");
         }
 
         public override string ToString() => NAME;

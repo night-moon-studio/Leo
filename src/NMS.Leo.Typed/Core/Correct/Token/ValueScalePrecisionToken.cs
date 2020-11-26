@@ -134,7 +134,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         {
             val.IsSuccess = false;
             val.VerifiedValue = obj;
-            val.ErrorMessage = $"The given value must not be more than {Precision} digits in total, with allowance for {Scale} decimals. {actualIntegerDigits} digits and {actualScale} decimals were found.";
+            val.ErrorMessage = MergeMessage($"The given value must not be more than {Precision} digits in total, with allowance for {Scale} decimals. {actualIntegerDigits} digits and {actualScale} decimals were found.");
         }
 
         public override string ToString() => NAME;

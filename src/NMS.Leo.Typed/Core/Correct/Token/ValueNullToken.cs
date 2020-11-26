@@ -35,7 +35,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         {
             val.IsSuccess = false;
             val.VerifiedValue = obj;
-            val.ErrorMessage = "The value is must be null.";
+            val.ErrorMessage = MergeMessage("The value is must be null.");
         }
 
         public override string ToString() => NAME;

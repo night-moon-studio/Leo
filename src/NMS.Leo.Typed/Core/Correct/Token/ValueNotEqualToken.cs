@@ -62,7 +62,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         {
             val.IsSuccess = false;
             val.VerifiedValue = obj;
-            val.ErrorMessage = $"The values must not be equal. The current value type is: {Member.MemberType.GetDevelopName()}.";
+            val.ErrorMessage = MergeMessage($"The values must not be equal. The current value type is: {Member.MemberType.GetDevelopName()}.");
         }
 
         public override string ToString() => NAME;

@@ -39,7 +39,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         {
             val.IsSuccess = false;
             val.VerifiedValue = obj;
-            val.ErrorMessage = "The value is not contained in the given value array or collection.";
+            val.ErrorMessage = MergeMessage("The value is not contained in the given value array or collection.");
         }
 
         public override string ToString() => NAME;

@@ -27,6 +27,29 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         public abstract CorrectVerifyVal ValidValue(object value);
 
         protected LeoMember Member => __metadata_LeoMember;
+
+        public string CustomMessage { get; set; }
+
+        public bool WithMessageMode { get; set; }
+
+        /// <summary>
+        /// If WithMessage is true, this AppendOrOverwrite takes effect. <br />
+        /// true - Append <br />
+        /// false - Overwrite
+        /// </summary>
+        public bool AppendOrOverwrite { get; set; }
+
+        protected string MergeMessage(string messageSinceToken)
+        {
+            if (WithMessageMode)
+            {
+                return AppendOrOverwrite
+                    ? $"{messageSinceToken} {CustomMessage}"
+                    : CustomMessage;
+            }
+
+            return messageSinceToken;
+        }
     }
 
     internal abstract class ValueToken<TVal> : ValueToken, IValueToken<TVal>

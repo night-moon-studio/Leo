@@ -69,7 +69,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         {
             val.IsSuccess = false;
             val.VerifiedValue = obj;
-            val.ErrorMessage = message ?? $"The given value is not in the valid range. The current value is: {obj}, and the valid range is from {_from} to {_to}.";
+            val.ErrorMessage = MergeMessage(message ?? $"The given value is not in the valid range. The current value is: {obj}, and the valid range is from {_from} to {_to}.");
         }
 
         public override string ToString() => NAME;

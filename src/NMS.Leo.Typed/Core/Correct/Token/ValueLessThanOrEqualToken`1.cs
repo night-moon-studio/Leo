@@ -67,7 +67,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         {
             val.IsSuccess = false;
             val.VerifiedValue = obj;
-            val.ErrorMessage = message ?? $"The given value must be less than or equal to {_valueToCompare}.";
+            val.ErrorMessage = MergeMessage(message ?? $"The given value must be less than or equal to {_valueToCompare}.");
         }
 
         public override string ToString() => NAME;

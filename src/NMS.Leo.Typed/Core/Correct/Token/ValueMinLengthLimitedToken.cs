@@ -60,7 +60,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         {
             val.IsSuccess = false;
             val.VerifiedValue = obj;
-            val.ErrorMessage = $"The array length should be greater than {_minLength}, and the current length is {currentLength}.";
+            val.ErrorMessage = MergeMessage($"The array length should be greater than {_minLength}, and the current length is {currentLength}.");
         }
 
         public override string ToString()

@@ -109,7 +109,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         {
             val.IsSuccess = false;
             val.VerifiedValue = obj;
-            val.ErrorMessage = message ?? $"'{Member.MemberName}' has a range of values which does not include '{obj}'.";
+            val.ErrorMessage = MergeMessage(message ?? $"'{Member.MemberName}' has a range of values which does not include '{obj}'.");
         }
 
         public override string ToString() => NAME;

@@ -55,7 +55,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         {
             val.IsSuccess = false;
             val.VerifiedValue = obj;
-            val.ErrorMessage = $"The given type is not a derived class of {_type.GetDevelopName()} or its implementation. The current type is {Member.MemberType.GetDevelopName()}.";
+            val.ErrorMessage = MergeMessage($"The given type is not a derived class of {_type.GetDevelopName()} or its implementation. The current type is {Member.MemberType.GetDevelopName()}.");
         }
 
         public override string ToString() => NAME;

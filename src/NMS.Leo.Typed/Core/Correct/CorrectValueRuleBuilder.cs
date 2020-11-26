@@ -10,7 +10,28 @@ namespace NMS.Leo.Typed.Core.Correct
     internal class CorrectValueRuleBuilder : ILeoValueRuleBuilder
     {
         internal readonly LeoMember _member;
-        internal readonly List<IValueToken> _valueTokens;
+
+        private readonly List<IValueToken> _valueTokens;
+
+        private IValueToken _currentTokenPtr;
+
+        internal IValueToken CurrentToken
+        {
+            get => _currentTokenPtr;
+            set
+            {
+                if (value != null)
+                {
+                    _currentTokenPtr = value;
+                    _valueTokens.Add(value);
+                }
+            }
+        }
+
+        internal void ClearCurrentToken()
+        {
+            _currentTokenPtr = null;
+        }
 
         public CorrectValueRuleBuilder(LeoMember member)
         {
@@ -36,127 +57,127 @@ namespace NMS.Leo.Typed.Core.Correct
 
         public ILeoValueRuleBuilder Empty()
         {
-            _valueTokens.Add(new ValueEmptyToken(_member));
+            CurrentToken = new ValueEmptyToken(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder NotEmpty()
         {
-            _valueTokens.Add(new ValueNotEmptyToken(_member));
+            CurrentToken = new ValueNotEmptyToken(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder Required()
         {
-            _valueTokens.Add(new ValueNotEmptyToken(_member));
+            CurrentToken = new ValueNotEmptyToken(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder Null()
         {
-            _valueTokens.Add(new ValueNullToken(_member));
+            CurrentToken=new ValueNullToken(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder NotNull()
         {
-            _valueTokens.Add(new ValueNotNullToken(_member));
+            CurrentToken = new ValueNotNullToken(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder Length(int min, int max)
         {
-            _valueTokens.Add(new ValueLengthLimitedToken(_member, min, max));
+            CurrentToken = new ValueLengthLimitedToken(_member, min, max);
             return this;
         }
 
         public ILeoValueRuleBuilder Range(object from, object to, RangeOptions options = RangeOptions.OpenInterval)
         {
-            _valueTokens.Add(new ValueRangeToken(_member, from, to, options));
+            CurrentToken = new ValueRangeToken(_member, from, to, options);
             return this;
         }
 
         public ILeoValueRuleBuilder RangeWithOpenInterval(object from, object to)
         {
-            _valueTokens.Add(new ValueRangeToken(_member, from, to, RangeOptions.OpenInterval));
+            CurrentToken = new ValueRangeToken(_member, from, to, RangeOptions.OpenInterval);
             return this;
         }
 
         public ILeoValueRuleBuilder RangeWithCloseInterval(object from, object to)
         {
-            _valueTokens.Add(new ValueRangeToken(_member, from, to, RangeOptions.CloseInterval));
+            CurrentToken = new ValueRangeToken(_member, from, to, RangeOptions.CloseInterval);
             return this;
         }
 
         public ILeoValueRuleBuilder MinLength(int min)
         {
-            _valueTokens.Add(new ValueMinLengthLimitedToken(_member, min));
+            CurrentToken = new ValueMinLengthLimitedToken(_member, min);
             return this;
         }
 
         public ILeoValueRuleBuilder MaxLength(int max)
         {
-            _valueTokens.Add(new ValueMaxLengthLimitedToken(_member, max));
+            CurrentToken = new ValueMaxLengthLimitedToken(_member, max);
             return this;
         }
 
         public ILeoValueRuleBuilder AtLeast(int count)
         {
-            _valueTokens.Add(new ValueMinLengthLimitedToken(_member, count));
+            CurrentToken = new ValueMinLengthLimitedToken(_member, count);
             return this;
         }
 
         public ILeoValueRuleBuilder Equal(object value)
         {
-            _valueTokens.Add(new ValueEqualToken(_member, value, null));
+            CurrentToken = new ValueEqualToken(_member, value, null);
             return this;
         }
 
         public ILeoValueRuleBuilder Equal(object value, IEqualityComparer comparer)
         {
-            _valueTokens.Add(new ValueEqualToken(_member, value, comparer));
+            CurrentToken = new ValueEqualToken(_member, value, comparer);
             return this;
         }
 
         public ILeoValueRuleBuilder NotEqual(object value)
         {
-            _valueTokens.Add(new ValueNotEqualToken(_member, value, null));
+            CurrentToken = new ValueNotEqualToken(_member, value, null);
             return this;
         }
 
         public ILeoValueRuleBuilder NotEqual(object value, IEqualityComparer comparer)
         {
-            _valueTokens.Add(new ValueNotEqualToken(_member, value, comparer));
+            CurrentToken = new ValueNotEqualToken(_member, value, comparer);
             return this;
         }
 
         public ILeoValueRuleBuilder LessThan(object value)
         {
-            _valueTokens.Add(new ValueLessThanToken(_member, value));
+            CurrentToken = new ValueLessThanToken(_member, value);
             return this;
         }
 
         public ILeoValueRuleBuilder LessThanOrEqual(object value)
         {
-            _valueTokens.Add(new ValueLessThanOrEqualToken(_member, value));
+            CurrentToken = new ValueLessThanOrEqualToken(_member, value);
             return this;
         }
 
         public ILeoValueRuleBuilder GreaterThan(object value)
         {
-            _valueTokens.Add(new ValueGreaterThanToken(_member, value));
+            CurrentToken = new ValueGreaterThanToken(_member, value);
             return this;
         }
 
         public ILeoValueRuleBuilder GreaterThanOrEqual(object value)
         {
-            _valueTokens.Add(new ValueGreaterThanOrEqualToken(_member, value));
+            CurrentToken = new ValueGreaterThanOrEqualToken(_member, value);
             return this;
         }
 
         public ILeoValueRuleBuilder Func(Func<object, CustomVerifyResult> func)
         {
-            _valueTokens.Add(new ValueFuncToken(_member, func));
+            CurrentToken = new ValueFuncToken(_member, func);
             return this;
         }
 
@@ -172,7 +193,7 @@ namespace NMS.Leo.Typed.Core.Correct
 
         public ILeoValueRuleBuilder Must(Func<object, CustomVerifyResult> func)
         {
-            _valueTokens.Add(new ValueFuncToken(_member, func));
+            CurrentToken = new ValueFuncToken(_member, func);
             return this;
         }
 
@@ -183,192 +204,194 @@ namespace NMS.Leo.Typed.Core.Correct
 
         public ILeoValueRuleBuilder Any(Func<object, bool> func)
         {
-            _valueTokens.Add(new ValueAnyToken(_member, func));
+            CurrentToken = new ValueAnyToken(_member, func);
             return this;
         }
 
         public ILeoValueRuleBuilder All(Func<object, bool> func)
         {
-            _valueTokens.Add(new ValueAllToken(_member, func));
+            CurrentToken = new ValueAllToken(_member, func);
             return this;
         }
 
         public ILeoValueRuleBuilder NotAny(Func<object, bool> func)
         {
-            _valueTokens.Add(new ValueAllToken(_member, func));
+            CurrentToken = new ValueAllToken(_member, func);
             return this;
         }
 
         public ILeoValueRuleBuilder NotAll(Func<object, bool> func)
         {
-            _valueTokens.Add(new ValueAnyToken(_member, func));
+            CurrentToken = new ValueAnyToken(_member, func);
             return this;
         }
 
         public ILeoValueRuleBuilder In(ICollection<object> collection)
         {
-            _valueTokens.Add(new ValueInToken(_member, collection));
+            CurrentToken = new ValueInToken(_member, collection);
             return this;
         }
 
         public ILeoValueRuleBuilder In(params object[] objects)
         {
-            _valueTokens.Add(new ValueInToken(_member, objects));
+            CurrentToken = new ValueInToken(_member, objects);
             return this;
         }
 
         public ILeoValueRuleBuilder NotIn(ICollection<object> collection)
         {
-            _valueTokens.Add(new ValueNotInToken(_member, collection));
+            CurrentToken = new ValueNotInToken(_member, collection);
             return this;
         }
 
         public ILeoValueRuleBuilder NotIn(params object[] objects)
         {
-            _valueTokens.Add(new ValueNotInToken(_member, objects));
+            CurrentToken = new ValueNotInToken(_member, objects);
             return this;
         }
 
         public ILeoValueRuleBuilder InEnum(Type enumType)
         {
-            _valueTokens.Add(new ValueEnumToken(_member, enumType));
+            CurrentToken = new ValueEnumToken(_member, enumType);
             return this;
         }
 
         public ILeoValueRuleBuilder InEnum<TEnum>()
         {
-            _valueTokens.Add(new ValueEnumToken<TEnum>(_member));
+            CurrentToken = new ValueEnumToken<TEnum>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder IsEnumName(Type enumType, bool caseSensitive)
         {
-            _valueTokens.Add(new ValueStringEnumToken(_member, enumType, caseSensitive));
+            CurrentToken = new ValueStringEnumToken(_member, enumType, caseSensitive);
             return this;
         }
 
         public ILeoValueRuleBuilder IsEnumName<TEnum>(bool caseSensitive)
         {
-            _valueTokens.Add(new ValueStringEnumToken<TEnum>(_member, caseSensitive));
+            CurrentToken = new ValueStringEnumToken<TEnum>(_member, caseSensitive);
             return this;
         }
 
         public ILeoValueRuleBuilder ScalePrecision(int scale, int precision, bool ignoreTrailingZeros = false)
         {
-            _valueTokens.Add(new ValueScalePrecisionToken(_member, scale, precision, ignoreTrailingZeros));
+            CurrentToken = new ValueScalePrecisionToken(_member, scale, precision, ignoreTrailingZeros);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredType(Type type)
         {
-            _valueTokens.Add(new ValueRequiredTypeToken(_member, type));
+            CurrentToken = new ValueRequiredTypeToken(_member, type);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes(params Type[] types)
         {
-            _valueTokens.Add(new ValueRequiredTypesToken(_member, types));
+            CurrentToken = new ValueRequiredTypesToken(_member, types);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1>()
         {
-            _valueTokens.Add(new ValueRequiredTypeToken<T1>(_member));
+            CurrentToken = new ValueRequiredTypeToken<T1>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(_member);
             return this;
         }
 
         public CorrectValueRule Build()
         {
+            ClearCurrentToken();
+            
             return new CorrectValueRule
             {
                 Name = Name,
@@ -381,7 +404,27 @@ namespace NMS.Leo.Typed.Core.Correct
     internal class CorrectValueRuleBuilder<T> : ILeoValueRuleBuilder<T>
     {
         internal readonly LeoMember _member;
-        internal readonly List<IValueToken> _valueTokens;
+        protected readonly List<IValueToken> _valueTokens;
+
+        private IValueToken _currentTokenPtr;
+
+        internal IValueToken CurrentToken
+        {
+            get => _currentTokenPtr;
+            set
+            {
+                if (value != null)
+                {
+                    _currentTokenPtr = value;
+                    _valueTokens.Add(value);
+                }
+            }
+        }
+
+        internal void ClearCurrentToken()
+        {
+            _currentTokenPtr = null;
+        }
 
         public CorrectValueRuleBuilder(LeoMember member)
         {
@@ -407,127 +450,127 @@ namespace NMS.Leo.Typed.Core.Correct
 
         public ILeoValueRuleBuilder<T> Empty()
         {
-            _valueTokens.Add(new ValueEmptyToken(_member));
+            CurrentToken = new ValueEmptyToken(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> NotEmpty()
         {
-            _valueTokens.Add(new ValueNotEmptyToken(_member));
+            CurrentToken = new ValueNotEmptyToken(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> Required()
         {
-            _valueTokens.Add(new ValueNotEmptyToken(_member));
+            CurrentToken = new ValueNotEmptyToken(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> Null()
         {
-            _valueTokens.Add(new ValueNullToken(_member));
+            CurrentToken = new ValueNullToken(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> NotNull()
         {
-            _valueTokens.Add(new ValueNotNullToken(_member));
+            CurrentToken = new ValueNotNullToken(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> Range(object from, object to, RangeOptions options = RangeOptions.OpenInterval)
         {
-            _valueTokens.Add(new ValueRangeToken(_member, from, to, options));
+            CurrentToken = new ValueRangeToken(_member, from, to, options);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RangeWithOpenInterval(object from, object to)
         {
-            _valueTokens.Add(new ValueRangeToken(_member, from, to, RangeOptions.OpenInterval));
+            CurrentToken = new ValueRangeToken(_member, from, to, RangeOptions.OpenInterval);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RangeWithCloseInterval(object from, object to)
         {
-            _valueTokens.Add(new ValueRangeToken(_member, from, to, RangeOptions.CloseInterval));
+            CurrentToken = new ValueRangeToken(_member, from, to, RangeOptions.CloseInterval);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> Length(int min, int max)
         {
-            _valueTokens.Add(new ValueLengthLimitedToken(_member, min, max));
+            CurrentToken = new ValueLengthLimitedToken(_member, min, max);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> MinLength(int min)
         {
-            _valueTokens.Add(new ValueMinLengthLimitedToken(_member, min));
+            CurrentToken = new ValueMinLengthLimitedToken(_member, min);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> MaxLength(int max)
         {
-            _valueTokens.Add(new ValueMaxLengthLimitedToken(_member, max));
+            CurrentToken = new ValueMaxLengthLimitedToken(_member, max);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> AtLeast(int count)
         {
-            _valueTokens.Add(new ValueMinLengthLimitedToken(_member, count));
+            CurrentToken = new ValueMinLengthLimitedToken(_member, count);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> Equal(object value)
         {
-            _valueTokens.Add(new ValueEqualToken(_member, value, null));
+            CurrentToken = new ValueEqualToken(_member, value, null);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> Equal(object value, IEqualityComparer comparer)
         {
-            _valueTokens.Add(new ValueEqualToken(_member, value, comparer));
+            CurrentToken = new ValueEqualToken(_member, value, comparer);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> NotEqual(object value)
         {
-            _valueTokens.Add(new ValueNotEqualToken(_member, value, null));
+            CurrentToken = new ValueNotEqualToken(_member, value, null);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> NotEqual(object value, IEqualityComparer comparer)
         {
-            _valueTokens.Add(new ValueNotEqualToken(_member, value, comparer));
+            CurrentToken = new ValueNotEqualToken(_member, value, comparer);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> LessThan(object value)
         {
-            _valueTokens.Add(new ValueLessThanToken(_member, value));
+            CurrentToken = new ValueLessThanToken(_member, value);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> LessThanOrEqual(object value)
         {
-            _valueTokens.Add(new ValueLessThanOrEqualToken(_member, value));
+            CurrentToken = new ValueLessThanOrEqualToken(_member, value);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> GreaterThan(object value)
         {
-            _valueTokens.Add(new ValueGreaterThanToken(_member, value));
+            CurrentToken = new ValueGreaterThanToken(_member, value);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> GreaterThanOrEqual(object value)
         {
-            _valueTokens.Add(new ValueGreaterThanOrEqualToken(_member, value));
+            CurrentToken = new ValueGreaterThanOrEqualToken(_member, value);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> Func(Func<object, CustomVerifyResult> func)
         {
-            _valueTokens.Add(new ValueFuncToken(_member, func));
+            CurrentToken = new ValueFuncToken(_member, func);
             return this;
         }
 
@@ -543,7 +586,7 @@ namespace NMS.Leo.Typed.Core.Correct
 
         public ILeoValueRuleBuilder<T> Must(Func<object, CustomVerifyResult> func)
         {
-            _valueTokens.Add(new ValueFuncToken(_member, func));
+            CurrentToken = new ValueFuncToken(_member, func);
             return this;
         }
 
@@ -554,192 +597,194 @@ namespace NMS.Leo.Typed.Core.Correct
 
         public ILeoValueRuleBuilder<T> Any(Func<object, bool> func)
         {
-            _valueTokens.Add(new ValueAnyToken(_member, func));
+            CurrentToken = new ValueAnyToken(_member, func);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> All(Func<object, bool> func)
         {
-            _valueTokens.Add(new ValueAllToken(_member, func));
+            CurrentToken = new ValueAllToken(_member, func);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> NotAny(Func<object, bool> func)
         {
-            _valueTokens.Add(new ValueAllToken(_member, func));
+            CurrentToken = new ValueAllToken(_member, func);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> NotAll(Func<object, bool> func)
         {
-            _valueTokens.Add(new ValueAnyToken(_member, func));
+            CurrentToken = new ValueAnyToken(_member, func);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> In(ICollection<object> collection)
         {
-            _valueTokens.Add(new ValueInToken(_member, collection));
+            CurrentToken = new ValueInToken(_member, collection);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> In(params object[] objects)
         {
-            _valueTokens.Add(new ValueInToken(_member, objects));
+            CurrentToken = new ValueInToken(_member, objects);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> NotIn(ICollection<object> collection)
         {
-            _valueTokens.Add(new ValueNotInToken(_member, collection));
+            CurrentToken = new ValueNotInToken(_member, collection);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> NotIn(params object[] objects)
         {
-            _valueTokens.Add(new ValueNotInToken(_member, objects));
+            CurrentToken = new ValueNotInToken(_member, objects);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> InEnum(Type enumType)
         {
-            _valueTokens.Add(new ValueEnumToken(_member, enumType));
+            CurrentToken = new ValueEnumToken(_member, enumType);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> InEnum<TEnum>()
         {
-            _valueTokens.Add(new ValueEnumToken<TEnum>(_member));
+            CurrentToken = new ValueEnumToken<TEnum>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> IsEnumName(Type enumType, bool caseSensitive)
         {
-            _valueTokens.Add(new ValueStringEnumToken(_member, enumType, caseSensitive));
+            CurrentToken = new ValueStringEnumToken(_member, enumType, caseSensitive);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> IsEnumName<TEnum>(bool caseSensitive)
         {
-            _valueTokens.Add(new ValueStringEnumToken<TEnum>(_member, caseSensitive));
+            CurrentToken = new ValueStringEnumToken<TEnum>(_member, caseSensitive);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> ScalePrecision(int scale, int precision, bool ignoreTrailingZeros = false)
         {
-            _valueTokens.Add(new ValueScalePrecisionToken(_member, scale, precision, ignoreTrailingZeros));
+            CurrentToken = new ValueScalePrecisionToken(_member, scale, precision, ignoreTrailingZeros);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredType(Type type)
         {
-            _valueTokens.Add(new ValueRequiredTypeToken(_member, type));
+            CurrentToken = new ValueRequiredTypeToken(_member, type);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes(params Type[] types)
         {
-            _valueTokens.Add(new ValueRequiredTypesToken(_member, types));
+            CurrentToken = new ValueRequiredTypesToken(_member, types);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1>()
         {
-            _valueTokens.Add(new ValueRequiredTypeToken<T1>(_member));
+            CurrentToken = new ValueRequiredTypeToken<T1>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(_member);
             return this;
         }
 
         public CorrectValueRule Build()
         {
+            ClearCurrentToken();
+
             return new CorrectValueRule
             {
                 Name = Name,
@@ -767,127 +812,127 @@ namespace NMS.Leo.Typed.Core.Correct
 
         public new ILeoValueRuleBuilder<T, TVal> Empty()
         {
-            _valueTokens.Add(new ValueEmptyToken(_member));
+            CurrentToken = new ValueEmptyToken(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> NotEmpty()
         {
-            _valueTokens.Add(new ValueNotEmptyToken(_member));
+            CurrentToken = new ValueNotEmptyToken(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> Required()
         {
-            _valueTokens.Add(new ValueNotEmptyToken(_member));
+            CurrentToken = new ValueNotEmptyToken(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> Null()
         {
-            _valueTokens.Add(new ValueNullToken(_member));
+            CurrentToken = new ValueNullToken(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> NotNull()
         {
-            _valueTokens.Add(new ValueNotNullToken(_member));
+            CurrentToken = new ValueNotNullToken(_member);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> Range(TVal from, TVal to, RangeOptions options = RangeOptions.OpenInterval)
         {
-            _valueTokens.Add(new ValueRangeToken<TVal>(_member, from, to, options));
+            CurrentToken = new ValueRangeToken<TVal>(_member, from, to, options);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> RangeWithOpenInterval(TVal from, TVal to)
         {
-            _valueTokens.Add(new ValueRangeToken<TVal>(_member, from, to, RangeOptions.OpenInterval));
+            CurrentToken = new ValueRangeToken<TVal>(_member, from, to, RangeOptions.OpenInterval);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> RangeWithCloseInterval(TVal from, TVal to)
         {
-            _valueTokens.Add(new ValueRangeToken<TVal>(_member, from, to, RangeOptions.CloseInterval));
+            CurrentToken = new ValueRangeToken<TVal>(_member, from, to, RangeOptions.CloseInterval);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> Length(int min, int max)
         {
-            _valueTokens.Add(new ValueLengthLimitedToken(_member, min, max));
+            CurrentToken = new ValueLengthLimitedToken(_member, min, max);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> MinLength(int min)
         {
-            _valueTokens.Add(new ValueMinLengthLimitedToken(_member, min));
+            CurrentToken = new ValueMinLengthLimitedToken(_member, min);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> MaxLength(int max)
         {
-            _valueTokens.Add(new ValueMaxLengthLimitedToken(_member, max));
+            CurrentToken = new ValueMaxLengthLimitedToken(_member, max);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> AtLeast(int count)
         {
-            _valueTokens.Add(new ValueMinLengthLimitedToken(_member, count));
+            CurrentToken = new ValueMinLengthLimitedToken(_member, count);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> Equal(TVal value)
         {
-            _valueTokens.Add(new ValueEqualToken<TVal>(_member, value, null));
+            CurrentToken = new ValueEqualToken<TVal>(_member, value, null);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> Equal(TVal value, IEqualityComparer<TVal> comparer)
         {
-            _valueTokens.Add(new ValueEqualToken<TVal>(_member, value, comparer));
+            CurrentToken = new ValueEqualToken<TVal>(_member, value, comparer);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> NotEqual(TVal value)
         {
-            _valueTokens.Add(new ValueNotEqualToken<TVal>(_member, value, null));
+            CurrentToken = new ValueNotEqualToken<TVal>(_member, value, null);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> NotEqual(TVal value, IEqualityComparer<TVal> comparer)
         {
-            _valueTokens.Add(new ValueNotEqualToken<TVal>(_member, value, comparer));
+            CurrentToken = new ValueNotEqualToken<TVal>(_member, value, comparer);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> LessThan(TVal value)
         {
-            _valueTokens.Add(new ValueLessThanToken<TVal>(_member, value));
+            CurrentToken = new ValueLessThanToken<TVal>(_member, value);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> LessThanOrEqual(TVal value)
         {
-            _valueTokens.Add(new ValueLessThanOrEqualToken<TVal>(_member, value));
+            CurrentToken = new ValueLessThanOrEqualToken<TVal>(_member, value);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> GreaterThan(TVal value)
         {
-            _valueTokens.Add(new ValueGreaterThanToken<TVal>(_member, value));
+            CurrentToken = new ValueGreaterThanToken<TVal>(_member, value);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> GreaterThanOrEqual(TVal value)
         {
-            _valueTokens.Add(new ValueGreaterThanOrEqualToken<TVal>(_member, value));
+            CurrentToken = new ValueGreaterThanOrEqualToken<TVal>(_member, value);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> Func(Func<TVal, CustomVerifyResult> func)
         {
-            _valueTokens.Add(new ValueFuncToken<TVal>(_member, func));
+            CurrentToken = new ValueFuncToken<TVal>(_member, func);
             return this;
         }
 
@@ -903,7 +948,7 @@ namespace NMS.Leo.Typed.Core.Correct
 
         public ILeoValueRuleBuilder<T, TVal> Must(Func<TVal, CustomVerifyResult> func)
         {
-            _valueTokens.Add(new ValueFuncToken<TVal>(_member, func));
+            CurrentToken = new ValueFuncToken<TVal>(_member, func);
             return this;
         }
 
@@ -914,168 +959,170 @@ namespace NMS.Leo.Typed.Core.Correct
 
         public ILeoValueRuleBuilder<T, TVal> In(ICollection<TVal> collection)
         {
-            _valueTokens.Add(new ValueInToken<TVal>(_member, collection));
+            CurrentToken = new ValueInToken<TVal>(_member, collection);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> In(params TVal[] objects)
         {
-            _valueTokens.Add(new ValueInToken<TVal>(_member, objects));
+            CurrentToken = new ValueInToken<TVal>(_member, objects);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> NotIn(ICollection<TVal> collection)
         {
-            _valueTokens.Add(new ValueNotInToken<TVal>(_member, collection));
+            CurrentToken = new ValueNotInToken<TVal>(_member, collection);
             return this;
         }
 
         public ILeoValueRuleBuilder<T, TVal> NotIn(params TVal[] objects)
         {
-            _valueTokens.Add(new ValueInToken<TVal>(_member, objects));
+            CurrentToken = new ValueInToken<TVal>(_member, objects);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> InEnum(Type enumType)
         {
-            _valueTokens.Add(new ValueEnumToken(_member, enumType));
+            CurrentToken = new ValueEnumToken(_member, enumType);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> InEnum<TEnum>()
         {
-            _valueTokens.Add(new ValueEnumToken<TEnum>(_member));
+            CurrentToken = new ValueEnumToken<TEnum>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> IsEnumName(Type enumType, bool caseSensitive)
         {
-            _valueTokens.Add(new ValueStringEnumToken(_member, enumType, caseSensitive));
+            CurrentToken = new ValueStringEnumToken(_member, enumType, caseSensitive);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> IsEnumName<TEnum>(bool caseSensitive)
         {
-            _valueTokens.Add(new ValueStringEnumToken<TEnum>(_member, caseSensitive));
+            CurrentToken = new ValueStringEnumToken<TEnum>(_member, caseSensitive);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> ScalePrecision(int scale, int precision, bool ignoreTrailingZeros = false)
         {
-            _valueTokens.Add(new ValueScalePrecisionToken(_member, scale, precision, ignoreTrailingZeros));
+            CurrentToken = new ValueScalePrecisionToken(_member, scale, precision, ignoreTrailingZeros);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredType(Type type)
         {
-            _valueTokens.Add(new ValueRequiredTypeToken(_member, type));
+            CurrentToken = new ValueRequiredTypeToken(_member, type);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes(params Type[] types)
         {
-            _valueTokens.Add(new ValueRequiredTypesToken(_member, types));
+            CurrentToken = new ValueRequiredTypesToken(_member, types);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1>()
         {
-            _valueTokens.Add(new ValueRequiredTypeToken<T1>(_member));
+            CurrentToken = new ValueRequiredTypeToken<T1>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(_member);
             return this;
         }
 
         public new ILeoValueRuleBuilder<T, TVal> RequiredTypes<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>()
         {
-            _valueTokens.Add(new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(_member));
+            CurrentToken = new ValueRequiredTypesToken<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(_member);
             return this;
         }
 
         public new CorrectValueRule<TVal> Build()
         {
+            ClearCurrentToken();
+
             return new CorrectValueRule<TVal>
             {
                 Name = Name,

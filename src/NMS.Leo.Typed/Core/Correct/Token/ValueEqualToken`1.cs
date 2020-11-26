@@ -53,7 +53,7 @@ namespace NMS.Leo.Typed.Core.Correct.Token
         {
             val.IsSuccess = false;
             val.VerifiedValue = obj;
-            val.ErrorMessage = $"The two values given must be equal. The current value is: {obj} and the value being compared is {_valueToCompare}.";
+            val.ErrorMessage = MergeMessage($"The two values given must be equal. The current value is: {obj} and the value being compared is {_valueToCompare}.");
         }
 
         public override string ToString() => NAME;
