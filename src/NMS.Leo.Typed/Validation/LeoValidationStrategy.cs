@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using NMS.Leo.Typed.Core.Correct;
+using NMS.Leo.Typed.Core.Extensions;
 using NMS.Leo.Typed.Core.Members;
 
 namespace NMS.Leo.Typed.Validation
@@ -39,7 +40,7 @@ namespace NMS.Leo.Typed.Validation
                 var builder = _memberValueRuleBuilders.FirstOrDefault(b => b.Name == name);
                 if (builder is null)
                 {
-                    builder = new CorrectValueRuleBuilder(_handler.GetMember(name));
+                    builder = new CorrectValueRuleBuilder(_handler.GetMember(name),_handler.GetInstanceObject() ,() => _handler.GetValueObject(name));
                     _memberValueRuleBuilders.Add(builder);
                 }
 
@@ -93,7 +94,7 @@ namespace NMS.Leo.Typed.Validation
                 var builder = _memberValueRuleBuilders.FirstOrDefault(b => b.Name == name);
                 if (builder is null)
                 {
-                    builder = new CorrectValueRuleBuilder<T>(_handler.GetMember(name));
+                    builder = new CorrectValueRuleBuilder<T>(_handler.GetMember(name),_handler.GetInstanceObject().As<T>(), () => _handler.GetValueObject(name));
                     _memberValueRuleBuilders.Add(builder);
                 }
 
@@ -126,7 +127,7 @@ namespace NMS.Leo.Typed.Validation
                 var builder = _memberValueRuleBuilders.FirstOrDefault(b => b.Name == name);
                 if (builder is null)
                 {
-                    builder = new CorrectValueRuleBuilder<T, TVal>(_handler.GetMember(name));
+                    builder = new CorrectValueRuleBuilder<T, TVal>(_handler.GetMember(name),_handler.GetInstanceObject().As<T>(), () => _handler.GetValue<TVal>(name));
                     _memberValueRuleBuilders.Add(builder);
                 }
 

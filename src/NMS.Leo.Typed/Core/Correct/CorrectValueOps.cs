@@ -40,5 +40,6 @@ namespace NMS.Leo.Typed.Core.Correct
         ScalePrecision,
         Enum,
         StringEnum,
+        RegularExpression
     }
 }

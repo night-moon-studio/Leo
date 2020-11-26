@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using NMS.Leo.Metadata;
 using NMS.Leo.Typed.Core.Correct.Token;
 using NMS.Leo.Typed.Validation;
@@ -33,10 +34,38 @@ namespace NMS.Leo.Typed.Core.Correct
             _currentTokenPtr = null;
         }
 
-        public CorrectValueRuleBuilder(LeoMember member)
+        #region Corresponding Metadata
+
+        private readonly object _correspondingInstance;
+        private readonly Func<object> _correspondingValueFunc;
+
+        private object _correspondingValueCache;
+        private bool _correspondingValueCached;
+
+        internal object CorrespondingValue
+        {
+            get
+            {
+                if (!_correspondingValueCached)
+                {
+                    _correspondingValueCache = _correspondingValueFunc();
+                    _correspondingValueCached = true;
+                }
+
+                return _correspondingValueCache;
+            }
+        }
+
+        internal object CorrespondingInstance => _correspondingInstance;
+
+        #endregion
+
+        public CorrectValueRuleBuilder(LeoMember member, object correspondingInstance, Func<object> correspondingValueFunc)
         {
             _member = member;
             _valueTokens = new List<IValueToken>();
+            _correspondingInstance = correspondingInstance;
+            _correspondingValueFunc = correspondingValueFunc;
         }
 
         public string Name => _member.MemberName;
@@ -75,7 +104,7 @@ namespace NMS.Leo.Typed.Core.Correct
 
         public ILeoValueRuleBuilder Null()
         {
-            CurrentToken=new ValueNullToken(_member);
+            CurrentToken = new ValueNullToken(_member);
             return this;
         }
 
@@ -172,6 +201,42 @@ namespace NMS.Leo.Typed.Core.Correct
         public ILeoValueRuleBuilder GreaterThanOrEqual(object value)
         {
             CurrentToken = new ValueGreaterThanOrEqualToken(_member, value);
+            return this;
+        }
+
+        public ILeoValueRuleBuilder Matches(Regex regex)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regex);
+            return this;
+        }
+
+        public ILeoValueRuleBuilder Matches(string regexExpression)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexExpression);
+            return this;
+        }
+
+        public ILeoValueRuleBuilder Matches(string regexExpression, RegexOptions options)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexExpression, options);
+            return this;
+        }
+
+        public ILeoValueRuleBuilder Matches(Func<object, Regex> regexFunc)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexFunc);
+            return this;
+        }
+
+        public ILeoValueRuleBuilder Matches(Func<object, string> regexExpressionFunc)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexExpressionFunc);
+            return this;
+        }
+
+        public ILeoValueRuleBuilder Matches(Func<object, string> regexExpressionFunc, RegexOptions options)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexExpressionFunc, options);
             return this;
         }
 
@@ -391,7 +456,7 @@ namespace NMS.Leo.Typed.Core.Correct
         public CorrectValueRule Build()
         {
             ClearCurrentToken();
-            
+
             return new CorrectValueRule
             {
                 Name = Name,
@@ -426,10 +491,38 @@ namespace NMS.Leo.Typed.Core.Correct
             _currentTokenPtr = null;
         }
 
-        public CorrectValueRuleBuilder(LeoMember member)
+        #region Corresponding Metadata
+
+        private readonly T _correspondingInstance;
+        private readonly Func<object> _correspondingValueFunc;
+
+        private object _correspondingValueCache;
+        private bool _correspondingValueCached;
+
+        internal virtual object CorrespondingValue
+        {
+            get
+            {
+                if (!_correspondingValueCached)
+                {
+                    _correspondingValueCache = _correspondingValueFunc();
+                    _correspondingValueCached = true;
+                }
+
+                return _correspondingValueCache;
+            }
+        }
+
+        internal virtual T CorrespondingInstance => _correspondingInstance;
+
+        #endregion
+
+        public CorrectValueRuleBuilder(LeoMember member, T correspondingInstance, Func<object> correspondingValueFunc)
         {
             _member = member;
             _valueTokens = new List<IValueToken>();
+            _correspondingInstance = correspondingInstance;
+            _correspondingValueFunc = correspondingValueFunc;
         }
 
         public string Name => _member.MemberName;
@@ -565,6 +658,42 @@ namespace NMS.Leo.Typed.Core.Correct
         public ILeoValueRuleBuilder<T> GreaterThanOrEqual(object value)
         {
             CurrentToken = new ValueGreaterThanOrEqualToken(_member, value);
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> Matches(Regex regex)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regex);
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> Matches(string regexExpression)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexExpression);
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> Matches(string regexExpression, RegexOptions options)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexExpression, options);
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> Matches(Func<object, Regex> regexFunc)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexFunc);
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> Matches(Func<object, string> regexExpressionFunc)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexExpressionFunc);
+            return this;
+        }
+
+        public ILeoValueRuleBuilder<T> Matches(Func<object, string> regexExpressionFunc, RegexOptions options)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexExpressionFunc, options);
             return this;
         }
 
@@ -796,7 +925,34 @@ namespace NMS.Leo.Typed.Core.Correct
 
     internal class CorrectValueRuleBuilder<T, TVal> : CorrectValueRuleBuilder<T>, ILeoValueRuleBuilder<T, TVal>
     {
-        public CorrectValueRuleBuilder(LeoMember member) : base(member) { }
+        #region Corresponding Metadata
+
+        private readonly Func<TVal> _correspondingValueFunc;
+
+        private TVal _correspondingValueCache;
+        private bool _correspondingValueCached;
+
+        internal new TVal CorrespondingValue
+        {
+            get
+            {
+                if (!_correspondingValueCached)
+                {
+                    _correspondingValueCache = _correspondingValueFunc();
+                    _correspondingValueCached = true;
+                }
+
+                return _correspondingValueCache;
+            }
+        }
+
+        #endregion
+
+        public CorrectValueRuleBuilder(LeoMember member, T correspondingInstance, Func<TVal> correspondingValueFunc)
+            : base(member, correspondingInstance, () => correspondingValueFunc())
+        {
+            _correspondingValueFunc = correspondingValueFunc;
+        }
 
         public new ILeoValueRuleBuilder<T, TVal> AppendRule()
         {
@@ -927,6 +1083,42 @@ namespace NMS.Leo.Typed.Core.Correct
         public ILeoValueRuleBuilder<T, TVal> GreaterThanOrEqual(TVal value)
         {
             CurrentToken = new ValueGreaterThanOrEqualToken<TVal>(_member, value);
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> Matches(Regex regex)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regex);
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> Matches(string regexExpression)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexExpression);
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> Matches(string regexExpression, RegexOptions options)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexExpression, options);
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> Matches(Func<object, Regex> regexFunc)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexFunc);
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> Matches(Func<object, string> regexExpressionFunc)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexExpressionFunc);
+            return this;
+        }
+
+        public new ILeoValueRuleBuilder<T, TVal> Matches(Func<object, string> regexExpressionFunc, RegexOptions options)
+        {
+            CurrentToken = new ValueRegularExpressionToken(_member, regexExpressionFunc, options);
             return this;
         }
 

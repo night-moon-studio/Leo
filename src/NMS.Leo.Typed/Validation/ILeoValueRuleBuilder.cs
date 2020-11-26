@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace NMS.Leo.Typed.Validation
 {
@@ -50,6 +51,18 @@ namespace NMS.Leo.Typed.Validation
 
         ILeoValueRuleBuilder GreaterThanOrEqual(object value);
 
+        ILeoValueRuleBuilder Matches(Regex regex);
+
+        ILeoValueRuleBuilder Matches(string regexExpression);
+
+        ILeoValueRuleBuilder Matches(string regexExpression, RegexOptions options);
+
+        ILeoValueRuleBuilder Matches(Func<object, Regex> regexFunc);
+
+        ILeoValueRuleBuilder Matches(Func<object, string> regexExpressionFunc);
+
+        ILeoValueRuleBuilder Matches(Func<object, string> regexExpressionFunc, RegexOptions options);
+
         ILeoValueRuleBuilder Func(Func<object, CustomVerifyResult> func);
 
         ILeoWaitForMessageValueRuleBuilder Func(Func<object, bool> func);
@@ -81,9 +94,9 @@ namespace NMS.Leo.Typed.Validation
         ILeoValueRuleBuilder InEnum<TEnum>();
 
         ILeoValueRuleBuilder IsEnumName(Type enumType, bool caseSensitive);
-        
+
         ILeoValueRuleBuilder IsEnumName<TEnum>(bool caseSensitive);
-        
+
         ILeoValueRuleBuilder ScalePrecision(int scale, int precision, bool ignoreTrailingZeros = false);
 
         ILeoValueRuleBuilder RequiredType(Type type);
@@ -169,6 +182,18 @@ namespace NMS.Leo.Typed.Validation
 
         ILeoValueRuleBuilder<T> GreaterThanOrEqual(object value);
 
+        ILeoValueRuleBuilder<T> Matches(Regex regex);
+
+        ILeoValueRuleBuilder<T> Matches(string regexExpression);
+
+        ILeoValueRuleBuilder<T> Matches(string regexExpression, RegexOptions options);
+
+        ILeoValueRuleBuilder<T> Matches(Func<object, Regex> regexFunc);
+
+        ILeoValueRuleBuilder<T> Matches(Func<object, string> regexExpressionFunc);
+
+        ILeoValueRuleBuilder<T> Matches(Func<object, string> regexExpressionFunc, RegexOptions options);
+
         ILeoValueRuleBuilder<T> Func(Func<object, CustomVerifyResult> func);
 
         ILeoWaitForMessageValueRuleBuilder<T> Func(Func<object, bool> func);
@@ -200,7 +225,7 @@ namespace NMS.Leo.Typed.Validation
         ILeoValueRuleBuilder<T> InEnum<TEnum>();
 
         ILeoValueRuleBuilder<T> IsEnumName(Type enumType, bool caseSensitive);
-        
+
         ILeoValueRuleBuilder<T> IsEnumName<TEnum>(bool caseSensitive);
 
         ILeoValueRuleBuilder<T> ScalePrecision(int scale, int precision, bool ignoreTrailingZeros = false);
@@ -288,6 +313,18 @@ namespace NMS.Leo.Typed.Validation
 
         ILeoValueRuleBuilder<T, TVal> GreaterThanOrEqual(TVal value);
 
+        new ILeoValueRuleBuilder<T, TVal> Matches(Regex regex);
+
+        new ILeoValueRuleBuilder<T, TVal> Matches(string regexExpression);
+
+        new ILeoValueRuleBuilder<T, TVal> Matches(string regexExpression, RegexOptions options);
+
+        new ILeoValueRuleBuilder<T, TVal> Matches(Func<object, Regex> regexFunc);
+
+        new ILeoValueRuleBuilder<T, TVal> Matches(Func<object, string> regexExpressionFunc);
+
+        new ILeoValueRuleBuilder<T, TVal> Matches(Func<object, string> regexExpressionFunc, RegexOptions options);
+
         ILeoValueRuleBuilder<T, TVal> Func(Func<TVal, CustomVerifyResult> func);
 
         ILeoWaitForMessageValueRuleBuilder<T, TVal> Func(Func<TVal, bool> func);
@@ -311,7 +348,7 @@ namespace NMS.Leo.Typed.Validation
         new ILeoValueRuleBuilder<T, TVal> InEnum<TEnum>();
 
         new ILeoValueRuleBuilder<T, TVal> IsEnumName(Type enumType, bool caseSensitive);
-        
+
         new ILeoValueRuleBuilder<T, TVal> IsEnumName<TEnum>(bool caseSensitive);
 
         new ILeoValueRuleBuilder<T, TVal> ScalePrecision(int scale, int precision, bool ignoreTrailingZeros = false);

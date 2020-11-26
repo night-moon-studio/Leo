@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using NMS.Leo.Typed.Core.Correct;
 using NMS.Leo.Typed.Core.Correct.Token;
+using NMS.Leo.Typed.Core.Members;
 
 namespace NMS.Leo.Typed.Validation
 {
@@ -67,6 +70,31 @@ namespace NMS.Leo.Typed.Validation
         public static ILeoValueRuleBuilder<T, TVal> NotAll<T, TVal, TItem>(this ILeoValueRuleBuilder<T, TVal> builder, Func<TItem, bool> func)
             where TVal : ICollection<TItem>
             => builder.Any(func);
+
+        #endregion
+
+        #region Matches
+
+        public static ILeoValueRuleBuilder<T, TVal> Matches<T, TVal>(this ILeoValueRuleBuilder<T, TVal> builder, Expression<Func<T, string>> expression)
+        {
+            var current = builder._impl();
+            var regexExpression = PropertyValueGetter.Get(expression, current.CorrespondingInstance);
+            return builder.Matches(regexExpression);
+        }
+
+        public static ILeoValueRuleBuilder<T, TVal> Matches<T, TVal>(this ILeoValueRuleBuilder<T, TVal> builder, Expression<Func<T, Regex>> expression)
+        {
+            var current = builder._impl();
+            var regex = PropertyValueGetter.Get(expression, current.CorrespondingInstance);
+            return builder.Matches(regex);
+        }
+
+        public static ILeoValueRuleBuilder<T, TVal> Matches<T, TVal>(this ILeoValueRuleBuilder<T, TVal> builder, Expression<Func<T, string>> expression, RegexOptions options)
+        {
+            var current = builder._impl();
+            var regexExpression = PropertyValueGetter.Get(expression, current.CorrespondingInstance);
+            return builder.Matches(regexExpression, options);
+        }
 
         #endregion
 

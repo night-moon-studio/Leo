@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using NMS.Leo.Metadata;
+using NMS.Leo.Typed.Core.Extensions;
 
 namespace NMS.Leo.Typed.Core.Members
 {
@@ -37,6 +39,12 @@ namespace NMS.Leo.Typed.Core.Members
                 : new Lazy<MemberHandler>(valueFactory);
         }
 
+        internal object GetInstanceObject() => _handler.GetInstance();
+
         internal object GetValueObject(string name) => _handler[name];
+
+        internal TVal GetValue<TVal>(string name) => _handler.Get<TVal>(name);
+
+        internal TVal GetValue<T, TVal>(Expression<Func<T, TVal>> selector) => _handler.Get<TVal>(PropertySelector.GetPropertyName(selector));
     }
 }

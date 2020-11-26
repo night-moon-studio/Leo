@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using NMS.Leo.Typed.Core.Extensions;
 using NMS.Leo.Typed.Core.Members;
 using NMS.Leo.Typed.Validation;
 
@@ -51,7 +52,8 @@ namespace NMS.Leo.Typed.Core.Correct
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
-            var builder = new CorrectValueRuleBuilder(_visitor.ExposeLazyMemberHandler().Value.GetMember(name));
+            var handler = _visitor.ExposeLazyMemberHandler().Value;
+            var builder = new CorrectValueRuleBuilder(handler.GetMember(name), handler.GetInstanceObject(), () => handler.GetValueObject(name));
             var rule = ((CorrectValueRuleBuilder) func(builder)).Build();
             AddOrUpdateValueRule(rule);
             return this;
@@ -161,7 +163,7 @@ namespace NMS.Leo.Typed.Core.Correct
     {
         private readonly ICoreVisitor<T> _visitor;
 
-        public CorrectContext(ICoreVisitor<T> visitor,bool strictMode):base(strictMode)
+        public CorrectContext(ICoreVisitor<T> visitor, bool strictMode) : base(strictMode)
         {
             _visitor = visitor ?? throw new ArgumentNullException(nameof(visitor));
         }
@@ -187,7 +189,8 @@ namespace NMS.Leo.Typed.Core.Correct
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
-            var builder = new CorrectValueRuleBuilder<T>(_visitor.ExposeLazyMemberHandler().Value.GetMember(name));
+            var handler = _visitor.ExposeLazyMemberHandler().Value;
+            var builder = new CorrectValueRuleBuilder<T>(handler.GetMember(name), handler.GetInstanceObject().As<T>(), () => handler.GetValueObject(name));
             var rule = ((CorrectValueRuleBuilder<T>) func(builder)).Build();
             AddOrUpdateValueRule(rule);
             return this;
@@ -212,7 +215,8 @@ namespace NMS.Leo.Typed.Core.Correct
             if (expression is null)
                 throw new ArgumentNullException(nameof(expression));
             var name = PropertySelector.GetPropertyName(expression);
-            var builder = new CorrectValueRuleBuilder<T, TVal>(_visitor.ExposeLazyMemberHandler().Value.GetMember(name));
+            var handler = _visitor.ExposeLazyMemberHandler().Value;
+            var builder = new CorrectValueRuleBuilder<T, TVal>(handler.GetMember(name), handler.GetInstanceObject().As<T>(), () => handler.GetValue<TVal>(name));
             var rule = ((CorrectValueRuleBuilder<T, TVal>) func(builder)).Build();
             AddOrUpdateValueRule(rule);
             return this;

@@ -1789,5 +1789,39 @@ namespace NCallerUT
                 v.VerifyAndThrow();
             });
         }
+
+        [Fact(DisplayName = "RegexExpression Token Test")]
+        public void RegexExpressionTest()
+        {
+            var m = new NiceAct3() {StringVal = "53"};
+            var v = LeoVisitorFactory.Create(typeof(NiceAct3), m);
+
+            v.ValidationEntry.ForMember("StringVal", c => c.Matches(@"^\w\d$"));
+
+            var r = v.Verify();
+            Assert.True(r.IsValid);
+
+            v["StringVal"] = " 5";
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v["StringVal"] = "S33";
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v["StringVal"] = "";
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v["StringVal"] = null;
+            r = v.Verify();
+            Assert.False(r.IsValid);
+
+            v.ValidationEntry.ForMember("StringVal", c => c.Matches(@"^\w\d$").WithMessage("OH", false).OverwriteRule());
+            r = v.Verify();
+            Assert.False(r.IsValid);
+            Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "StringVal"));
+            Assert.Equal("OH", r.Errors.Single(x => x.PropertyName == "StringVal").Details[0].ErrorMessage);
+        }
     }
 }
