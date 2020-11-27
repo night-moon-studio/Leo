@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using NMS.Leo.Metadata;
+using NMS.Leo.Typed.Core.Correct;
 using NMS.Leo.Typed.Core.Members;
 using NMS.Leo.Typed.Core.Repeat;
+using NMS.Leo.Typed.Validation;
 
 namespace NMS.Leo.Typed.Core
 {
-    internal class InstanceVisitor<T> : ILeoVisitor<T>,ICoreVisitor<T>, ILeoGetter<T>, ILeoSetter<T>
+    internal class InstanceVisitor<T> : ILeoVisitor<T>, ICoreVisitor<T>, ILeoGetter<T>, ILeoSetter<T>
     {
         private readonly DictBase<T> _handler;
         private readonly T _instance;
@@ -18,7 +20,7 @@ namespace NMS.Leo.Typed.Core
         protected HistoricalContext<T> GenericHistoricalContext { get; set; }
 
         public InstanceVisitor(DictBase<T> handler, T instance, AlgorithmKind kind, bool repeatable,
-            bool liteMode = false)
+            bool liteMode = false, bool strictMode = false)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
             _instance = instance;
@@ -33,6 +35,9 @@ namespace NMS.Leo.Typed.Core
             LiteMode = liteMode;
 
             _lazyMemberHandler = MemberHandler.Lazy(() => new MemberHandler(_handler, SourceType), liteMode);
+            _validationContext = strictMode
+                ? new CorrectContext<T>(this, true)
+                : null;
         }
 
         public Type SourceType { get; }
@@ -45,10 +50,27 @@ namespace NMS.Leo.Typed.Core
 
         public T Instance => _instance;
 
+        public bool StrictMode
+        {
+            get => ValidationEntry.StrictMode;
+            set => ValidationEntry.StrictMode = value;
+        }
+
+        private CorrectContext<T> _validationContext;
+
+        public ILeoValidationContext<T> ValidationEntry => _validationContext ??= new CorrectContext<T>(this, false);
+
+        ILeoValidationContext ILeoVisitor.ValidationEntry => ValidationEntry;
+
+        public LeoVerifyResult Verify() => ((CorrectContext<T>) ValidationEntry).ValidValue();
+
+        public void VerifyAndThrow() => Verify().Raise();
+
         public void SetValue(string name, object value)
         {
-            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
-            _handler[name] = value;
+            if (StrictMode)
+                ((CorrectContext<T>) ValidationEntry).ValidOne(name, value).Raise();
+            SetValueImpl(name, value);
         }
 
         void ILeoVisitor.SetValue<TObj>(Expression<Func<TObj, object>> expression, object value)
@@ -58,8 +80,9 @@ namespace NMS.Leo.Typed.Core
 
             var name = PropertySelector.GetPropertyName(expression);
 
-            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
-            _handler[name] = value;
+            if (StrictMode)
+                ((CorrectContext<T>) ValidationEntry).ValidOne(name, value).Raise();
+            SetValueImpl(name, value);
         }
 
         void ILeoVisitor.SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value)
@@ -69,8 +92,9 @@ namespace NMS.Leo.Typed.Core
 
             var name = PropertySelector.GetPropertyName(expression);
 
-            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
-            _handler[name] = value;
+            if (StrictMode)
+                ((CorrectContext<T>) ValidationEntry).ValidOne(name, value).Raise();
+            SetValueImpl(name, value);
         }
 
         void ILeoSetter<T>.SetValue<TObj>(Expression<Func<TObj, object>> expression, object value)
@@ -86,8 +110,9 @@ namespace NMS.Leo.Typed.Core
 
             var name = PropertySelector.GetPropertyName(expression);
 
-            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
-            _handler[name] = value;
+            if (StrictMode)
+                ((CorrectContext<T>) ValidationEntry).ValidOne(name, value).Raise();
+            SetValueImpl(name, value);
         }
 
         public void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value)
@@ -97,16 +122,25 @@ namespace NMS.Leo.Typed.Core
 
             var name = PropertySelector.GetPropertyName(expression);
 
-            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
-            _handler[name] = value;
+            if (StrictMode)
+                ((CorrectContext<T>) ValidationEntry).ValidOne(name, value).Raise();
+            SetValueImpl(name, value);
         }
 
         public void SetValue(IDictionary<string, object> keyValueCollections)
         {
             if (keyValueCollections is null)
                 throw new ArgumentNullException(nameof(keyValueCollections));
+            if (StrictMode)
+                ((CorrectContext<T>) ValidationEntry).ValidMany(keyValueCollections).Raise();
             foreach (var keyValue in keyValueCollections)
-                SetValue(keyValue.Key, keyValue.Value);
+                SetValueImpl(keyValue.Key, keyValue.Value);
+        }
+
+        private void SetValueImpl(string name, object value)
+        {
+            GenericHistoricalContext?.RegisterOperation(c => c[name] = value);
+            _handler[name] = value;
         }
 
         public object GetValue(string name)
@@ -176,7 +210,7 @@ namespace NMS.Leo.Typed.Core
         public Lazy<MemberHandler> ExposeLazyMemberHandler() => _lazyMemberHandler;
 
         public ILeoVisitor<T> Owner => this;
-        
+
         public bool LiteMode { get; }
 
         public IEnumerable<string> GetMemberNames() => _lazyMemberHandler.Value.GetNames();

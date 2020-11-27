@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace NMS.Leo.Typed.Core
+namespace NMS.Leo.Typed.Core.Extensions
 {
     internal static class DictBaseExtensions
     {

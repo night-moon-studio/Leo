@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NMS.Leo.Typed.Core.Extensions;
 
 namespace NMS.Leo.Typed.Core.Repeat
 {

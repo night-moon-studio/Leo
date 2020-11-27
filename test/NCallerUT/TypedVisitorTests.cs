@@ -1,4 +1,5 @@
 ﻿using System;
+using NCallerUT.Model;
 using NMS.Leo;
 using NMS.Leo.Typed;
 using Xunit;
@@ -736,50 +737,5 @@ namespace NCallerUT
             Assert.Equal(DateTime.Today.AddDays(10), d["Birthday"]);
             Assert.True((bool) d["IsValid"]);
         }
-    }
-
-    public class NiceAct
-    {
-        public string Name { get; set; }
-
-        public int Age { get; set; }
-
-        public DateTime Birthday { get; set; }
-
-        public Country Country { get; set; }
-
-        public bool IsValid { get; set; }
-    }
-
-    public enum Country
-    {
-        China,
-        USA
-    }
-
-    public static class StaticNiceAct1
-    {
-        public static string Name { get; set; }
-
-        public static int Age { get; set; }
-
-        public static DateTime Birthday { get; set; }
-
-        public static Country Country { get; set; }
-
-        public static bool IsValid { get; set; }
-    }
-
-    public class StaticNiceAct2
-    {
-        public static string Name { get; set; }
-
-        public static int Age { get; set; }
-
-        public static DateTime Birthday { get; set; }
-
-        public static Country Country { get; set; }
-
-        public static bool IsValid { get; set; }
     }
 }
