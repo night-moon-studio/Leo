@@ -28,7 +28,7 @@ namespace NMS.Leo.Builder
             _type_cache[type] = script;
 
             var newFindTree = "var str = arg.GetDevelopName();";
-            newFindTree += BTFTemplate.GetPrecisionPointBTFScript(_str_cache, "str");
+            newFindTree += BTFTemplate.GetGroupPrecisionPointBTFScript(_str_cache, "str");
             newFindTree += $"return PrecisionDictBuilder.Ctor(arg);";
 
 
