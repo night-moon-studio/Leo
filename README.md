@@ -546,7 +546,7 @@ var member = visitor.GetMember( t => t.Name ); // Only for ILeoVisitor<YourType>
 
 ## Performance 
 
-![Performance](Image/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%951.png)  
+![Performance](https://images.gitee.com/uploads/images/2020/1201/170347_7d3e36c3_1478282.png)  
 
 ## License
 
