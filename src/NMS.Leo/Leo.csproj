@@ -2,13 +2,12 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp3.0;netcoreapp3.1;net5.0;</TargetFrameworks>
-    <Product>NCaller</Product>
     <Description>此项目为Natasha的衍生项目，通过运行时自动构建高性能操作代理类，为普通类，静态类，动态类，动态类中的动态类，动态生成的静态类等提供了良好的、完备的、高性能的操作，如果反射、dynamic都不能满足高端的需求，可使用本类库，它将是一个不错的选择。</Description>
     <Copyright>.NET Core Community and Contributors</Copyright>
     <PackageId>NMS.Leo</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>- 兼容新版Natasha</PackageReleaseNotes>
-    <Version>1.0.0.1</Version>
+    <Version>1.1.0</Version>
     <PackageLicenseUrl>https://github.com/night-moon-studio/Leo/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/night-moon-studio/Leo</PackageProjectUrl>
     <PackageTags>Roslyn;IL;Script;Dynamic;Reflect;Caller;Leo;</PackageTags>
