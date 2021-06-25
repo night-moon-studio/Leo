@@ -35,7 +35,8 @@ namespace NMS.Leo.Builder
             //生成脚本
             var newAction = NDelegate
                             .UseDomain(type.GetDomain(), builder => builder.LogCompilerError())
-                            .UnsafeFunc<Type, DictBase>(newFindTree, _type_cache.Keys.ToArray(), "NMS.Leo.NCallerDynamic");
+                            .AddUsing(_type_cache.Keys.ToArray(),"NMS.Leo.NCallerDynamic")
+                            .UnsafeFunc<Type, DictBase>(newFindTree);
 
             FuzzyDictOperator.CreateFromString = (delegate * managed<Type, DictBase>)(newAction.Method.MethodHandle.GetFunctionPointer());
             return (DictBase) Activator.CreateInstance(proxyType);

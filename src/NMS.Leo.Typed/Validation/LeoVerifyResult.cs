@@ -123,7 +123,7 @@ namespace NMS.Leo.Typed.Validation
         public override int GetHashCode()
         {
             //TODO in next version, we can only use `HashCode.Combine(_failures);`
-#if NETSTANDARD2_0
+#if NETCOREAPP2_0
             return _failures.GetHashCode();
 #else
             return HashCode.Combine(_failures);
