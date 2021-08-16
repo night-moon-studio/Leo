@@ -7,7 +7,7 @@
     <PackageId>NMS.Leo</PackageId>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageReleaseNotes>- 兼容新版Natasha</PackageReleaseNotes>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <PackageLicenseUrl>https://github.com/night-moon-studio/Leo/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/night-moon-studio/Leo</PackageProjectUrl>
     <PackageTags>Roslyn;IL;Script;Dynamic;Reflect;Caller;Leo;</PackageTags>
@@ -30,7 +30,7 @@
 
   <ItemGroup>
     <!--<PackageReference Include="NMS.DynamicCache" Version="1.4.4.2" />-->
-    <PackageReference Include="NMS.DynamicDictionary" Version="2.0.0" />
+    <PackageReference Include="NMS.DynamicDictionary" Version="2.1.0" />
   </ItemGroup>
 
 </Project>

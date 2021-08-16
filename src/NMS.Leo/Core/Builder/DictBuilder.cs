@@ -200,7 +200,7 @@ namespace NMS.Leo.Builder
                                  .Using(type)
                                  .AllowPrivate(type.Assembly)
                                  .Namespace("NMS.Leo.NCallerDynamic")
-                                 .Inheritance(callType)
+                                 .InheritanceAppend(callType)
                                  .Body(body.ToString())
                                  .GetType();
 
