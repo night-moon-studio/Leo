@@ -4,7 +4,7 @@
     {
         static Prepare()
         {
-            NatashaInitializer.InitializeAndPreheating();
+            NatashaInitializer.Preheating();
         }
     }
 }

@@ -34,7 +34,7 @@ namespace BenchmarkTest
         public Dictionary<string, Action<CallModel, object>> Dict;
         public TestCaller()
         {
-            NatashaInitializer.InitializeAndPreheating();
+            NatashaInitializer.Preheating();
             string temp = "Hello";
             Dict = new Dictionary<string, Action<CallModel, object>>();
             Type type = typeof(CallModel);

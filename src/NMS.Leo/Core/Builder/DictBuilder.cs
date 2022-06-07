@@ -53,7 +53,7 @@ namespace NMS.Leo.Builder
 
                     if (field.IsInitOnly)
                     {
-                        fieldScript = fieldScript.ReadonlyScript();
+                        fieldScript = fieldScript.ToReadonlyScript();
                     }
 
                     setByObjectCache[fieldName] = $"{fieldScript} = ({fieldType})value;";
@@ -69,7 +69,7 @@ namespace NMS.Leo.Builder
                 getByLeoMembersScriptCache[fieldName] = $"return __metadata_LeoMember_{fieldName};";
                 getByReadOnlyStaticScriptBuilder.AppendLine($@"private static readonly LeoMember __metadata_LeoMember_{fieldName};");
                 getByInternalNamesScriptBuilder.Append($@"""{fieldName}"",");
-                getByReadOnlySettingScriptBuilder.Append($"__metadata_LeoMember_{fieldName}".ReadonlyScript());
+                getByReadOnlySettingScriptBuilder.Append($"__metadata_LeoMember_{fieldName}".ToReadonlyScript());
                 getByReadOnlySettingScriptBuilder.Append($@" = leoMembersCache[""{fieldName}""];");
             }
 
@@ -112,7 +112,7 @@ namespace NMS.Leo.Builder
                 getByLeoMembersScriptCache[propertyName] = $"return __metadata_LeoMember_{propertyName};";
                 getByReadOnlyStaticScriptBuilder.AppendLine($@"private static readonly LeoMember __metadata_LeoMember_{propertyName};");
                 getByInternalNamesScriptBuilder.Append($@"""{propertyName}"",");
-                getByReadOnlySettingScriptBuilder.Append($"__metadata_LeoMember_{propertyName}".ReadonlyScript());
+                getByReadOnlySettingScriptBuilder.Append($"__metadata_LeoMember_{propertyName}".ToReadonlyScript());
                 getByReadOnlySettingScriptBuilder.Append($@" = leoMembersCache[""{propertyName}""];");
             }
 

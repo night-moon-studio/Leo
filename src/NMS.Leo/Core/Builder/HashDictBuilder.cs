@@ -34,8 +34,8 @@ namespace NMS.Leo.Builder
 
             //生成脚本
             var newAction = NDelegate
-                            .UseDomain(type.GetDomain(), builder => builder.LogCompilerError())
-                            .AddUsing(_type_cache.Keys.ToArray(), "NMS.Leo.NCallerDynamic")
+                            .UseDomain(type.GetDomain())
+                            .ConfigUsing(_type_cache.Keys.ToArray(), "NMS.Leo.NCallerDynamic")
                             .UnsafeFunc<Type, DictBase>(newFindTree);
 
             HashDictOperator.CreateFromString = (delegate * managed<Type, DictBase>)(newAction.Method.MethodHandle.GetFunctionPointer());

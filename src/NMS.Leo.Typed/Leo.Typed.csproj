@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	 <TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5.0;</TargetFrameworks>
+	 <TargetFrameworks>netcoreapp3.1;net5.0;net6.0;</TargetFrameworks>
     <AssemblyName>NMS.Leo.Typed</AssemblyName>
     <RootNamespace>NMS.Leo.Typed</RootNamespace>
     <LangVersion>latest</LangVersion>
