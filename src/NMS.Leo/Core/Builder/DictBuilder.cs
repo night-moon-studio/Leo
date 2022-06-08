@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using NMS.Leo.Metadata;
+using Natasha.CSharp.Compiler;
 
 namespace NMS.Leo.Builder
 {
@@ -12,6 +13,11 @@ namespace NMS.Leo.Builder
     {
         public static Type InitType(Type type, AlgorithmKind kind = AlgorithmKind.Hash)
         {
+
+            if (!LeoManagement._accessCache.TryGetValue(type,out var accessLevel))
+            {
+                accessLevel = MemberAccessLevel.Default;
+            }
             var isStatic = type.IsSealed && type.IsAbstract;
             var callType = typeof(DictBase);
 
@@ -27,8 +33,12 @@ namespace NMS.Leo.Builder
             var getByInternalNamesScriptBuilder = new StringBuilder();
 
             #region Field
-
-            var fields = type.GetFields(BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            var flag = BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public;
+            if (accessLevel == MemberAccessLevel.AllowNoPublic)
+            {
+                flag = flag | BindingFlags.NonPublic;
+            }   
+            var fields = type.GetFields(flag);
             foreach (var field in fields)
             {
                 if (field.IsSpecialName || field.Name.Contains("<"))
@@ -77,7 +87,7 @@ namespace NMS.Leo.Builder
 
             #region Property
 
-            var props = type.GetProperties(BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            var props = type.GetProperties(flag);
             foreach (var property in props)
             {
                 var method = property.CanRead ? property.GetGetMethod(true) : property.GetSetMethod(true);
@@ -195,15 +205,24 @@ namespace NMS.Leo.Builder
             }
 
 
-            var tempClass = NClass.UseDomain(type.GetDomain())
+            var classBuilder = NClass.UseDomain(type.GetDomain())
                                  .Public()
                                  .Using(type)
-                                 .AllowPrivate(type.Assembly)
                                  .Namespace("NMS.Leo.NCallerDynamic")
                                  .InheritanceAppend(callType)
-                                 .Body(body.ToString())
-                                 .GetType();
+                                 .Body(body.ToString());
 
+            if (accessLevel == MemberAccessLevel.AllowNoPublic)
+            {
+                classBuilder.AllowPrivate(type.Assembly);
+                classBuilder.AssemblyBuilder.ConfigCompilerOption(item => item.SetCompilerFlag(CompilerBinderFlags.IgnoreCorLibraryDuplicatedTypes | CompilerBinderFlags.IgnoreAccessibility));
+            }
+            else 
+            {
+                classBuilder.AssemblyBuilder.ConfigCompilerOption(item => item.RemoveIgnoreAccessibility());
+            }
+
+            var tempClass = classBuilder.GetType();
             InitMetadataMappingCaller(tempClass)(getByLeoMembersCache);
 
             return tempClass;
