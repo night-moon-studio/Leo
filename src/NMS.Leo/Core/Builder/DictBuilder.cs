@@ -1,5 +1,4 @@
 ﻿using BTFindTree;
-using Natasha.CSharp;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -154,14 +153,14 @@ namespace NMS.Leo.Builder
             body.AppendLine(setObjectBody);
             body.Append('}');
 
-#if NET5_0
+#if NET5_0_OR_GREATER
             body.AppendLine("[SkipLocalsInit]");
 #endif
             body.AppendLine("public unsafe override T Get<T>(string name){");
             body.AppendLine(getStrongTypeBody);
             body.Append("return default;}");
 
-#if NET5_0
+#if NET5_0_OR_GREATER
             body.AppendLine("[SkipLocalsInit]");
 #endif
             body.AppendLine("public unsafe override object GetObject(string name){");

@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+#if NET5_0_OR_GREATER
 using System.Runtime.CompilerServices;
+#endif
 using NMS.Leo.Core;
 using NMS.Leo.Metadata;
 
 namespace NMS.Leo
 {
-#if NET5_0
+#if NET5_0_OR_GREATER
 [SkipLocalsInit]
 #endif
     public abstract class DictBase<T> : DictBase
