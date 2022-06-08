@@ -1,8 +1,6 @@
-﻿using Natasha.CSharp;
-using NMS.Leo;
+﻿using NMS.Leo;
 using NCallerUT.Model;
 using System;
-using System.Reflection;
 using Xunit;
 
 namespace NCallerUT
