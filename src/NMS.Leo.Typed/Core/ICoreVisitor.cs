@@ -1,44 +1,42 @@
-﻿using System;
-using NMS.Leo.Typed.Core.Members;
+﻿using NMS.Leo.Typed.Core.Members;
 using NMS.Leo.Typed.Core.Repeat;
 
-namespace NMS.Leo.Typed.Core
+namespace NMS.Leo.Typed.Core;
+
+internal interface ICoreVisitor
 {
-    internal interface ICoreVisitor
-    {
-        Type SourceType { get; }
+    Type SourceType { get; }
         
-        bool IsStatic { get; }
+    bool IsStatic { get; }
         
-        AlgorithmKind AlgorithmKind { get; }
+    AlgorithmKind AlgorithmKind { get; }
         
-        object Instance { get; }
+    object Instance { get; }
 
-        HistoricalContext ExposeHistoricalContext();
+    HistoricalContext ExposeHistoricalContext();
 
-        Lazy<MemberHandler> ExposeLazyMemberHandler();
+    Lazy<MemberHandler> ExposeLazyMemberHandler();
         
-        ILeoVisitor Owner { get; }
+    ILeoVisitor Owner { get; }
         
-        bool LiteMode { get; }
-    }
+    bool LiteMode { get; }
+}
     
-    internal interface ICoreVisitor<T>
-    {
-        Type SourceType { get; }
+internal interface ICoreVisitor<T>
+{
+    Type SourceType { get; }
         
-        bool IsStatic { get; }
+    bool IsStatic { get; }
         
-        AlgorithmKind AlgorithmKind { get; }
+    AlgorithmKind AlgorithmKind { get; }
         
-        T Instance { get; }
+    T Instance { get; }
 
-        HistoricalContext<T> ExposeHistoricalContext();
+    HistoricalContext<T> ExposeHistoricalContext();
 
-        Lazy<MemberHandler> ExposeLazyMemberHandler();
+    Lazy<MemberHandler> ExposeLazyMemberHandler();
         
-        ILeoVisitor<T> Owner { get; }
+    ILeoVisitor<T> Owner { get; }
         
-        bool LiteMode { get; }
-    }
+    bool LiteMode { get; }
 }

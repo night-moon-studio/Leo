@@ -1,8 +1,7 @@
-﻿namespace NMS.Leo.Typed.Validation
+﻿namespace NMS.Leo.Typed.Validation;
+
+public enum RangeOptions
 {
-    public enum RangeOptions
-    {
-        OpenInterval,
-        CloseInterval,
-    }
+    OpenInterval,
+    CloseInterval,
 }

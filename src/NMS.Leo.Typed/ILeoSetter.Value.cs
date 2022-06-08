@@ -1,23 +1,22 @@
-﻿namespace NMS.Leo.Typed
+﻿namespace NMS.Leo.Typed;
+
+public interface ILeoValueSetter
 {
-    public interface ILeoValueSetter
-    {
-        void Value(object value);
+    void Value(object value);
 
-        object HostedInstance { get; }
-    }
+    object HostedInstance { get; }
+}
 
-    public interface ILeoValueSetter<T>
-    {
-        void Value(object value);
+public interface ILeoValueSetter<T>
+{
+    void Value(object value);
 
-        T HostedInstance { get; }
-    }
+    T HostedInstance { get; }
+}
 
-    public interface ILeoValueSetter<T, TVal>
-    {
-        void Value(TVal value);
+public interface ILeoValueSetter<T, TVal>
+{
+    void Value(TVal value);
 
-        T HostedInstance { get; }
-    }
+    T HostedInstance { get; }
 }

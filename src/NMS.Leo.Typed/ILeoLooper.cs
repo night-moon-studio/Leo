@@ -1,20 +1,19 @@
-﻿namespace NMS.Leo.Typed
+﻿namespace NMS.Leo.Typed;
+
+public interface ILeoLooper
 {
-    public interface ILeoLooper
-    {
-        ILeoVisitor BackToVisitor();
+    ILeoVisitor BackToVisitor();
 
-        void Fire();
+    void Fire();
 
-        ILeoVisitor FireAndBack();
-    }
+    ILeoVisitor FireAndBack();
+}
 
-    public interface ILeoLooper<T>
-    {
-        ILeoVisitor<T> BackToVisitor();
+public interface ILeoLooper<T>
+{
+    ILeoVisitor<T> BackToVisitor();
 
-        void Fire();
+    void Fire();
 
-        ILeoVisitor<T> FireAndBack();
-    }
+    ILeoVisitor<T> FireAndBack();
 }

@@ -1,14 +1,11 @@
-﻿using System;
+﻿namespace NMS.Leo.Typed.Validation;
 
-namespace NMS.Leo.Typed.Validation
+public class LeoValidationException : Exception
 {
-    public class LeoValidationException : Exception
+    public LeoValidationException(LeoVerifyResult result) : base(result.ToString())
     {
-        public LeoValidationException(LeoVerifyResult result) : base(result.ToString())
-        {
-            VerifyResult = result;
-        }
-
-        public LeoVerifyResult VerifyResult { get; }
+        VerifyResult = result;
     }
+
+    public LeoVerifyResult VerifyResult { get; }
 }

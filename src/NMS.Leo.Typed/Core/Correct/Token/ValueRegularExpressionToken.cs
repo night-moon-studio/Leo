@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using NMS.Leo.Metadata;
 
 namespace NMS.Leo.Typed.Core.Correct.Token

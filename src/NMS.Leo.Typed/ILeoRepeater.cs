@@ -1,22 +1,19 @@
-﻿using System.Collections.Generic;
+﻿namespace NMS.Leo.Typed;
 
-namespace NMS.Leo.Typed
+public interface ILeoRepeater
 {
-    public interface ILeoRepeater
-    {
-        object Play(object originalObj);
+    object Play(object originalObj);
         
-        object Play(IDictionary<string, object> keyValueCollections);
+    object Play(IDictionary<string, object> keyValueCollections);
 
-        object NewAndPlay();
-    }
+    object NewAndPlay();
+}
 
-    public interface ILeoRepeater<T> : ILeoRepeater
-    {
-        T Play(T originalObj);
+public interface ILeoRepeater<T> : ILeoRepeater
+{
+    T Play(T originalObj);
         
-        new T Play(IDictionary<string, object> keyValueCollections);
+    new T Play(IDictionary<string, object> keyValueCollections);
 
-        new T NewAndPlay();
-    }
+    new T NewAndPlay();
 }

@@ -1,58 +1,55 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NMS.Leo.Typed.Core.Correct.Token;
+﻿using NMS.Leo.Typed.Core.Correct.Token;
 using NMS.Leo.Typed.Core.Members;
 
-namespace NMS.Leo.Typed.Core.Correct
+namespace NMS.Leo.Typed.Core.Correct;
+
+internal class CorrectValueRule
 {
-    internal class CorrectValueRule
+    public string Name { get; set; }
+
+    public CorrectValueRuleMode Mode { get; set; }
+
+    public List<IValueToken> Tokens { get; set; }
+
+    public void Merge(CorrectValueRule rule)
     {
-        public string Name { get; set; }
+        if (rule is null)
+            return;
 
-        public CorrectValueRuleMode Mode { get; set; }
+        if (Name != rule.Name)
+            return;
 
-        public List<IValueToken> Tokens { get; set; }
+        if (rule.Mode != CorrectValueRuleMode.Append)
+            return;
 
-        public void Merge(CorrectValueRule rule)
+        foreach (var token in rule.Tokens)
         {
-            if (rule is null)
-                return;
+            if (token.MutuallyExclusive)
+                continue;
 
-            if (Name != rule.Name)
-                return;
+            if (!TokenMutexCalculator.Available(Tokens, token))
+                continue;
 
-            if (rule.Mode != CorrectValueRuleMode.Append)
-                return;
-
-            foreach (var token in rule.Tokens)
-            {
-                if (token.MutuallyExclusive)
-                    continue;
-
-                if (!TokenMutexCalculator.Available(Tokens, token))
-                    continue;
-
-                Tokens.Add(token);
-            }
-        }
-
-        public IEnumerable<CorrectVerifyVal> ValidValue(MemberHandler handler)
-        {
-            handler.GetValueObject(Name);
-
-            return Tokens.Select(token => token.ValidValue(handler.GetValueObject(Name)));
-        }
-
-        public IEnumerable<CorrectVerifyVal> ValidValue(object value)
-        {
-            return Tokens.Select(token => token.ValidValue(value));
-        }
-
-        public object GetValue(MemberHandler handler)
-        {
-            return handler.GetValueObject(Name);
+            Tokens.Add(token);
         }
     }
 
-    internal class CorrectValueRule<TVal> : CorrectValueRule { }
+    public IEnumerable<CorrectVerifyVal> ValidValue(MemberHandler handler)
+    {
+        handler.GetValueObject(Name);
+
+        return Tokens.Select(token => token.ValidValue(handler.GetValueObject(Name)));
+    }
+
+    public IEnumerable<CorrectVerifyVal> ValidValue(object value)
+    {
+        return Tokens.Select(token => token.ValidValue(value));
+    }
+
+    public object GetValue(MemberHandler handler)
+    {
+        return handler.GetValueObject(Name);
+    }
 }
+
+internal class CorrectValueRule<TVal> : CorrectValueRule { }

@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
+﻿namespace NMS.Leo.Typed.Core.Correct;
 
-namespace NMS.Leo.Typed.Core.Correct
+internal interface ICorrectStrategy
 {
-    internal interface ICorrectStrategy
-    {
-        IEnumerable<CorrectValueRuleBuilder> GetValueRuleBuilders();
-    }
+    IEnumerable<CorrectValueRuleBuilder> GetValueRuleBuilders();
+}
 
-    internal interface ICorrectStrategy<T>
-    {
-        IEnumerable<CorrectValueRuleBuilder<T>> GetValueRuleBuilders();
-    }
+internal interface ICorrectStrategy<T>
+{
+    IEnumerable<CorrectValueRuleBuilder<T>> GetValueRuleBuilders();
 }

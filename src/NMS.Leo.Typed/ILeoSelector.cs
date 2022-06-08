@@ -1,22 +1,19 @@
-﻿using System.Collections.Generic;
+﻿namespace NMS.Leo.Typed;
 
-namespace NMS.Leo.Typed
+public interface ILeoSelector<TVal>
 {
-    public interface ILeoSelector<TVal>
-    {
-        ILeoVisitor BackToVisitor();
+    ILeoVisitor BackToVisitor();
 
-        IEnumerable<TVal> FireAndReturn();
+    IEnumerable<TVal> FireAndReturn();
 
-        ILeoVisitor FireAndBack(out IEnumerable<TVal> returnedVal);
-    }
+    ILeoVisitor FireAndBack(out IEnumerable<TVal> returnedVal);
+}
     
-    public interface ILeoSelector<T, TVal>
-    {
-        ILeoVisitor<T> BackToVisitor();
+public interface ILeoSelector<T, TVal>
+{
+    ILeoVisitor<T> BackToVisitor();
 
-        IEnumerable<TVal> FireAndReturn();
+    IEnumerable<TVal> FireAndReturn();
 
-        ILeoVisitor<T> FireAndBack(out IEnumerable<TVal> returnedVal);
-    }
+    ILeoVisitor<T> FireAndBack(out IEnumerable<TVal> returnedVal);
 }

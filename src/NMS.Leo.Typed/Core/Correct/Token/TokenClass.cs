@@ -1,8 +1,7 @@
-﻿namespace NMS.Leo.Typed.Core.Correct.Token
+﻿namespace NMS.Leo.Typed.Core.Correct.Token;
+
+internal enum TokenClass
 {
-    internal enum TokenClass
-    {
-        ValueToken,
-        ConditionToken,
-    }
+    ValueToken,
+    ConditionToken,
 }

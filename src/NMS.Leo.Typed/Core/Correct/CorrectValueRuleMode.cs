@@ -1,8 +1,7 @@
-﻿namespace NMS.Leo.Typed.Core.Correct
+﻿namespace NMS.Leo.Typed.Core.Correct;
+
+internal enum CorrectValueRuleMode
 {
-    internal enum CorrectValueRuleMode
-    {
-        Append,
-        Overwrite,
-    }
+    Append,
+    Overwrite,
 }

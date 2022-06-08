@@ -1,8 +1,7 @@
-﻿namespace NMS.Leo.Typed.Validation
+﻿namespace NMS.Leo.Typed.Validation;
+
+public enum ValidatorType
 {
-    public enum ValidatorType
-    {
-        BuildIn,
-        Custom,
-    }
+    BuildIn,
+    Custom,
 }

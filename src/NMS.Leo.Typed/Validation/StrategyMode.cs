@@ -1,9 +1,8 @@
-﻿namespace NMS.Leo.Typed.Validation
+﻿namespace NMS.Leo.Typed.Validation;
+
+public enum StrategyMode
 {
-    public enum StrategyMode
-    {
-        Append,
-        ItemOverwrite,
-        OverallOverwrite
-    }
+    Append,
+    ItemOverwrite,
+    OverallOverwrite
 }

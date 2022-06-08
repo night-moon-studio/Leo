@@ -1,14 +1,11 @@
-﻿using System;
+﻿namespace NMS.Leo.Typed.Validation;
 
-namespace NMS.Leo.Typed.Validation
+[Serializable]
+public class LeoVerifyError
 {
-    [Serializable]
-    public class LeoVerifyError
-    {
-        public string ErrorMessage { get; internal set; }
+    public string ErrorMessage { get; internal set; }
 
-        public ValidatorType ViaValidatorType { get; internal set; } = ValidatorType.BuildIn;
+    public ValidatorType ViaValidatorType { get; internal set; } = ValidatorType.BuildIn;
 
-        public string ValidatorName { get; internal set; } = "LeoBuildInValidator";
-    }
+    public string ValidatorName { get; internal set; } = "LeoBuildInValidator";
 }

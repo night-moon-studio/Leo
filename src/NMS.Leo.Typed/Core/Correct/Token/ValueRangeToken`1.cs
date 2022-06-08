@@ -1,5 +1,4 @@
-﻿using System;
-using NMS.Leo.Metadata;
+﻿using NMS.Leo.Metadata;
 using NMS.Leo.Typed.Validation;
 
 namespace NMS.Leo.Typed.Core.Correct.Token

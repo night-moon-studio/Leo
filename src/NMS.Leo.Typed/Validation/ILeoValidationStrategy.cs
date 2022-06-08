@@ -1,14 +1,11 @@
-﻿using System;
+﻿namespace NMS.Leo.Typed.Validation;
 
-namespace NMS.Leo.Typed.Validation
+public interface ILeoValidationStrategy
 {
-    public interface ILeoValidationStrategy
-    {
-        Type SourceType { get; }
-    }
+    Type SourceType { get; }
+}
 
-    public interface ILeoValidationStrategy<T>
-    {
-        Type SourceType { get; }
-    }
+public interface ILeoValidationStrategy<T>
+{
+    Type SourceType { get; }
 }

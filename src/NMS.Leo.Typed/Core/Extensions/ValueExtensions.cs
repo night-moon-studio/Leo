@@ -1,10 +1,9 @@
-﻿namespace NMS.Leo.Typed.Core.Extensions
+﻿namespace NMS.Leo.Typed.Core.Extensions;
+
+internal static class ValueExtensions
 {
-    internal static class ValueExtensions
+    public static TVal As<TVal>(this object value)
     {
-        public static TVal As<TVal>(this object value)
-        {
-            return (TVal) value;
-        }
+        return (TVal) value;
     }
 }

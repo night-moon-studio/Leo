@@ -1,39 +1,35 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿namespace NMS.Leo.Typed;
 
-namespace NMS.Leo.Typed
+public interface ILeoGetter
 {
-    public interface ILeoGetter
-    {
-        object Instance { get; }
+    object Instance { get; }
         
-        object GetValue(string name);
+    object GetValue(string name);
 
-        TValue GetValue<TValue>(string name);
+    TValue GetValue<TValue>(string name);
 
-        object GetValue<TObj>(Expression<Func<TObj, object>> expression);
+    object GetValue<TObj>(Expression<Func<TObj, object>> expression);
 
-        TValue GetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression);
+    TValue GetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression);
         
-        bool Contains(string name);
-    }
+    bool Contains(string name);
+}
 
-    public interface ILeoGetter<T>
-    {
-        T Instance { get; }
+public interface ILeoGetter<T>
+{
+    T Instance { get; }
         
-        object GetValue(string name);
+    object GetValue(string name);
 
-        TValue GetValue<TValue>(string name);
+    TValue GetValue<TValue>(string name);
         
-        object GetValue(Expression<Func<T, object>> expression);
+    object GetValue(Expression<Func<T, object>> expression);
 
-        TValue GetValue<TValue>(Expression<Func<T, TValue>> expression);
+    TValue GetValue<TValue>(Expression<Func<T, TValue>> expression);
 
-        object GetValue<TObj>(Expression<Func<TObj, object>> expression);
+    object GetValue<TObj>(Expression<Func<TObj, object>> expression);
 
-        TValue GetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression);
+    TValue GetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression);
         
-        bool Contains(string name);
-    }
+    bool Contains(string name);
 }

@@ -1,20 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NMS.Leo.Typed.Core.Extensions;
+﻿using NMS.Leo.Typed.Core.Extensions;
 
-namespace NMS.Leo.Typed.Core.Correct.Token
+namespace NMS.Leo.Typed.Core.Correct.Token;
+
+internal static class TokenMutexCalculator
 {
-    internal static class TokenMutexCalculator
+    public static bool Available(List<IValueToken> tokens, IValueToken token)
     {
-        public static bool Available(List<IValueToken> tokens, IValueToken token)
-        {
-            if (!tokens.Any())
-                return true;
+        if (!tokens.Any())
+            return true;
 
-            if (token.MutuallyExclusive)
-                return false;
+        if (token.MutuallyExclusive)
+            return false;
 
-            return !tokens.Any(x => x.MutuallyExclusive && x.MutuallyExclusiveFlags.ContainsAny(token.MutuallyExclusiveFlags));
-        }
+        return !tokens.Any(x => x.MutuallyExclusive && x.MutuallyExclusiveFlags.ContainsAny(token.MutuallyExclusiveFlags));
     }
 }
