@@ -1,15 +1,12 @@
-﻿using System;
+﻿namespace NMS.Leo;
 
-namespace NMS.Leo
+/// <summary>
+/// Kind of algorithm to find tree
+/// </summary>
+[Flags]
+public enum AlgorithmKind
 {
-    /// <summary>
-    /// Kind of algorithm to find tree
-    /// </summary>
-    [Flags]
-    public enum AlgorithmKind
-    {
-        Fuzzy,
-        Hash,
-        Precision
-    }
+    Fuzzy,
+    Hash,
+    Precision
 }
