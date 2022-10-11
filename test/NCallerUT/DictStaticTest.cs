@@ -28,21 +28,24 @@ namespace HelloWorld
 
         public static string Name;
         public static int Age{get;set;}
+        private static int _j;
     }
 }";
             //根据脚本创建动态类
             var oop = new AssemblyCSharpBuilder();
             oop.Add(text);
             var type = oop.GetTypeFromShortName("StaticTest2");
+            type.AllowLeoPrivate();
             //创建动态类实例代理
             var instance = PrecisionDictOperator.CreateFromType(type);
             //Get动态调用
             Assert.Equal("111", (string) instance["Name"]);
             //调用动态委托赋值
             instance["Name"] = "222";
-
+            instance["_j"] = 222;
             Assert.Equal("222", (string) instance["Name"]);
             Assert.Equal("222", instance.Get<string>("Name"));
+            Assert.Equal(222, instance.Get<int>("_j"));
         }
 
 

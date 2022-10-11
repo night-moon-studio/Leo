@@ -1,6 +1,10 @@
 ﻿using BTFindTree;
 using System.Collections.Concurrent;
 
+#if NETCOREAPP3_1_OR_GREATER
+using Natasha.CSharp.MultiDomain.Extension;
+#endif
+
 // ReSharper disable once CheckNamespace
 namespace NMS.Leo.Builder;
 
@@ -32,7 +36,11 @@ public class HashDictBuilder
 
         //生成脚本
         var newAction = NDelegate
-                        .UseDomain(type.GetDomain())
+#if NETCOREAPP3_1_OR_GREATER
+            .UseDomain(type.GetDomain())
+#else
+            .DefaultDomain()
+#endif
                         .ConfigUsing(_type_cache.Keys.ToArray(), "NMS.Leo.NCallerDynamic")
                         .UnsafeFunc<Type, DictBase>(newFindTree);
 

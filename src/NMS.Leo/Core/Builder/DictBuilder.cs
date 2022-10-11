@@ -1,8 +1,12 @@
 ﻿using BTFindTree;
+using Natasha.CSharp.Compiler;
+using NMS.Leo.Metadata;
 using System.Reflection;
 using System.Text;
-using NMS.Leo.Metadata;
-using Natasha.CSharp.Compiler;
+
+#if NETCOREAPP3_1_OR_GREATER
+using Natasha.CSharp.MultiDomain.Extension;
+#endif
 
 // ReSharper disable once CheckNamespace
 namespace NMS.Leo.Builder;
@@ -203,8 +207,14 @@ public class DictBuilder
         }
 
 
-        var classBuilder = NClass.UseDomain(type.GetDomain())
+        var classBuilder = NClass
+#if NETCOREAPP3_1_OR_GREATER
+            .UseDomain(type.GetDomain())
+#else
+            .DefaultDomain()
+#endif
                                  .Public()
+                                 .Modifier(ModifierFlags.Sealed)
                                  .Using(type)
                                  .Namespace("NMS.Leo.NCallerDynamic")
                                  .InheritanceAppend(callType)
@@ -229,7 +239,11 @@ public class DictBuilder
     private static Action<Dictionary<string, LeoMember>> InitMetadataMappingCaller(Type runtimeProxyType)
     {
         return NDelegate
-               .UseDomain(runtimeProxyType.GetDomain())
+#if NETCOREAPP3_1_OR_GREATER
+            .UseDomain(runtimeProxyType.GetDomain())
+#else
+            .DefaultDomain()
+#endif
                .Action<Dictionary<string, LeoMember>>($"{runtimeProxyType.GetDevelopName()}.InitMetadataMapping(obj);");
     }
 }
